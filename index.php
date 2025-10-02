@@ -1,6 +1,7 @@
 <?php include 'partials/head.php'; ?>
 <?php include 'partials/topbar.php'; ?>
 <?php include 'partials/navbar.php'; ?> 
+ 
 
 
     <!-- Featured Start -->

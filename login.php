@@ -1,93 +1,244 @@
-<link href="css/style.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* Atur ulang dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
 
+        body, html {
+            height: 100%;
+            width: 100%;
+        }
 
-<section class="vh-100">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-          class="img-fluid" alt="Sample image">
-      </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form>
-          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-            <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
-              <i class="fab fa-facebook-f"></i>
-            </button>
+        /* Container utama dengan gambar latar belakang */
+        .login-container {
+            background: url('https://i.pinimg.com/736x/28/fd/e6/28fde6637a375ec42350c31a6e104b39.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 50px; /* Sedikit geser ke bawah karena ada header pesan exit */
+        }
 
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
-              <i class="fab fa-twitter"></i>
-            </button>
+        /* Box form login */
+        .login-box {
+            background-color: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(5px);
+            padding: 40px 60px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            color: white;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
 
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
-              <i class="fab fa-linkedin-in"></i>
-            </button>
-          </div>
+        .login-box h1 {
+            font-size: 2em;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
 
-          <div class="divider d-flex align-items-center my-4">
-            <p class="text-center fw-bold mx-3 mb-0">Or</p>
-          </div>
+        .login-box h2 {
+            font-size: 1.2em;
+            font-weight: 300;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
 
-          <!-- Email input -->
-          <div data-mdb-input-init class="form-outline mb-4">
-            <input type="email" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid email address" />
-            <label class="form-label" for="form3Example3">Email address</label>
-          </div>
+        /* Input Fields */
+        .input-group {
+            margin-bottom: 20px;
+        }
 
-          <!-- Password input -->
-          <div data-mdb-input-init class="form-outline mb-3">
-            <input type="password" id="form3Example4" class="form-control form-control-lg"
-              placeholder="Enter password" />
-            <label class="form-label" for="form3Example4">Password</label>
-          </div>
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1em;
+            outline: none;
+            transition: background-color 0.3s;
+        }
 
-          <div class="d-flex justify-content-between align-items-center">
-            <!-- Checkbox -->
-            <div class="form-check mb-0">
-              <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-              <label class="form-check-label" for="form2Example3">
-                Remember me
-              </label>
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-group input:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Password eye icon */
+        .password-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Tombol Dasar */
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        /* Tombol Sign In */
+        .sign-in-btn {
+            width: 100%;
+            background-color: #f7a18f;
+            color: white;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sign-in-btn:hover {
+            background-color: #e6907e;
+        }
+
+        /* Options (Remember Me / Forgot Password) */
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin-right: 5px;
+            accent-color: #f7a18f;
+        }
+
+        .forgot-password {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Social Login Separator */
+        .social-login-separator {
+            margin: 20px 0;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        /* Social Buttons */
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .social-btn {
+            flex-grow: 1;
+            background-color: white;
+            color: #333;
+            font-weight: normal;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .facebook-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .twitter-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Fullscreen Exit Message (Header) */
+        .fullscreen-exit {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .esc-key {
+            background-color: white;
+            color: black;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="fullscreen-exit">
+        </div>
+
+        <div class="login-box">
+            <h2>I have an account?</h2>
+
+            <form action="#" method="POST">
+                <div class="input-group">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                </div>
+
+                <div class="input-group password-group">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <span class="password-toggle">👁</span>
+                </div>
+
+                <button type="submit" class="btn sign-in-btn">SIGN IN</button>
+            </form>
+
+            <div class="options">
+                <label class="remember-me">
+                    <input type="checkbox" checked> Remember Me
+                </label>
+                <a href="#" class="forgot-password">Forgot Password</a>
             </div>
-            <a href="#!" class="text-body">Forgot password?</a>
-          </div>
 
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
-                class="link-danger">Register</a></p>
-          </div>
+            <div class="social-login-separator">
+            </div>
+              <p class="register-link">
+                  Don't have an account? <a href="register.php">Register here</a>
+              </p>
 
-        </form>
-      </div>
+            <div class="social-buttons">
+            </div>
+        </div>
     </div>
-  </div>
-  <div
-    class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-    <!-- Copyright -->
-    <div class="text-white mb-3 mb-md-0">
-      Copyright © 2020. All rights reserved.
-    </div>
-    <!-- Copyright -->
-
-    <!-- Right -->
-    <div>
-      <a href="#!" class="text-white me-4">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="#!" class="text-white me-4">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="#!" class="text-white me-4">
-        <i class="fab fa-google"></i>
-      </a>
-      <a href="#!" class="text-white">
-        <i class="fab fa-linkedin-in"></i>
-      </a>
-    </div>
-    <!-- Right -->
-  </div>
-</section>
+    
+</body>
+</html>
