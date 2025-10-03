@@ -41,7 +41,7 @@
         <div class="row px-xl-5 pb-3">
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">15 Items</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/cat-1.jpg" alt="">
                     </a>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">12 Items</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/cat-2.jpg" alt="">
                     </a>
@@ -59,7 +59,7 @@
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">8 Items</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/cat-3.jpg" alt="">
                     </a>
@@ -68,16 +68,16 @@
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">20 Items</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/cat-4.jpg" alt="">
                     </a>
-                    <h5 class="font-weight-semi-bold m-0">Accerssories</h5>
+                    <h5 class="font-weight-semi-bold m-0">Accessories</h5>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">10 Items</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/cat-5.jpg" alt="">
                     </a>
@@ -86,11 +86,11 @@
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">18 Items</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/cat-6.jpg" alt="">
                     </a>
-                    <h5 class="font-weight-semi-bold m-0">Shoes</h5>
+                    <h5 class="font-weight-semi-bold m-0">Boots & Shoes</h5>
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
     <!-- Products Start -->
     <div class="container-fluid pt-5">
         <div class="text-center mb-4">
-            <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
+            <h2 class="section-title px-5"><span class="px-2">Featured Thrift Picks</span></h2>
         </div>
         <div class="row px-xl-5 pb-3">
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -278,14 +278,14 @@
         <div class="row justify-content-md-center py-5 px-xl-5">
             <div class="col-md-6 col-12 py-5">
                 <div class="text-center mb-2 pb-2">
-                    <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Stay Updated</span></h2>
-                    <p>Amet lorem at rebum amet dolores. Elitr lorem dolor sed amet diam labore at justo ipsum eirmod duo labore labore.</p>
+                    <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Join our mailing list</span></h2>
+                    <p>Get updates on new thrift drops, consignments, and special offers.</p>
                 </div>
                 <form action="">
                     <div class="input-group">
                         <input type="text" class="form-control border-white p-4" placeholder="Email Goes Here">
                         <div class="input-group-append">
-                            <button class="btn btn-primary px-4">Subscribe</button>
+                            <button class="btn btn-primary px-4">Join</button>
                         </div>
                     </div>
                 </form>
@@ -298,7 +298,7 @@
     <!-- Products Start -->
     <div class="container-fluid pt-5">
         <div class="text-center mb-4">
-            <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
+                    <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
         </div>
         <div class="row px-xl-5 pb-3">
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
