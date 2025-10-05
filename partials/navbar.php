@@ -1,15 +1,15 @@
 <!-- Navbar Start -->
-    <div class="container-fluid mb-5">
+    <div class="container-fluid mb-3">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" onclick="event.preventDefault();" style="height: 65px; margin-top: -1px; padding: 0 30px;">
                     <h6 class="m-0">Categories</h6>
                     <i class="fa fa-angle-down text-dark"></i>
                 </a>
-                <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+                <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical">
+                    <div class="navbar-nav w-100" style="height: 410px; overflow-y: auto;">
                         <div class="nav-item">
-                            <a href="#cat-jaket" class="nav-link d-flex justify-content-between" data-toggle="collapse" aria-expanded="false">Jaket Outdoor <i class="fa fa-angle-down float-right mt-1"></i></a>
+                            <a href="#cat-jaket" class="nav-link d-flex justify-content-between" data-toggle="collapse" aria-expanded="false" onclick="event.preventDefault();">Jaket Outdoor <i class="fa fa-angle-down float-right mt-1"></i></a>
                             <div class="collapse" id="cat-jaket">
                                 <a href="" class="dropdown-item pl-4">Jaket Gunung</a>
                                 <a href="" class="dropdown-item pl-4">Jaket Casual</a>
@@ -17,7 +17,7 @@
                             </div>
                         </div>
                         <div class="nav-item">
-                            <a href="#cat-celana" class="nav-link d-flex justify-content-between" data-toggle="collapse" aria-expanded="false">Celana Outdoor <i class="fa fa-angle-down float-right mt-1"></i></a>
+                            <a href="#cat-celana" class="nav-link d-flex justify-content-between" data-toggle="collapse" aria-expanded="false" onclick="event.preventDefault();">Celana Outdoor <i class="fa fa-angle-down float-right mt-1"></i></a>
                             <div class="collapse" id="cat-celana">
                                 <a href="" class="dropdown-item pl-4">Celana Cargo Panjang</a>
                                 <a href="" class="dropdown-item pl-4">Celana Pendek Outdoor</a>
@@ -40,24 +40,24 @@
                         <div class="navbar-nav mr-auto py-0">
                                     <a href="index.php" class="nav-item nav-link <?php echo $__current === 'index.php' ? 'active' : ''; ?>">Home</a>
                                     <a href="shop.php" class="nav-item nav-link <?php echo in_array($__current, ['shop.php','shop.html']) ? 'active' : ''; ?>">Catalog</a>
-                                    <a href="detail.html" class="nav-item nav-link <?php echo in_array($__current, ['detail.php','detail.html']) ? 'active' : ''; ?>">Item Detail</a>
+                                    <a href="detail.php" class="nav-item nav-link <?php echo in_array($__current, ['detail.php','detail.html']) ? 'active' : ''; ?>">Item Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
+                                    <a href="cart.php" class="dropdown-item">Shopping Cart</a>
+                                    <a href="checkout.php" class="dropdown-item">Checkout</a>
                                     <a href="promo.php" class="dropdown-item">Consign With Us</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="login.php" class="nav-item nav-link">Login</a>
                             <a href="register.php" class="nav-item nav-link">Register</a>
                         </div>
                     </div>
-                </nav>
-                <div id="header-carousel" class="carousel slide" data-ride="carousel">
+                </nav>    
+            <div id="header-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active" style="height: 410px;">
                             <img class="img-fluid" src="img/carousel-1.jpg" alt="Image">
