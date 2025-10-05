@@ -8,23 +8,21 @@
                 </a>
                 <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown">Dresses <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Men's Dresses</a>
-                                <a href="" class="dropdown-item">Women's Dresses</a>
-                                <a href="" class="dropdown-item">Baby's Dresses</a>
+                        <div class="nav-item">
+                            <a href="#cat-jaket" class="nav-link d-flex justify-content-between" data-toggle="collapse" aria-expanded="false">Jaket Outdoor <i class="fa fa-angle-down float-right mt-1"></i></a>
+                            <div class="collapse" id="cat-jaket">
+                                <a href="" class="dropdown-item pl-4">Jaket Gunung</a>
+                                <a href="" class="dropdown-item pl-4">Jaket Casual</a>
+                                <a href="" class="dropdown-item pl-4">Jaket Windbreaker</a>
                             </div>
                         </div>
-                        <a href="" class="nav-item nav-link">Shirts</a>
-                        <a href="" class="nav-item nav-link">Jeans</a>
-                        <a href="" class="nav-item nav-link">Swimwear</a>
-                        <a href="" class="nav-item nav-link">Sleepwear</a>
-                        <a href="" class="nav-item nav-link">Sportswear</a>
-                        <a href="" class="nav-item nav-link">Jumpsuits</a>
-                        <a href="" class="nav-item nav-link">Blazers</a>
-                        <a href="" class="nav-item nav-link">Jackets</a>
-                        <a href="" class="nav-item nav-link">Shoes</a>
+                        <div class="nav-item">
+                            <a href="#cat-celana" class="nav-link d-flex justify-content-between" data-toggle="collapse" aria-expanded="false">Celana Outdoor <i class="fa fa-angle-down float-right mt-1"></i></a>
+                            <div class="collapse" id="cat-celana">
+                                <a href="" class="dropdown-item pl-4">Celana Cargo Panjang</a>
+                                <a href="" class="dropdown-item pl-4">Celana Pendek Outdoor</a>
+                            </div>
+                        </div>
                     </div>
                 </nav>
             </div>
