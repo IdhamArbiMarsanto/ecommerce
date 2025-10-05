@@ -62,7 +62,7 @@
 
             <!-- Mini Cart -->
             <div id="miniCart" class="card shadow position-absolute"
-                 style="top:60px; right:0; width:300px; display:none; z-index:999;">
+                    style="top:60px; right:0; width:300px; display:none; z-index:999;">
                 <div class="card-body">
                     <h6 class="mb-3">Shopping Cart</h6>
                     <div class="cart-item d-flex justify-content-between mb-2">

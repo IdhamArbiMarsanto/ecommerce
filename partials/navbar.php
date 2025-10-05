@@ -36,10 +36,11 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <?php $__current = basename($_SERVER['PHP_SELF']); ?>
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.php" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Catalog</a>
-                            <a href="detail.html" class="nav-item nav-link">Item Detail</a>
+                                    <a href="index.php" class="nav-item nav-link <?php echo $__current === 'index.php' ? 'active' : ''; ?>">Home</a>
+                                    <a href="shop.php" class="nav-item nav-link <?php echo in_array($__current, ['shop.php','shop.html']) ? 'active' : ''; ?>">Catalog</a>
+                                    <a href="detail.html" class="nav-item nav-link <?php echo in_array($__current, ['detail.php','detail.html']) ? 'active' : ''; ?>">Item Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
