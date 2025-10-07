@@ -39,8 +39,8 @@
                         <?php $__current = basename($_SERVER['PHP_SELF']); ?>
                         <div class="navbar-nav mr-auto py-0">
                                     <a href="index.php" class="nav-item nav-link <?php echo $__current === 'index.php' ? 'active' : ''; ?>">Home</a>
-                                    <a href="shop.php" class="nav-item nav-link <?php echo in_array($__current, ['shop.php','shop.html']) ? 'active' : ''; ?>">Catalog</a>
-                                    <a href="detail.php" class="nav-item nav-link <?php echo in_array($__current, ['detail.php','detail.html']) ? 'active' : ''; ?>">Item Detail</a>
+                                    <a href="shop.php" class="nav-item nav-link <?php echo in_array($__current, ['shop.php']) ? 'active' : ''; ?>">Catalog</a>
+                                    <a href="detail.php" class="nav-item nav-link <?php echo in_array($__current, ['detail.php']) ? 'active' : ''; ?>">Item Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">

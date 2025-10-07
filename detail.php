@@ -70,13 +70,13 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.php" class="nav-item nav-link">Home</a>
-                            <a href="shop.php" class="nav-item nav-link">Shop</a>
-                            <a href="detail.php" class="nav-item nav-link active">Shop Detail</a>
+                            <a href="shop.php" class="nav-item nav-link">Catalog</a>
+                            <a href="detail.php" class="nav-item nav-link active">Item Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
                                     <a href="cart.php" class="dropdown-item">Shopping Cart</a>
                                     <a href="checkout.php" class="dropdown-item">Checkout</a>
+                                    <a href="promo.php" class="dropdown-item">Consign With Us</a>
                                 </div>
                             </div>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
@@ -98,7 +98,7 @@
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
             <h1 class="font-weight-semi-bold text-uppercase mb-3">Shop Detail</h1>
             <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0"><a href="index.php">Home</a></p>
                 <p class="m-0 px-2">-</p>
                 <p class="m-0">Shop Detail</p>
             </div>
@@ -464,7 +464,7 @@
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
                             <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
+                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Item Detail</a>
                             <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                             <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
                             <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
