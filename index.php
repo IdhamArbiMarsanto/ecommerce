@@ -35,8 +35,12 @@
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Effort Outdoor</h1>
-                    </a>
+                                            <div style="display: flex; align-items: center;">
+                        <img src="img/logo.jpg" alt="Logo" 
+                            style="height: 56px; width: auto; margin-right: 10px;" 
+                            class="border" />
+                        <h1 class="m-0 display-5 font-weight-semi-bold">Effort Outdoor</h1>
+                        </div>                 </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -139,7 +143,7 @@
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <a href="shop.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="https://i.pinimg.com/1200x/ca/0f/fa/ca0ffa997170368b8466ff40fcfddf04.jpg" alt=""
                         style="width: 100%; height: 500px; object-fit: cover;">
                     </a>
@@ -149,7 +153,7 @@
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <a href="shop.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="https://i.pinimg.com/736x/b0/4d/ab/b04dab7548579c4c12a6af8484f50842.jpg" alt="" 
                         style="width: 100%; height: 500px; object-fit: cover;">
                     </a>
@@ -159,7 +163,7 @@
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <a href="shop.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="https://i.pinimg.com/736x/cd/38/45/cd3845a5c0e0d5d35043b1e483282822.jpg" alt=""
                         style="width: 100%; height: 500px; object-fit: cover;">
                     </a>
@@ -230,38 +234,7 @@
 
 
     <!-- Vendor Start -->
-    <div class="container-fluid py-5">
-        <div class="row px-xl-5">
-            <div class="col">
-                <div class="owl-carousel vendor-carousel">
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-1.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-2.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-3.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-4.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-5.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-6.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-7.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-8.jpg" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <!-- Vendor End -->
 
 

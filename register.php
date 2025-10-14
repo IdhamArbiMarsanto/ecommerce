@@ -73,7 +73,7 @@
       gap: 15px;
       padding: 40px;
       border-radius: 20px;
-      backdrop-filter: blur(15px);
+      backdrop-filter: blur(5px);
       background: rgba(255, 255, 255, 0.1);
       box-shadow: 0 4px 25px rgba(0,0,0,0.5);
       width: 340px;
@@ -194,6 +194,7 @@
     <input type="email" name="email" placeholder="Email" required>
     <input type="password" name="password" placeholder="Password" required>
     <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+    <input type="date" id="birthdate" name="birthdate" placeholder="Tanggal Lahir" required>
 
     <!-- Gender -->
     <div class="gender-select" id="genderSelect">

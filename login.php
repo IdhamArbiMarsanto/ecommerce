@@ -53,10 +53,10 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 200%;
+      height: 200%;
       pointer-events: none;
-      z-index: 2;
+      z-index: 5;
     }
 
     /* Kotak login */
@@ -64,7 +64,7 @@
       position: relative;
       z-index: 3;
       background-color: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(2px);
       padding: 40px 60px;
       border-radius: 10px;
       text-align: center;
