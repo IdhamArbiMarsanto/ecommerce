@@ -10,20 +10,27 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link" data-toggle="dropdown">celana Panjang <i class="fa fa-angle-down float-right mt-1"></i></a>
                             <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Men's</a>
-                                <a href="" class="dropdown-item">Women's</a>
+                                <a href="shop.php?category=celana-panjang&gender=men" class="dropdown-item" class="dropdown-item">Men's</a>
+                                <a href="shop.php?category=celana-panjang&gender=women" class="dropdown-item" class="dropdown-item">Women's</a>
                             </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link" data-toggle="dropdown">
                                     Celana Pendek <i class="fa fa-angle-down float-right mt-1"></i>
                                 </a>
                                 <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Men's</a>
-                                <a href="" class="dropdown-item">Women's</a>
+                                <a href="shop.php?category=celana-pendek&gender=men" class="dropdown-item" class="dropdown-item">Men's</a>
+                                <a href="shop.php?category=celana-pendek&gender=women" class="dropdown-item" class="dropdown-item">Women's</a>
                                 </div>
                             </div>
                         </div>
-                        <a href="" class="nav-item nav-link">Jackets</a>
+                        <div class="nav-item dropdown">
+                                <a href="#" class="nav-link" data-toggle="dropdown">
+                                    Jaket <i class="fa fa-angle-down float-right mt-1"></i>
+                                </a>
+                                <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
+                                <a href="shop.php?category=jaket&gender=men" class="dropdown-item" class="dropdown-item">Men's</a>
+                                <a href="shop.php?category=jaket&gender=women" class="dropdown-item" class="dropdown-item">Women's</a>
+                        </div>
                     </div>
                 </nav>
             </div>
