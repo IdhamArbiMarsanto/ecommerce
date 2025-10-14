@@ -48,13 +48,8 @@
                 </div>
             </form>
         </div>
-<<<<<<< HEAD
-        <div class="col-lg-3 col-6 text-right position-relative d-flex align-items-center justify-content-end topbar-icons">
-            <a href="" class="btn border d-flex align-items-center justify-content-center mr-2">
-=======
         <div class="col-lg-3 col-6 text-right position-relative">
             <a href="wishlist.php" class="btn border">
->>>>>>> idhamarbi
                 <i class="fas fa-heart text-primary"></i>
                 <span class="badge ml-1">0</span>
             </a>
