@@ -3,7 +3,7 @@
     <div class="row bg-secondary py-2 px-xl-5">
         <div class="col-lg-6 d-none d-lg-block">
             <div class="d-inline-flex align-items-center">
-                <a class="text-dark" href="">FAQs</a>
+                <a class="text-dark" href="faq.php">FAQs</a>
                 <span class="text-muted px-2">|</span>
                 <a class="text-dark" href="">Help</a>
                 <span class="text-muted px-2">|</span>
@@ -13,20 +13,19 @@
         <div class="col-lg-6 text-center text-lg-right">
             <div class="d-inline-flex align-items-center">
                 <a class="text-dark px-2" href="">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a class="text-dark px-2" href="">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a class="text-dark px-2" href="">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a class="text-dark px-2" href="">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a class="text-dark pl-2" href="">
-                    <i class="fab fa-youtube"></i>
-                </a>
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="text-dark px-2" href="https://www.instagram.com/effort_outdoor/?igsh=a3d3ZXV3d3o1b2Jv#">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a class="text-dark pl-2" href="https://shopee.co.id/effort_outdoor" target="_blank">
+                        <img src="https://e7.pngegg.com/pngimages/664/195/png-clipart-shopee-indonesia-android-android-text-rectangle-thumbnail.png"
+                            alt="Shopee"
+                            style="width: 25px; height: 25px;">
+                        </a>
             </div>
         </div>
     </div>
@@ -49,8 +48,13 @@
                 </div>
             </form>
         </div>
+<<<<<<< HEAD
         <div class="col-lg-3 col-6 text-right position-relative d-flex align-items-center justify-content-end topbar-icons">
             <a href="" class="btn border d-flex align-items-center justify-content-center mr-2">
+=======
+        <div class="col-lg-3 col-6 text-right position-relative">
+            <a href="wishlist.php" class="btn border">
+>>>>>>> idhamarbi
                 <i class="fas fa-heart text-primary"></i>
                 <span class="badge ml-1">0</span>
             </a>
@@ -78,7 +82,7 @@
                         <strong>Total</strong>
                         <strong>Rp120.000</strong>
                     </div>
-                    <a href="cart.html" class="btn btn-primary btn-block mt-3">View Cart</a>
+                    <a href="cart.php" class="btn btn-primary btn-block mt-3">View Cart</a>
                 </div>
             </div>
         </div>

@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="utf-8">
+<<<<<<< HEAD
     <title>Effort Outdoor - Contact</title>
+=======
+    <title>EShopper - Bootstrap Shop Template</title>
+>>>>>>> idhamarbi
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -27,11 +31,16 @@
 
 <body>
     <!-- Topbar Start -->
+<<<<<<< HEAD
     <?php include 'partials/topbar.php'; ?>
+=======
+   <?php include 'partials/topbar.php'; ?>
+>>>>>>> idhamarbi
     <!-- Topbar End -->
 
 
     <!-- Navbar Start -->
+<<<<<<< HEAD
         <div class="container-fluid">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
@@ -90,6 +99,9 @@
             </div>
         </div>
     </div>
+=======
+    <?php include 'partials/navbar.php'; ?>
+>>>>>>> idhamarbi
     <!-- Navbar End -->
 
 

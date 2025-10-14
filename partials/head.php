@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="utf-8">
+<<<<<<< HEAD
     <title>Effort Outdoor - Thrift & Preloved</title>
+=======
+    <title>effort_outdoor</title>
+>>>>>>> idhamarbi
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Thrift, preowned outdoor gear, secondhand clothing, sustainable fashion" name="keywords">
     <meta content="Effort Outdoor - curated thrift and preowned outdoor gear. Sustainable, affordable, and unique finds." name="description">
