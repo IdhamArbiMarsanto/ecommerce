@@ -192,14 +192,10 @@
                             <h5 class="font-weight-bold">Total</h5>
                             <h5 class="font-weight-bold">$160</h5>
                         </div>
-<<<<<<< HEAD
-                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
-=======
                             <form action="checkout.html" method="POST">
                                 <button type="submit" class="btn btn-primary w-100 my-3 py-3">Proceed To Checkout</button>
                             </form>
 
->>>>>>> idhamarbi
                     </div>
                 </div>
             </div>
