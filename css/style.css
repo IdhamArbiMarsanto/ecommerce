@@ -10021,3 +10021,35 @@ a.text-dark:focus {
     transform: translateY(-15px);
   }
 }
+
+/* Styling untuk membuat baris kategori terlihat seperti elemen yang bisa di-klik */
+.card-header-payment {
+    cursor: pointer;
+    background-color: #ffffff; /* Pastikan background-nya putih */
+    border-bottom: 1px solid #dee2e6; /* Tambahkan garis pemisah antar kategori */
+}
+
+/* Mengubah ikon panah saat collapse dibuka/ditutup */
+.collapse-icon {
+    transition: transform 0.3s ease;
+}
+
+/* Rotate icon saat collapse terbuka (panah ke atas) */
+.card-header-payment[aria-expanded="true"] .collapse-icon {
+    transform: rotate(180deg);
+}
+
+/* Pastikan radio button tidak terlalu menjorok ke kiri */
+.custom-control.custom-radio {
+    padding-left: 1.5rem; /* Default Bootstrap */
+}
+
+/* Hilangkan border internal card */
+.card-category-payment {
+    border: none !important;
+}
+
+/* Atur ulang padding body card payment yang di-override menjadi p-0 */
+.card-category-payment .card-header-payment {
+    border: none;
+}

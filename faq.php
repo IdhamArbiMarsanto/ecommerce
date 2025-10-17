@@ -3,109 +3,183 @@
 <?php include 'partials/navbar.php'; ?>
 
 <!-- FAQ Section Start -->
-<div class="container py-5" style="background: linear-gradient(135deg, #f8fafc 60%, #e3f0ff 100%); border-radius: 18px; box-shadow: 0 2px 16px rgba(0,123,255,0.07);">
-    <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold text-primary mb-2">
-            <i class="fa fa-question-circle text-secondary me-2"></i>Frequently Asked Questions
-        </h1>
-        <p class="text-muted">Temukan jawaban atas pertanyaan yang sering diajukan oleh pelanggan kami.</p>
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold text-primary mb-2"><i class="fa fa-question-circle text-secondary"></i> Frequently Asked Questions</h1>
+        <p class="text-muted">Klik pertanyaan untuk melihat jawaban. Setiap pertanyaan berada dalam kotak yang sama dan mengembang ke bawah ketika dibuka.</p>
     </div>
 
-    <div class="accordion shadow-sm rounded" id="faqAccordion">
-        <!-- Item 1 -->
-        <div class="accordion-item mb-3 border-0">
-            <h2 class="accordion-header" id="faqOne">
-                <button class="accordion-button fw-semibold text-dark bg-light d-flex align-items-center" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapseOne" 
-                        aria-expanded="true" aria-controls="collapseOne">
-                    <i class="fa fa-store-alt text-primary me-2"></i>
-                    Apa itu Effort Outdoor?
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" 
-                 aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
-                <div class="accordion-body bg-white">
-                    Effort Outdoor adalah toko perlengkapan outdoor yang menyediakan berbagai kebutuhan
-                    untuk aktivitas seperti hiking, camping, dan travelling. Kami berkomitmen menghadirkan produk berkualitas dengan harga terjangkau.
+    <style>
+        .faq-card {
+            border-radius: 10px;
+            box-shadow: 0 6px 22px rgba(20,40,80,0.06);
+            overflow: hidden;
+            border: 1px solid #eef3fb;
+            margin-bottom: 16px;
+        }
+        .faq-header {
+            background: #fff;
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .faq-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: #223;
+            margin: 0;
+        }
+        .faq-arrow {
+            transition: transform .25s ease;
+            color: #6c757d;
+        }
+        .faq-arrow.open { transform: rotate(180deg); color: #007bff; }
+        .faq-body {
+            padding: 0 20px 18px 20px;
+            background: #fff;
+            color: #444;
+        }
+        /* Smooth collapse for faq bodies */
+        .faq-card .collapse {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .28s ease, padding .28s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .faq-card .collapse.show {
+            padding-top: 12px;
+            padding-bottom: 18px;
+        }
+    </style>
+
+    <div id="faqList">
+        <!-- Card 1 -->
+        <div class="faq-card">
+            <div class="faq-header" data-toggle="collapse" data-target="#faq1" aria-expanded="true">
+                <div class="faq-title"><i class="fa fa-store-alt text-primary"></i> Apa itu Effort Outdoor?</div>
+                <div class="faq-arrow"><i class="fa fa-chevron-down"></i></div>
+            </div>
+            <div id="faq1" class="collapse show" data-parent="#faqList">
+                <div class="faq-body">
+                    Effort Outdoor adalah toko perlengkapan outdoor yang menyediakan berbagai kebutuhan untuk aktivitas seperti hiking, camping, dan travelling. Kami berkomitmen menghadirkan produk berkualitas dengan harga terjangkau.
                 </div>
             </div>
         </div>
 
-        <!-- Item 2 -->
-        <div class="accordion-item mb-3 border-0">
-            <h2 class="accordion-header" id="faqTwo">
-                <button class="accordion-button collapsed fw-semibold text-dark bg-light d-flex align-items-center" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapseTwo" 
-                        aria-expanded="false" aria-controls="collapseTwo">
-                    <i class="fa fa-certificate text-success me-2"></i>
-                    Apakah produk yang dijual original?
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" 
-                 aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
-                <div class="accordion-body bg-white">
+        <!-- Card 2 -->
+        <div class="faq-card">
+            <div class="faq-header" data-toggle="collapse" data-target="#faq2" aria-expanded="false">
+                <div class="faq-title"><i class="fa fa-certificate text-success"></i> Apakah produk yang dijual original?</div>
+                <div class="faq-arrow"><i class="fa fa-chevron-down"></i></div>
+            </div>
+            <div id="faq2" class="collapse" data-parent="#faqList">
+                <div class="faq-body">
                     Ya, semua produk di Effort Outdoor dijamin 100% original dan bergaransi resmi dari brand terkait.
                 </div>
             </div>
         </div>
 
-        <!-- Item 3 -->
-        <div class="accordion-item mb-3 border-0">
-            <h2 class="accordion-header" id="faqThree">
-                <button class="accordion-button collapsed fw-semibold text-dark bg-light d-flex align-items-center" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapseThree" 
-                        aria-expanded="false" aria-controls="collapseThree">
-                    <i class="fa fa-shopping-cart text-warning me-2"></i>
-                    Bagaimana cara melakukan pemesanan?
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" 
-                 aria-labelledby="faqThree" data-bs-parent="#faqAccordion">
-                <div class="accordion-body bg-white">
-                    Kamu bisa melakukan pemesanan langsung di website kami dengan menambahkan produk ke keranjang,
-                    lalu lanjut ke halaman checkout untuk pembayaran.
+        <!-- Card 3 -->
+        <div class="faq-card">
+            <div class="faq-header" data-toggle="collapse" data-target="#faq3" aria-expanded="false">
+                <div class="faq-title"><i class="fa fa-shopping-cart text-warning"></i> Bagaimana cara melakukan pemesanan?</div>
+                <div class="faq-arrow"><i class="fa fa-chevron-down"></i></div>
+            </div>
+            <div id="faq3" class="collapse" data-parent="#faqList">
+                <div class="faq-body">
+                    Kamu bisa melakukan pemesanan langsung di website kami dengan menambahkan produk ke keranjang, lalu lanjut ke halaman checkout untuk pembayaran.
                 </div>
             </div>
         </div>
 
-        <!-- Item 4 -->
-        <div class="accordion-item mb-3 border-0">
-            <h2 class="accordion-header" id="faqFour">
-                <button class="accordion-button collapsed fw-semibold text-dark bg-light d-flex align-items-center" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapseFour" 
-                        aria-expanded="false" aria-controls="collapseFour">
-                    <i class="fa fa-undo-alt text-danger me-2"></i>
-                    Apakah tersedia layanan pengembalian barang?
-                </button>
-            </h2>
-            <div id="collapseFour" class="accordion-collapse collapse" 
-                 aria-labelledby="faqFour" data-bs-parent="#faqAccordion">
-                <div class="accordion-body bg-white">
-                    Ya, kami menyediakan layanan retur barang maksimal 7 hari setelah produk diterima,
-                    dengan syarat kondisi produk masih utuh dan lengkap dengan kemasan asli.
+        <!-- Card 4 -->
+        <div class="faq-card">
+            <div class="faq-header" data-toggle="collapse" data-target="#faq4" aria-expanded="false">
+                <div class="faq-title"><i class="fa fa-undo-alt text-danger"></i> Apakah tersedia layanan pengembalian barang?</div>
+                <div class="faq-arrow"><i class="fa fa-chevron-down"></i></div>
+            </div>
+            <div id="faq4" class="collapse" data-parent="#faqList">
+                <div class="faq-body">
+                    Ya, kami menyediakan layanan retur barang maksimal 7 hari setelah produk diterima, dengan syarat kondisi produk masih utuh dan lengkap dengan kemasan asli.
                 </div>
             </div>
         </div>
 
-        <!-- Item 5 -->
-        <div class="accordion-item border-0">
-            <h2 class="accordion-header" id="faqFive">
-                <button class="accordion-button collapsed fw-semibold text-dark bg-light d-flex align-items-center" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapseFive" 
-                        aria-expanded="false" aria-controls="collapseFive">
-                    <i class="fa fa-headset text-info me-2"></i>
-                    Bagaimana cara menghubungi layanan pelanggan?
-                </button>
-            </h2>
-            <div id="collapseFive" class="accordion-collapse collapse" 
-                 aria-labelledby="faqFive" data-bs-parent="#faqAccordion">
-                <div class="accordion-body bg-white">
-                    Kamu bisa menghubungi kami melalui WhatsApp di <b>+62 812-3456-7890</b> atau melalui email 
-                    <a href="mailto:support@effortoutdoor.com">support@effortoutdoor.com</a>.
+        <!-- Card 5 -->
+        <div class="faq-card">
+            <div class="faq-header" data-toggle="collapse" data-target="#faq5" aria-expanded="false">
+                <div class="faq-title"><i class="fa fa-headset text-info"></i> Bagaimana cara menghubungi layanan pelanggan?</div>
+                <div class="faq-arrow"><i class="fa fa-chevron-down"></i></div>
+            </div>
+            <div id="faq5" class="collapse" data-parent="#faqList">
+                <div class="faq-body">
+                    Kamu bisa menghubungi kami melalui WhatsApp di <b>+62 812-3456-7890</b> atau melalui email <a href="mailto:support@effortoutdoor.com">support@effortoutdoor.com</a>.
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Pure JS collapse toggle with smooth max-height animation and accordion behavior
+        (function () {
+            const cards = document.querySelectorAll('.faq-card');
+
+            cards.forEach(card => {
+                const header = card.querySelector('.faq-header');
+                const targetSelector = header.getAttribute('data-target');
+                const arrow = header.querySelector('.faq-arrow');
+                const target = document.querySelector(targetSelector);
+
+                // set initial max-height for shown items
+                if (target.classList.contains('show')) {
+                    target.style.maxHeight = target.scrollHeight + 'px';
+                    arrow.classList.add('open');
+                    header.setAttribute('aria-expanded', 'true');
+                } else {
+                    target.style.maxHeight = null;
+                    header.setAttribute('aria-expanded', 'false');
+                }
+
+                header.addEventListener('click', () => {
+                    const parent = document.getElementById('faqList');
+                    const isOpen = target.classList.contains('show');
+
+                    // If accordion behaviour: close others
+                    parent.querySelectorAll('.collapse.show').forEach(openEl => {
+                        if (openEl !== target) {
+                            openEl.classList.remove('show');
+                            openEl.style.maxHeight = null;
+                            const openHeader = parent.querySelector(`[data-target='#${openEl.id}']`);
+                            if (openHeader) openHeader.setAttribute('aria-expanded', 'false');
+                            const openArrow = openHeader ? openHeader.querySelector('.faq-arrow') : null;
+                            if (openArrow) openArrow.classList.remove('open');
+                        }
+                    });
+
+                    if (isOpen) {
+                        // close
+                        target.classList.remove('show');
+                        target.style.maxHeight = null;
+                        arrow.classList.remove('open');
+                        header.setAttribute('aria-expanded', 'false');
+                    } else {
+                        // open
+                        target.classList.add('show');
+                        // allow browser to calculate scrollHeight
+                        target.style.maxHeight = target.scrollHeight + 'px';
+                        arrow.classList.add('open');
+                        header.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+        })();
+    </script>
+
 </div>
 <!-- FAQ Section End -->
 

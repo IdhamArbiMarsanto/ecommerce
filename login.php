@@ -132,14 +132,16 @@
 
     .sign-in-btn {
       width: 100%;
-      background-color: #f7a18f;
+      background: linear-gradient(135deg, #00c6ff, #8a2be2);
       color: white;
       margin-bottom: 15px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 18px rgba(138,43,226,0.18);
     }
 
     .sign-in-btn:hover {
-      background-color: #e6907e;
+      filter: brightness(0.95);
+      transform: translateY(-1px);
+      transition: transform 0.15s ease, filter 0.15s ease;
     }
 
     .options {
@@ -158,7 +160,7 @@
 
     .remember-me input[type="checkbox"] {
       margin-right: 5px;
-      accent-color: #f7a18f;
+      accent-color: #8a2be2;
     }
 
     .forgot-password {

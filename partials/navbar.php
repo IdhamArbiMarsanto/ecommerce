@@ -43,19 +43,25 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <?php $__current = basename($_SERVER['PHP_SELF']); ?>
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.php" class="nav-item nav-link">Home</a>
+                            <a href="index.php" class="nav-item nav-link active">Home</a>
                             <a href="shop.php" class="nav-item nav-link">Shop</a>
-                            <a href="detail.php" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="cart.php" class="dropdown-item">Shopping Cart</a>
                                     <a href="checkout.php" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
+                            <div class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Bantuan</a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <a href="faq.php" class="dropdown-item">FAQs</a>
+                                    <a href="checkout.php" class="dropdown-item">Help</a>
+                                    <a href="checkout.php" class="dropdown-item">Support</a>
+                                </div>
+                        </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="login.php" class="nav-item nav-link">Login</a>
@@ -66,3 +72,5 @@
             </div>
         </div>
     </div>
+
+    

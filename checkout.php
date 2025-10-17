@@ -204,33 +204,137 @@
                     </div>
                 </div>
                 <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Payment</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                <label class="custom-control-label" for="paypal">Paypal</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                <label class="custom-control-label" for="directcheck">Direct Check</label>
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
+    <div class="card border-secondary mb-5">
+    <div class="card-header bg-secondary border-0">
+        <h4 class="font-weight-semi-bold m-0">Payment</h4>
+    </div>
+    <div class="card-body p-0">
+        
+        <div class="accordion" id="paymentAccordion">
+            
+            <div class="card-category-payment border-bottom-0">
+                <div class="card-header-payment p-3" id="headingEwallet" data-toggle="collapse" data-target="#collapseEwallet" aria-expanded="true" aria-controls="collapseEwallet" role="button">
+                    <div class="custom-control custom-radio d-inline-block w-100">
+                        <input type="radio" class="custom-control-input payment-radio" name="payment" id="ewallet" value="ewallet">
+                        <label class="custom-control-label font-weight-bold" for="ewallet">E-Wallet (Dompet Digital)</label>
+                        <i class="fas fa-chevron-down float-right collapse-icon"></i>
                     </div>
                 </div>
+                <div id="collapseEwallet" class="collapse" aria-labelledby="headingEwallet" data-parent="#paymentAccordion">
+                    <div class="card-body-payment px-4 pb-3 pt-0 ml-4">
+                        <h6 class="font-weight-medium mb-2">Pilih E-Wallet:</h6>
+                        <div class="custom-control custom-radio mb-2">
+                            <input type="radio" class="custom-control-input" name="ewallet_option" id="gopay" value="GoPay">
+                            <label class="custom-control-label" for="gopay">GoPay</label>
+                        </div>
+                        <div class="custom-control custom-radio mb-2">
+                            <input type="radio" class="custom-control-input" name="ewallet_option" id="ovo" value="OVO">
+                            <label class="custom-control-label" for="ovo">OVO</label>
+                        </div>
+                        <div class="custom-control custom-radio mb-2">
+                            <input type="radio" class="custom-control-input" name="ewallet_option" id="dana" value="DANA">
+                            <label class="custom-control-label" for="dana">DANA</label>
+                        </div>
+                        <div class="custom-control custom-radio mb-2">
+                            <input type="radio" class="custom-control-input" name="ewallet_option" id="shopeepay" value="ShopeePay">
+                            <label class="custom-control-label" for="shopeepay">ShopeePay</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-category-payment border-bottom-0 border-top">
+                <div class="card-header-payment p-3" id="headingMbanking" data-toggle="collapse" data-target="#collapseMbanking" aria-expanded="false" aria-controls="collapseMbanking" role="button">
+                    <div class="custom-control custom-radio d-inline-block w-100">
+                        <input type="radio" class="custom-control-input payment-radio" name="payment" id="mbanking" value="mbanking">
+                        <label class="custom-control-label font-weight-bold" for="mbanking">M-Banking (Transfer Bank)</label>
+                        <i class="fas fa-chevron-down float-right collapse-icon"></i>
+                    </div>
+                </div>
+                <div id="collapseMbanking" class="collapse" aria-labelledby="headingMbanking" data-parent="#paymentAccordion">
+                    <div class="card-body-payment px-4 pb-3 pt-0 ml-4">
+                        <h6 class="font-weight-medium mb-2">Pilih Bank:</h6>
+                        <div class="custom-control custom-radio mb-2">
+                            <input type="radio" class="custom-control-input" name="mbanking_option" id="bca" value="BCA">
+                            <label class="custom-control-label" for="bca">BCA</label>
+                        </div>
+                        <div class="custom-control custom-radio mb-2">
+                            <input type="radio" class="custom-control-input" name="mbanking_option" id="mandiri" value="Mandiri">
+                            <label class="custom-control-label" for="mandiri">Mandiri</label>
+                        </div>
+                        <div class="custom-control custom-radio mb-2">
+                            <input type="radio" class="custom-control-input" name="mbanking_option" id="bni" value="BNI">
+                            <label class="custom-control-label" for="bni">BNI</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-category-payment border-bottom-0 border-top">
+                <div class="card-header-payment p-3" id="headingQris" data-toggle="collapse" data-target="#collapseQris" aria-expanded="false" aria-controls="collapseQris" role="button">
+                    <div class="custom-control custom-radio d-inline-block w-100">
+                        <input type="radio" class="custom-control-input payment-radio" name="payment" id="qris" value="qris">
+                        <label class="custom-control-label font-weight-bold" for="qris">QRIS (Semua Pembayaran QR)</label>
+                        <i class="fas fa-chevron-down float-right collapse-icon"></i>
+                    </div>
+                </div>
+                <div id="collapseQris" class="collapse" aria-labelledby="headingQris" data-parent="#paymentAccordion">
+                    <div class="card-body-payment px-4 pb-3 pt-0 ml-4">
+                        <h6 class="font-weight-medium mb-2">Metode Pembayaran:</h6>
+                        <div class="custom-control custom-radio mb-2">
+                            <input type="radio" class="custom-control-input" name="qris_option" id="qris-payment" value="QRIS">
+                            <label class="custom-control-label" for="qris-payment">Bayar dengan QRIS</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-category-payment border-top">
+                <div class="card-header-payment p-3" id="headingCod" data-toggle="collapse" data-target="#collapseCod" aria-expanded="false" aria-controls="collapseCod" role="button">
+                    <div class="custom-control custom-radio d-inline-block w-100">
+                        <input type="radio" class="custom-control-input payment-radio" name="payment" id="cod" value="cod">
+                        <label class="custom-control-label font-weight-bold" for="cod">COD (Cash On Delivery)</label>
+                    </div>
+                </div>
+                <div id="collapseCod" class="collapse" aria-labelledby="headingCod" data-parent="#paymentAccordion">
+                    </div>
+            </div>
+        </div>
+    </div>
+    </div>
+            <form id="paymentForm" action="payment_instruction.php" method="GET">
+                <input type="hidden" name="method" id="selectedMethod">
+                <input type="hidden" name="bank" id="selectedBank">
+                <input type="hidden" name="ewallet" id="selectedEwallet">
+
+                <div class="card-footer border-secondary bg-transparent">
+                    <button type="submit" id="orderNowBtn" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
+                        Order Now
+                    </button>
+                </div>
+            </form>
+            </div>
+    </div>
+</div>
+</div>
+
+            <!-- CSS styling biar jaraknya rapih -->
+            <style>
+                .custom-control.payment-option {
+                    margin-bottom: 0.45rem !important; /* jarak antar radio */
+                }
+
+                .card-body .form-group {
+                    margin-bottom: 0.4rem !important; /* jarak antar grup */
+                }
+
+                /* Opsional: biar semua label payment keliatan sejajar */
+                .custom-control-label {
+                    font-size: 1.1rem;
+                    color: #555;
+                }
+            </style>
+
             </div>
         </div>
     </div>
@@ -245,19 +349,54 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
+<script>
+    $(document).ready(function() {
+        // 1. Pilih radio button kategori saat header di-klik
+        $('.card-header-payment').on('click', function(e) {
+            // Cek apakah yang di-klik adalah radio button itu sendiri
+            if (!$(e.target).is('input[type="radio"]') && !$(e.target).is('label.custom-control-label')) {
+                // Cari radio button yang bersangkutan
+                const $radio = $(this).find('input.payment-radio');
+                
+                // Ceklis radio button kategori ini
+                $radio.prop('checked', true).trigger('change');
+            }
+        });
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        // 2. Event saat sebuah collapse dibuka (show.bs.collapse)
+        $('#paymentAccordion').on('show.bs.collapse', function(e) {
+            const $targetCollapse = $(e.target);
+            
+            // Uncheck semua radio button sub-opsi di collapse yang sedang ditutup
+            $('#paymentAccordion .collapse.show').each(function() {
+                if (this !== e.target) {
+                    $(this).find('input[type="radio"]').prop('checked', false);
+                }
+            });
 
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
+            // Atur radio button sub-opsi pertama menjadi terpilih secara default
+            // hanya jika collapse ini memiliki sub-opsi
+            if ($targetCollapse.find('input[type="radio"]').length > 0) {
+                 $targetCollapse.find('input[type="radio"]:first').prop('checked', true);
+            }
+        });
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+        // 3. Pastikan radio button utama (kategori) terpilih saat sub-opsi dipilih
+        $('#paymentAccordion input[name$="_option"]').on('change', function() {
+            // Cari radio button kategori di atasnya dan ceklis
+            $(this).closest('.collapse').prev('.card-header-payment')
+                   .find('input.payment-radio').prop('checked', true);
+        });
+        
+        // Inisialisasi: Tutup semua collapse saat halaman dimuat
+        $('#paymentAccordion .collapse').collapse('hide');
+    });
+</script>
+</script>
+
+</body>
+</html>
+
 </body>
 
 </html>
