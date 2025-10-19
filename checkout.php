@@ -216,7 +216,7 @@
                 <div class="card-header-payment p-3" id="headingEwallet" data-toggle="collapse" data-target="#collapseEwallet" aria-expanded="true" aria-controls="collapseEwallet" role="button">
                     <div class="custom-control custom-radio d-inline-block w-100">
                         <input type="radio" class="custom-control-input payment-radio" name="payment" id="ewallet" value="ewallet">
-                        <label class="custom-control-label font-weight-bold" for="ewallet">E-Wallet (Dompet Digital)</label>
+                        <label class="custom-control-label font-weight-semi-bold" for="ewallet">E-Wallet (Dompet Digital)</label>
                         <i class="fas fa-chevron-down float-right collapse-icon"></i>
                     </div>
                 </div>
@@ -247,7 +247,7 @@
                 <div class="card-header-payment p-3" id="headingMbanking" data-toggle="collapse" data-target="#collapseMbanking" aria-expanded="false" aria-controls="collapseMbanking" role="button">
                     <div class="custom-control custom-radio d-inline-block w-100">
                         <input type="radio" class="custom-control-input payment-radio" name="payment" id="mbanking" value="mbanking">
-                        <label class="custom-control-label font-weight-bold" for="mbanking">M-Banking (Transfer Bank)</label>
+                        <label class="custom-control-label font-weight-semi-bold" for="mbanking">M-Banking (Transfer Bank)</label>
                         <i class="fas fa-chevron-down float-right collapse-icon"></i>
                     </div>
                 </div>
@@ -274,7 +274,7 @@
                 <div class="card-header-payment p-3" id="headingQris" data-toggle="collapse" data-target="#collapseQris" aria-expanded="false" aria-controls="collapseQris" role="button">
                     <div class="custom-control custom-radio d-inline-block w-100">
                         <input type="radio" class="custom-control-input payment-radio" name="payment" id="qris" value="qris">
-                        <label class="custom-control-label font-weight-bold" for="qris">QRIS (Semua Pembayaran QR)</label>
+                        <label class="custom-control-label font-weight-semi-bold" for="qris">QRIS (Semua Pembayaran QR)</label>
                         <i class="fas fa-chevron-down float-right collapse-icon"></i>
                     </div>
                 </div>
@@ -293,7 +293,7 @@
                 <div class="card-header-payment p-3" id="headingCod" data-toggle="collapse" data-target="#collapseCod" aria-expanded="false" aria-controls="collapseCod" role="button">
                     <div class="custom-control custom-radio d-inline-block w-100">
                         <input type="radio" class="custom-control-input payment-radio" name="payment" id="cod" value="cod">
-                        <label class="custom-control-label font-weight-bold" for="cod">COD (Cash On Delivery)</label>
+                        <label class="custom-control-label font-weight-semi-bold" for="cod">COD (Cash On Delivery)</label>
                     </div>
                 </div>
                 <div id="collapseCod" class="collapse" aria-labelledby="headingCod" data-parent="#paymentAccordion">
