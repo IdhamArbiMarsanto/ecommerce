@@ -1,3 +1,7 @@
+<?php
+include __DIR__ . '/../backend/config/config.php';
+$db = get_db();
+?>
 <?php include 'partials/head.php'; ?>
 <?php include 'partials/topbar.php'; ?>
 
@@ -213,10 +217,6 @@
     </div>
     <!-- Offer End -->
 
-
-    <!-- Products Start -->
-    <?php include 'products.php'; ?>
-    <!-- Products End -->
 
 
 
