@@ -1,12 +1,13 @@
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-                <a href="" class="text-decoration-none">
-                <img src="img/logo.jpg" alt="Logo" 
-                    style="height: 56px; width: auto; margin-right: 10px;" 
+                <a href="" class="text-decoration-none d-flex align-items-center">
+                <img src="img/logo.jpg" alt="Logo"
+                    style="height: 56px; width: auto; margin-right: 10px;"
                     class="border" />
-                <h1 class="m-0 display-5 font-weight-semi-bold">Effort Outdoor</h1>                </a>
-                <p>Pakaian outdoor berkualitas dan harga terjangkaun mamen.....</p>
+                <h1 class="m-0 display-5 font-weight-semi-bold">Effort Outdoor</h1>
+                </a>
+                <p class="mt-3">Pakaian outdoor bekas berkualitas dengan harga terjangkau untuk pecinta alam.</p>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Cilangkap Tapos Depok</p>
                 <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>effortoutdoor@gmailo.com</p>
                 <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
@@ -64,10 +65,7 @@
         <div class="row border-top border-light mx-xl-5 py-4">
             <div class="col-md-6 px-xl-0">
                 <p class="mb-md-0 text-center text-md-left text-dark">
-                    &copy; <a class="text-dark font-weight-semi-bold" href="#">Effort Outdoor</a>. All Rights Reserved. Designed
-                    by
-                    <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML Codex</a><br>
-                    Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                    &copy; <a class="text-dark font-weight-semi-bold" href="#">Effort Outdoor</a>. All Rights Reserved.
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
