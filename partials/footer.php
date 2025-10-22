@@ -8,9 +8,10 @@
                 <h1 class="m-0 display-5 font-weight-semi-bold">Effort Outdoor</h1>
                 </a>
                 <p class="mt-3">Pakaian outdoor bekas berkualitas dengan harga terjangkau untuk pecinta alam.</p>
-                <p class="mb-2"><a href="https://www.google.com/maps/place/effort_outdoor/@-6.4468888,106.8533435,832m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e69ebd92e0ea4ef:0x5b33f047b30548a4!8m2!3d-6.4468888!4d106.8533435!16s%2Fg%2F11n0_xbpmd?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="text-dark"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Cilangkap Tapos Depok</a></p>
-                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>effortoutdoor@gmailo.com</p>
-                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
+                <p class="mb-2"><a href="https://www.google.com/maps/place/effort_outdoor/@-6.4468888,106.8533435,832m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e69ebd92e0ea4ef:0x5b33f047b30548a4!8m2!3d-6.4468888!4d106.8533435!16s%2Fg%2F11n0_xbpmd?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="text-dark">
+                    <i class="fa fa-map-marker-alt text-primary mr-3"></i>Jl. Raya Jakarta-Bogor No.40, Cilangkap</a></p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>effortoutdoor@gmail.com</p>
+                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+6288 1758 9044</p>
             </div>
             <div class="col-lg-8 col-md-12">
                 <div class="row">
@@ -25,7 +26,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
+                        <h5 class="font-weight-bold text-dark mb-4">Connect With Us</h5>
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-dark px-2" href="http://wa.me/628817589044" target="_blank">
                         <p class="mb-2"><i class="fab fa-whatsapp"></i> WhatsApp</p>
