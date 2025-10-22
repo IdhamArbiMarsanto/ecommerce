@@ -163,7 +163,7 @@
                             <i class="far fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+                        <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -185,7 +185,7 @@
                             <i class="far fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+                        <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -207,7 +207,7 @@
                             <i class="far fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+                        <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -229,7 +229,7 @@
                            <i class="far fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+                        <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -251,7 +251,7 @@
                             <i class="far fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+                        <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -273,7 +273,7 @@
                             <i class="far fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+                        <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -295,7 +295,7 @@
                             <i class="far fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+                        <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -317,7 +317,7 @@
                             <i class="far fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+                        <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
                     </div>
                 </div>
             </div>
