@@ -1,3 +1,4 @@
+<?php $current_page = basename($_SERVER['REQUEST_URI']); ?>
 <div class="container-fluid">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
@@ -45,18 +46,18 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.php" class="nav-item nav-link active">Home</a>
-                            <a href="shop.php" class="nav-item nav-link">Shop</a>
+                            <a href="index.php" class="nav-item nav-link <?php if ($current_page == 'index.php') echo 'active'; ?>">Home</a>
+                            <a href="shop.php" class="nav-item nav-link <?php if ($current_page == 'shop.php') echo 'active'; ?>">Shop</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle <?php if (in_array($current_page, ['cart.php', 'checkout.php'])) echo 'active'; ?>" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="cart.php" class="dropdown-item">Shopping Cart</a>
                                     <a href="checkout.php" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a href="contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="contact.php" class="nav-item nav-link <?php if ($current_page == 'contact.php') echo 'active'; ?>">Contact</a>
                             <div class="nav-item dropdown">
-                        <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Bantuan</a>
+                        <a href="" class="nav-link dropdown-toggle <?php if ($current_page == 'faq.php') echo 'active'; ?>" data-toggle="dropdown">Bantuan</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="faq.php" class="dropdown-item">FAQs</a>
                                     <a href="checkout.php" class="dropdown-item">Help</a>
