@@ -1,3 +1,7 @@
+<?php
+include __DIR__ . '/../backend/config/config.php';
+$db = get_db();
+?>
 <?php include 'partials/head.php'; ?>
 <?php include 'partials/topbar.php'; ?>
 
@@ -79,27 +83,8 @@
                     </div>
                 </nav>
                 <div id="header-carousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active" style="height: 410px;">
-                            <img class="img-fluid" src="https://i.pinimg.com/1200x/0c/52/ae/0c52ae9947137589b5574a0a515bc451.jpg" alt="Mountain">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                                    <a href="shop.php" class="btn btn-light py-2 px-3">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item" style="height: 410px;">
-                            <img class="img-fluid" src="https://i.pinimg.com/1200x/74/59/72/745972dd72ab4dc194afd2e47943578b.jpg" alt="Mountain">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                                    <a href="shop.php" class="btn btn-light py-2 px-3">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="carousel-inner" id="bannerList">
+                        <!-- Banner akan diinject lewat JS -->
                     </div>
                     <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
                         <div class="btn btn-dark" style="width: 45px; height: 45px;">
@@ -214,26 +199,49 @@
     <!-- Offer End -->
 
 
-    <!-- Products Start -->
-    <?php include 'products.php'; ?>
-    <!-- Products End -->
 
 
-
-    <!-- Products Start -->
+   
 <?php include 'newproducts.php'; ?>
-    <!-- Products End -->
+<?php include 'partials/footer.php'; ?>
 
+<script>
+const bannerAPI_public = 'http://localhost/backend/api/banner_get.php?public=1';
 
-    <!-- Vendor Start -->
-   
-    <!-- Vendor End -->
+async function loadBannerPublic() {
+    const container = document.getElementById('bannerList');
+    try {
+        const res = await fetch(bannerAPI_public);
+        const banners = await res.json();
+        container.innerHTML = '';
+        if (!banners.length) {
+            container.innerHTML = '<div class="text-center py-5 text-muted">Belum ada banner aktif</div>';
+            return;
+        }
 
+        banners.forEach((b, i) => {
+            container.innerHTML += `
+            <div class="carousel-item ${i === 0 ? 'active' : ''}" style="height: 410px;">
+                <img class="img-fluid w-100" src="${b.gambar}" alt="${escapeHtml(b.judul)}">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3" style="max-width: 700px;">
+                        ${b.subjudul ? `<h4 class="text-light text-uppercase font-weight-medium mb-3">${escapeHtml(b.subjudul)}</h4>` : ''}
+                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">${escapeHtml(b.judul)}</h3>
+                        <a href="shop.php" class="btn btn-light py-2 px-3">Shop Now</a>
+                    </div>
+                </div>
+            </div>`;
+        });
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = '<div class="text-center py-5 text-danger">Gagal memuat banner</div>';
+    }
+}
 
-    <!-- Footer Start -->
-    <?php include 'partials/footer.php'; ?>
-    <!-- Footer End -->
+function escapeHtml(s) {
+    if (!s) return '';
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+}
 
-
-    <!-- Back to Top -->
-   
+loadBannerPublic();
+</script>
