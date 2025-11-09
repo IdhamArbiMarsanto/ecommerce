@@ -194,6 +194,7 @@
     <input type="email" name="email" placeholder="Email" required>
     <input type="password" name="password" placeholder="Password" required>
     <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+    <input type="telepon" name="no_telepon" placeholder="no telepon" required>
     <input type="date" id="birthdate" name="birthdate" placeholder="Tanggal Lahir" required>
 
     <!-- Gender -->

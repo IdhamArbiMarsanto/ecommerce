@@ -126,7 +126,6 @@ $photos = $data['photos'] ?? [];
                     </div>
                     <div class="col-md-6">
                         <h4 class="mb-4">Tulis ulasan</h4>
-                        <small>Email Anda tidak akan dipublikasikan.</small>
                         <div class="d-flex my-3">
                             <p class="mb-0 mr-2">Rating Anda:</p>
                             <div class="text-primary">
@@ -141,14 +140,6 @@ $photos = $data['photos'] ?? [];
                             <div class="form-group">
                                 <label for="message">Ulasan *</label>
                                 <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Nama *</label>
-                                <input type="text" class="form-control" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" class="form-control" id="email">
                             </div>
                             <div class="form-group mb-0">
                                 <input type="submit" value="Kirim Ulasan" class="btn btn-primary px-3">
