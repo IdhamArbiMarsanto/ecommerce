@@ -1,22 +1,20 @@
 <?php
-// =========================================================================
-// ASUMSI: Data dari Backend sudah tersedia di variabel-variabel ini
-// Anda hanya perlu fokus pada struktur HTML di bawah
-// =========================================================================
+// ===============================================================
+// ASUMSI: Data backend sudah terisi, bagian bawah hanya layout
+// ===============================================================
 
-// Contoh data yang akan diisi backend:
-$paymentMethod = $_GET['method'] ?? 'bca'; // Contoh: 'bca', 'qris', 'gopay', 'cod'
-$bankChosen = $_GET['bank'] ?? 'BCA'; // Hanya untuk M-Banking
-$ewalletChosen = $_GET['ewallet'] ?? 'GoPay'; // Hanya untuk E-Wallet
+$paymentMethod = $_GET['method'] ?? 'bca'; 
+$bankChosen = $_GET['bank'] ?? 'BCA'; 
+$ewalletChosen = $_GET['ewallet'] ?? 'GoPay'; 
 
 $paymentDetail = [
-    'amount' => 'Rp 160.000', // Total yang harus dibayar
+    'amount' => 'Rp 160.000',
     'due_time' => '17-10-2025 Pukul 23:59 WIB',
     'account_number' => '8097 000 123 456',
-    'qrcode_url' => 'img/qris-placeholder.png', // Placeholder QR Code
+    'qrcode_url' => 'img/qris-placeholder.png',
 ];
 
-// Menentukan judul dan ikon utama
+// Tentukan judul dan ikon
 $paymentTitle = '';
 $paymentIcon = '';
 
@@ -26,8 +24,8 @@ if ($paymentMethod === 'bca') {
 } elseif ($paymentMethod === 'qris') {
     $paymentTitle = 'Pembayaran QRIS';
     $paymentIcon = 'fas fa-qrcode';
-} elseif ($paymentMethod === 'gopay' || $paymentMethod === 'ovo' || $paymentMethod === 'dana' || $paymentMethod === 'shopeepay') {
-    $paymentMethod = 'ewallet'; // Kelompokkan menjadi ewallet
+} elseif (in_array($paymentMethod, ['gopay', 'ovo', 'dana', 'shopeepay'])) {
+    $paymentMethod = 'ewallet';
     $paymentTitle = 'Dompet Digital (' . $ewalletChosen . ')';
     $paymentIcon = 'fas fa-wallet';
 } elseif ($paymentMethod === 'cod') {
@@ -38,28 +36,58 @@ if ($paymentMethod === 'bca') {
     $paymentIcon = 'fas fa-exclamation-triangle';
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>EShopper - Instruksi Pembayaran</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    
     <link href="img/favicon.ico" rel="icon">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .payment-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .payment-header {
+            background: #f5f5f5;
+            padding: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .payment-header h4 {
+            margin: 0;
+            font-weight: 600;
+        }
+        .qris-box img {
+            width: 220px;
+            height: 220px;
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            padding: 5px;
+            background: white;
+        }
+        .alert-custom {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
     <?php include 'partials/topbar.php'; ?>
     <?php include 'partials/navbar.php'; ?> 
+
     <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <h1 class="font-weight-semi-bold text-uppercase mb-3">Instruksi Pembayaran</h1>
             <div class="d-inline-flex">
                 <p class="m-0"><a href="index.php">Home</a></p>
@@ -68,103 +96,97 @@ if ($paymentMethod === 'bca') {
             </div>
         </div>
     </div>
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5 justify-content-center">
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0 text-center">
-                        <h4 class="font-weight-semi-bold m-0"><i class="<?php echo $paymentIcon; ?> mr-2"></i> <?php echo $paymentTitle; ?></h4>
+
+                <div class="payment-card">
+                    <div class="payment-header text-center">
+                        <h4><i class="<?php echo $paymentIcon; ?> mr-2"></i><?php echo $paymentTitle; ?></h4>
                     </div>
-                    <div class="card-body">
-                        
+
+                    <div class="p-4">
+
                         <?php if ($paymentMethod !== 'cod'): ?>
-                            <div class="alert alert-danger text-center mb-4">
-                                <strong>Segera Selesaikan Pembayaran!</strong>
-                                <p class="mb-0">Total: <span class="font-weight-bold h4 text-danger"><?php echo $paymentDetail['amount']; ?></span></p>
-                                <p class="mb-0">Batas Akhir: <span class="font-weight-bold"><?php echo $paymentDetail['due_time']; ?></span></p>
-                            </div>
+                        <div class="alert alert-danger text-center">
+                            <strong>Segera Lakukan Pembayaran!</strong>
+                            <p>Total: <span class="h4 text-danger"><?php echo $paymentDetail['amount']; ?></span></p>
+                            <p>Batas Akhir: <b><?php echo $paymentDetail['due_time']; ?></b></p>
+                        </div>
                         <?php endif; ?>
 
                         <?php if ($paymentMethod === 'qris'): ?>
-                            <div class="text-center p-3 border rounded">
+                            <div class="text-center">
                                 <h5 class="mb-3 font-weight-bold">Langkah Pembayaran QRIS</h5>
-                                <p>1. Buka aplikasi E-Wallet (GoPay, DANA, OVO, dll.) atau M-Banking Anda.</p>
-                                <p>2. Pilih menu "Scan QR" / "Pembayaran QR".</p>
-                                <p>3. Scan Kode QR di bawah ini:</p>
-                                
-                                <div class="mx-auto my-4 p-2 border" style="width: 200px;">
-                                    <img src="<?php echo $paymentDetail['qrcode_url']; ?>" alt="QRIS Code" class="img-fluid"> 
+                                <p>1. Buka aplikasi E-Wallet atau M-Banking Anda</p>
+                                <p>2. Pilih menu “Scan QR” / “Pembayaran QR”</p>
+                                <p>3. Arahkan kamera ke QR Code di bawah ini:</p>
+                                <div class="qris-box mx-auto my-3">
+                                    <img src="<?php echo $paymentDetail['qrcode_url']; ?>" alt="QRIS Code">
                                 </div>
-                                
-                                <p class="font-weight-bold">Pastikan jumlah yang dibayar adalah <?php echo $paymentDetail['amount']; ?></p>
+                                <p class="font-weight-bold">Nominal: <?php echo $paymentDetail['amount']; ?></p>
                             </div>
 
                         <?php elseif ($paymentMethod === 'bca'): ?>
-                            <div class="p-3 border rounded">
-                                <h5 class="mb-3 font-weight-bold">Detail Transfer Bank <?php echo $bankChosen; ?></h5>
-                                
-                                <div class="d-flex justify-content-between mb-2 p-2 bg-light rounded">
-                                    <span class="font-weight-medium">Nomor Rekening:</span>
-                                    <span class="font-weight-bold text-primary h5"><?php echo $paymentDetail['account_number']; ?></span>
+                            <div>
+                                <h5 class="font-weight-bold mb-3">Detail Transfer <?php echo $bankChosen; ?></h5>
+                                <div class="p-3 bg-light rounded mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span>No. Rekening:</span>
+                                        <b><?php echo $paymentDetail['account_number']; ?></b>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span>Atas Nama:</span>
+                                        <b>PT EShopper Indonesia</b>
+                                    </div>
                                 </div>
-                                
-                                <div class="d-flex justify-content-between mb-4 p-2 bg-light rounded">
-                                    <span class="font-weight-medium">Atas Nama:</span>
-                                    <span class="font-weight-bold text-dark">PT EShopper Indonesia</span>
-                                </div>
-                                
-                                <h6>Instruksi Transfer:</h6>
+                                <h6>Langkah Transfer:</h6>
                                 <ol class="small">
-                                    <li>Lakukan transfer ke nomor rekening di atas.</li>
-                                    <li>Masukkan jumlah persis **<?php echo $paymentDetail['amount']; ?>** tanpa dibulatkan.</li>
-                                    <li>Konfirmasi pembayaran agar pesanan segera diproses.</li>
+                                    <li>Masukkan nomor rekening di atas.</li>
+                                    <li>Transfer sesuai nominal <b><?php echo $paymentDetail['amount']; ?></b>.</li>
+                                    <li>Konfirmasi pembayaran agar pesanan diproses.</li>
                                 </ol>
                             </div>
-                        
+
                         <?php elseif ($paymentMethod === 'ewallet'): ?>
-                            <div class="p-3 border rounded">
-                                <h5 class="mb-3 font-weight-bold">Pembayaran Melalui <?php echo $ewalletChosen; ?></h5>
-                                
-                                <p>Instruksi pembayaran akan dikirimkan ke nomor ponsel/email yang terdaftar: <span class="font-weight-bold">example@email.com</span>.</p>
-                                
-                                <h6>Cara Melunasi:</h6>
+                            <div>
+                                <h5 class="font-weight-bold mb-3">Pembayaran via <?php echo $ewalletChosen; ?></h5>
+                                <p>Notifikasi pembayaran akan dikirim ke email/nomor Anda.</p>
                                 <ol class="small">
-                                    <li>Buka aplikasi **<?php echo $ewalletChosen; ?>** Anda.</li>
-                                    <li>Cek notifikasi/menu pembayaran tertunda.</li>
-                                    <li>Lakukan pembayaran sebesar **<?php echo $paymentDetail['amount']; ?>**.</li>
+                                    <li>Buka aplikasi <b><?php echo $ewalletChosen; ?></b>.</li>
+                                    <li>Cek menu pembayaran tertunda.</li>
+                                    <li>Bayar sebesar <b><?php echo $paymentDetail['amount']; ?></b>.</li>
                                 </ol>
-                                <div class="alert alert-info mt-3 small">
-                                    Anda mungkin menerima kode pembayaran unik. Pastikan mengikuti langkah-langkah di aplikasi.
+                                <div class="alert alert-info small">
+                                    Jika belum muncul, tunggu beberapa menit atau periksa ulang aplikasi Anda.
                                 </div>
                             </div>
-                        
+
                         <?php elseif ($paymentMethod === 'cod'): ?>
                             <div class="alert alert-success text-center">
-                                <h4 class="alert-heading">✅ Pesanan COD Berhasil Dikonfirmasi!</h4>
-                                <p class="lead">Anda akan membayar **<?php echo $paymentDetail['amount']; ?>** secara tunai kepada kurir saat pesanan Anda tiba.</p>
+                                <h4>✅ Pesanan COD Diterima!</h4>
+                                <p>Bayar <b><?php echo $paymentDetail['amount']; ?></b> langsung ke kurir saat pesanan tiba.</p>
                                 <hr>
-                                <p class="mb-0">Pesanan Anda akan segera kami proses dan kirim.</p>
+                                <p>Pesanan sedang kami proses dan akan segera dikirim.</p>
                             </div>
-                        
                         <?php endif; ?>
 
-                    </div>
-                    
-                    <div class="card-footer border-secondary bg-transparent text-center">
-                        <p class="mb-3 small">Setelah pembayaran, klik tombol di bawah untuk memantau status pesanan Anda.</p>
-                        <a href="order_status.php" class="btn btn-lg btn-block btn-primary font-weight-bold py-3">
-                            <i class="fas fa-check-circle mr-2"></i> Cek Status Pesanan
-                        </a>
+                        <div class="text-center mt-4">
+                            <a href="orders.php" class="btn btn-primary btn-lg px-4">
+                                <i class="fas fa-check-circle mr-2"></i> Cek Status Pesanan
+                            </a>
+                        </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+
     <?php include 'partials/footer.php'; ?>
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-
-
 </body>
-
 </html>
