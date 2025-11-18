@@ -1,6 +1,6 @@
 <div class="row align-items-center py-3 px-xl-5">
     <div class="col-lg-3 d-none d-lg-block">
-        <a href="" class="text-decoration-none d-flex align-items-center">
+        <a href="index.php" class="text-decoration-none d-flex align-items-center">
             <img src="img/logo.jpg" alt="Logo" style="height: 56px; width: auto;" class="mr-1 border" />
             <h1 class="m-0 display-5 font-weight-semi-bold">Effort Outdoor</h1>
         </a>
@@ -51,7 +51,7 @@
         </div>
 
         <div class="dropdown" id="userDropdown">
-            <a href="profile.php" class="btn border" id="userToggle" role="button" aria-expanded="false"> 
+            <a  class="btn border" id="userToggle" role="button" aria-expanded="false"> 
                 <i class="fas fa-user text-primary"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px; padding: 15px; top: 100%;">
@@ -60,14 +60,13 @@
                     <i class="fas fa-user-circle fa-2x text-primary mr-3"></i>
                     <div>
                         <h6 class="mb-0">Nama Pengguna Anda</h6>
-                        <small class="text-muted">Lihat Profil</small>
                     </div>
                 </div>
                 
-                <a class="dropdown-item" href="#pembelian">
+                <a class="dropdown-item" href="orders.php?page=pesanan">
                     <i class="fas fa-shopping-bag mr-2"></i> Pembelian
                 </a>
-                <a class="dropdown-item" href="#pengaturan">
+                <a class="dropdown-item" href="orders.php?page=profil">
                     <i class="fas fa-cog mr-2"></i> Pengaturan
                 </a>
                 

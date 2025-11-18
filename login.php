@@ -182,6 +182,57 @@
       color: #fff;
     }
 
+    /* Popup Forgot Password */
+.forgot-popup {
+  display: none;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 350px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  animation: popupShow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+@keyframes popupShow {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.forgot-popup input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+.send-btn {
+  margin-top: 12px;
+  width: 100%;
+  background: linear-gradient(135deg, #ff7eb3, #ff758c);
+  color: white;
+}
+
+.close-popup {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+}
+
   </style>
 </head>
 <body>
@@ -217,10 +268,74 @@
         Don't have an account? <a href="register.php">Register here</a>
       </p>
       <p><a href="index.php">Kembali ke Beranda</a></p>
+      <!-- Reset Password Inline -->
+<div id="resetSection" style="display:none; margin-top:15px; animation:fadeIn 0.3s;">
+  <input type="email" id="forgotEmail" 
+         placeholder="Enter your email..." 
+         style="
+           width: 100%;
+           padding: 14px;
+           border-radius: 25px;
+           border: none;
+           background: rgba(255,255,255,0.2);
+           color: white;
+           outline: none;">
+  
+  <button class="btn" 
+          onclick="sendReset()" 
+          style="
+            margin-top: 10px; 
+            width: 100%;
+            background: linear-gradient(135deg,#00c6ff, #8a2be2);
+            color: white;">
+    SEND RESET LINK
+  </button>
+
+  <p id="resetStatus" style="margin-top:8px;"></p>
+</div>
+
+<style>
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+</style>
+
     </div>
+
   </div>
 
   <script>
+
+document.querySelector(".forgot-password").addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const section = document.getElementById("resetSection");
+
+  // toggle
+  if (section.style.display === "none") {
+    section.style.display = "block";
+  } else {
+    section.style.display = "none";
+    document.getElementById("resetStatus").textContent = "";
+  }
+});
+
+function sendReset() {
+  let email = document.getElementById("forgotEmail").value;
+
+  if (email.trim() === "") {
+    document.getElementById("resetStatus").textContent = "Email wajib diisi!";
+    document.getElementById("resetStatus").style.color = "#ffcccc";
+    return;
+  }
+
+  document.getElementById("resetStatus").textContent =
+    "✔ Link reset sudah dikirim.";
+  document.getElementById("resetStatus").style.color = "#b3ffb3";
+}
+  
+
     // Toggle password
     function togglePassword() {
       const passwordInput = document.getElementById("password");
@@ -290,6 +405,8 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
+
   </script>
 </body>
 </html>
+

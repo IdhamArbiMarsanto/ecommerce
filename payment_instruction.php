@@ -173,7 +173,7 @@ if ($paymentMethod === 'bca') {
                         <?php endif; ?>
 
                         <div class="text-center mt-4">
-                            <a href="orders.php" class="btn btn-primary btn-lg px-4">
+                            <a href="orders.php?page=pesanan" class="btn btn-primary btn-lg px-4">
                                 <i class="fas fa-check-circle mr-2"></i> Cek Status Pesanan
                             </a>
                         </div>
