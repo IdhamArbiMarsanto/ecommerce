@@ -5,6 +5,12 @@ $db = get_db();
 
 
 <div class="container-fluid pt-5">
+    <style>
+        /* Ensure product images keep consistent crop regardless of original dimensions */
+        /* Fixed card image height to 300px for consistent grid; object-fit will crop as needed */
+        .product-img { height: 300px; }
+        .product-img img { height: 100%; width: 100%; object-fit: cover; display: block; }
+    </style>
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
     </div>
@@ -24,12 +30,12 @@ $db = get_db();
                 </a>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3"><?= htmlspecialchars($produk['nama']) ?></h6>
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center align-items-center">
                         <?php if(!empty($produk['harga_diskon']) && $produk['harga_diskon'] > 0): ?>
-                            <h6 class="text-muted mr-2"><del>Rp <?= number_format($produk['harga'], 0, ',', '.') ?></del></h6>
-                            <h6>Rp <?= number_format($produk['harga_diskon'], 0, ',', '.') ?></h6>
+                            <h6 class="text-muted mr-2 mb-0"><del>Rp <?= number_format($produk['harga'], 0, ',', '.') ?></del></h6>
+                            <h6 class="product-price text-danger mb-0">Rp <?= number_format($produk['harga_diskon'], 0, ',', '.') ?></h6>
                         <?php else: ?>
-                            <h6>Rp <?= number_format($produk['harga'], 0, ',', '.') ?></h6>
+                            <h6 class="product-price text-danger mb-0">Rp <?= number_format($produk['harga'], 0, ',', '.') ?></h6>
                         <?php endif; ?>
                     </div>
                 </div>

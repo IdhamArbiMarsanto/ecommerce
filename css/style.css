@@ -118,6 +118,14 @@ section {
       transition: max-height .28s ease, padding .28s ease;
       padding-top: 0;
       padding-bottom: 0;
+     }
+     /* ====== Product card image normalization ======
+       Ensures all product cards use a fixed-height image area
+       with full width and a centered crop (object-fit: cover).
+       Grid responsiveness (4/2/1) is controlled by Bootstrap
+       column classes; this rule only enforces image sizing. */
+     .product-img { height: 300px; }
+     .product-img img { height: 100%; width: 100%; object-fit: cover; display: block; }
     }
     .faq-card .collapse.show {
       padding-top: 12px;

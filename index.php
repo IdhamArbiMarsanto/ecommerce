@@ -15,9 +15,9 @@ $db = get_db();
                 </a>
                 <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <a href="shop.php?category=celana-panjang" class="nav-link">Celana Panjang</a>
-                        <a href="shop.php?category=celana-pendek" class="nav-link">Celana Pendek</a>
-                        <a href="shop.php?category=jaket" class="nav-link">Jaket</a>
+                        <a href="shop.php?kategori[]=Celana Panjang" class="nav-link">Celana Panjang</a>
+                        <a href="shop.php?kategori[]=Celana Pendek" class="nav-link">Celana Pendek</a>
+                        <a href="shop.php?kategori[]=Jaket" class="nav-link">Jaket</a>
                     </div>
                 </nav>
             </div>
@@ -119,7 +119,7 @@ $db = get_db();
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="shop.php" class="cat-img position-relative overflow-hidden mb-3">
+                    <a href="shop.php?kategori[]=Celana Panjang" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="https://i.pinimg.com/1200x/ca/0f/fa/ca0ffa997170368b8466ff40fcfddf04.jpg" alt=""
                         style="width: 100%; height: 500px; object-fit: cover;">
                     </a>
@@ -129,8 +129,8 @@ $db = get_db();
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="shop.php" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="https://i.pinimg.com/736x/b0/4d/ab/b04dab7548579c4c12a6af8484f50842.jpg" alt="" 
+                    <a href="shop.php?kategori[]=Celana Pendek" class="cat-img position-relative overflow-hidden mb-3">
+                        <img class="img-fluid" src="https://i.pinimg.com/736x/b0/4d/ab/b04dab7548579c4c12a6af8484f50842.jpg" alt=""
                         style="width: 100%; height: 500px; object-fit: cover;">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">Celana Pendek</h5>
@@ -139,7 +139,7 @@ $db = get_db();
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="shop.php" class="cat-img position-relative overflow-hidden mb-3">
+                    <a href="shop.php?kategori[]=Jaket" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="https://i.pinimg.com/736x/cd/38/45/cd3845a5c0e0d5d35043b1e483282822.jpg" alt=""
                         style="width: 100%; height: 500px; object-fit: cover;">
                     </a>
