@@ -2,6 +2,88 @@
 <?php include 'partials/topbar.php'; ?>
 <?php include 'partials/navbar.php'; ?>
 
+
+    <style>
+      .faq-search-banner {
+          background-color: #edf1ff;
+          margin-bottom: 30px;
+      }
+
+      .faq-search-banner .banner-inner {
+          min-height: 300px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px 0;
+      }
+
+      .faq-search-banner .search-box {
+          background: #fff;
+          border-radius: 8px;
+          padding: 12px 16px;
+          box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          max-width: 980px;
+          width: 100%;
+      }
+
+      .faq-search-banner .search-box input {
+          border: none;
+          outline: none;
+          flex: 1;
+          font-size: 16px;
+          background: transparent;
+      }
+
+      .faq-search-banner .search-box button {
+          border: none;
+          background: #2f7a3e;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 15px;
+          transition: 0.15s;
+      }
+
+      .faq-search-banner .search-box button:hover {
+          background: #255f33;
+      }
+
+      .faq-search-banner .search-icon {
+          color: #666;
+          font-size: 18px;
+      }
+
+      @media (max-width: 576px) {
+          .faq-search-banner .banner-inner { min-height: 180px; }
+          .faq-search-banner .search-box { padding: 8px 10px; max-width: 92%; }
+      }
+    </style>
+
+    <div class="container-fluid faq-search-banner">
+      <div class="banner-inner">
+        <div class="container">
+          <form action="" method="GET" class="d-flex justify-content-center mb-0">
+            <div class="search-box">
+              <i class="fa fa-search search-icon"></i>
+              <input 
+                type="text" 
+                id="faqSearchInput"
+                name="search" 
+                placeholder="Cari FAQ..." 
+                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
+              >
+              <button type="submit">Cari</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
 <!-- FAQ Section Start -->
 <div class="container py-5">
   <div class="text-center mb-4">
