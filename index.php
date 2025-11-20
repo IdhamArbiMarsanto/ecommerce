@@ -15,31 +15,9 @@ $db = get_db();
                 </a>
                 <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown">Celana Panjang <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="shop.php?category=celana-panjang&gender=men" class="dropdown-item" class="dropdown-item">Men's</a>
-                                <a href="shop.php?category=celana-panjang&gender=women" class="dropdown-item" class="dropdown-item">Women's</a>
-                            </div>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-toggle="dropdown">
-                                    Celana Pendek <i class="fa fa-angle-down float-right mt-1"></i>
-                                </a>
-                                <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="shop.php?category=celana-pendek&gender=men" class="dropdown-item" class="dropdown-item">Men's</a>
-                                <a href="shop.php?category=celana-pendek&gender=women" class="dropdown-item" class="dropdown-item">Women's</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-toggle="dropdown">
-                                    Jaket <i class="fa fa-angle-down float-right mt-1"></i>
-                                </a>
-                                <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="shop.php?category=jaket&gender=men" class="dropdown-item" class="dropdown-item">Men's</a>
-                                <a href="shop.php?category=jaket&gender=women" class="dropdown-item" class="dropdown-item">Women's</a>
-                        </div>
-                        
+                        <a href="shop.php?category=celana-panjang" class="nav-link">Celana Panjang</a>
+                        <a href="shop.php?category=celana-pendek" class="nav-link">Celana Pendek</a>
+                        <a href="shop.php?category=jaket" class="nav-link">Jaket</a>
                     </div>
                 </nav>
             </div>

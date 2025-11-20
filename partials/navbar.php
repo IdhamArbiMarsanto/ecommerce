@@ -2,30 +2,17 @@
 <div class="container-fluid">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" onclick="event.preventDefault();" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                    <h6 class="m-0">Categories</h6>
-                    <i class="fa fa-angle-down text-white"></i>
-                </a>
-                <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown">Celana Panjang <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                </div>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-toggle="dropdown">
-                                    Celana Pendek <i class="fa fa-angle-down float-right mt-1"></i>
-                                </a>
-                                <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-toggle="dropdown">
-                                    Jaket <i class="fa fa-angle-down float-right mt-1"></i>
-                                </a>
-                                <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                            </div>
+                <style>
+                    /* Categories: show as plain links; hover => underline only */
+                    .navbar-vertical { width: calc(100% - 30px); z-index: 1; }
+                    .navbar-vertical .nav-link { padding: .5rem 1rem; display: inline-block; }
+                    .navbar-vertical .nav-link:hover { text-decoration: underline; color: inherit; }
+                </style>
+                <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical">
+                    <div class="navbar-nav w-100 overflow-hidden navbar-vertical" style="height: 410px">
+                        <a href="shop.php?category=celana-panjang" class="nav-link">Celana Panjang</a>
+                        <a href="shop.php?category=celana-pendek" class="nav-link">Celana Pendek</a>
+                        <a href="shop.php?category=jaket" class="nav-link">Jaket</a>
                     </div>
                 </nav>
             </div>
