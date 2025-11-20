@@ -20,6 +20,7 @@
     <link href="css/style.css" rel="stylesheet">
 
     <style>
+            /* (QR preview moved to payment_instruction.php) */
         .custom-control.payment-option {
             margin-bottom: 0.45rem !important;
         }
@@ -37,11 +38,46 @@
         .card-header-payment {
             cursor: pointer;
             border-bottom: 1px solid #dee2e6;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #fff;
+            transition: box-shadow .15s ease, transform .08s ease;
+            display: flex;
+            align-items: center;
         }
 
         .card-header-payment:hover {
             background-color: #f8f9fa;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            transform: translateY(-1px);
         }
+
+        .card-header-payment .method-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .card-category-payment + .card-category-payment { margin-top: 8px; }
+
+        .payment-method-card { padding: 0.5rem; }
+        .payment-method-card.selected { box-shadow: 0 6px 18px rgba(47,122,62,0.08); border-radius: 10px; }
+
+        .payment-summary {
+            background: #f7f9fb;
+            border: 1px solid #e6eef4;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+
+        .payment-summary .small { font-size: .9rem; color: #666; }
 
         .card-category-payment:last-child .card-header-payment {
             border-bottom: none;
@@ -294,11 +330,19 @@
                     </div>
                 </div>
 
+                <!-- Payment Summary (shows current choice and amount) -->
+                <div id="paymentSummary" class="payment-summary text-center small">
+                    <div><strong id="psMethod">Belum memilih metode</strong></div>
+                    <div id="psDetail" class="mt-1">Pilih opsi pembayaran untuk melihat instruksi.</div>
+                    <div class="mt-2"><small>Nominal: <span id="psAmount">$160</span></small></div>
+                </div>
+
                 <form id="paymentForm" action="payment_instruction.php" method="GET">
                     <input type="hidden" name="method" id="selectedMethod">
-                    <input type="hidden" name="bank" id="selectedBank">
-                    <input type="hidden" name="ewallet" id="selectedEwallet">
-
+                        <input type="hidden" name="bank" id="selectedBank">
+                        <input type="hidden" name="ewallet" id="selectedEwallet">
+                        <input type="hidden" name="qrcode" id="selectedQrcode">
+                        <input type="hidden" name="amount" id="selectedAmount">
                     <div class="card-footer border-secondary bg-transparent">
                         <button type="submit" id="orderNowBtn" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
                             Order Now
@@ -361,6 +405,141 @@
                     $newAddressForm.slideUp();
                 }
             }).trigger('change'); // Trigger saat load untuk memastikan status awal
+
+            // --- Payment selection behavior ---
+
+            // initialize selected values
+            $('#selectedMethod').val('');
+            $('#selectedBank').val('');
+            $('#selectedEwallet').val('');
+            $('#selectedQrcode').val('');
+
+            // set order amount from summary (if available) so it can be passed to payment_instruction
+            try {
+                const totalText = $('.col-lg-8 .card-footer .font-weight-bold').last().text().trim();
+                if (totalText) $('#selectedAmount').val(totalText);
+            } catch (err) { /* ignore */ }
+
+            // when main payment radio changes: set method and for qris set default qrcode path
+            function updateSummaryAndHighlight() {
+                const method = ($('#selectedMethod').val() || $('input.payment-radio:checked').val() || '').trim();
+                const bank = ($('#selectedBank').val() || $('input[name="mbanking_option"]:checked').val() || '').trim();
+                const ewallet = ($('#selectedEwallet').val() || $('input[name="ewallet_option"]:checked').val() || '').trim();
+                const qrcode = ($('#selectedQrcode').val() || '').trim();
+                const amount = ($('#selectedAmount').val() || $('.col-lg-8 .card-footer .font-weight-bold').last().text().trim() || '$0').trim();
+
+                // friendly method text
+                let methodText = 'Belum memilih metode';
+                let detailText = '';
+                if (method === 'mbanking') {
+                    methodText = 'Transfer Bank';
+                    detailText = bank ? bank : 'Pilih bank (BCA/Mandiri/BNI)';
+                } else if (method === 'ewallet') {
+                    methodText = 'E-Wallet';
+                    detailText = ewallet ? ewallet : 'Pilih e-wallet (GoPay/OVO/DANA/ShopeePay)';
+                } else if (method === 'qris') {
+                    methodText = 'QRIS';
+                    detailText = 'Bayar dengan scan QR';
+                } else if (method === 'cod') {
+                    methodText = 'Cash on Delivery';
+                    detailText = 'Bayar ke kurir saat terima pesanan';
+                }
+
+                $('#psMethod').text(methodText);
+                $('#psDetail').text(detailText);
+                $('#psAmount').text(amount);
+
+                // highlight selected card
+                $('#paymentAccordion .card-category-payment').removeClass('selected');
+                const checkedMain = $('input.payment-radio:checked');
+                if (checkedMain.length) {
+                    checkedMain.closest('.card-category-payment').addClass('selected');
+                }
+            }
+
+            $('input.payment-radio').on('change', function() {
+                const method = $(this).val();
+                $('#selectedMethod').val(method);
+                if (method === 'qris') {
+                    $('#selectedQrcode').val('img/qris.png');
+                } else {
+                    // clear qrcode for other methods
+                    $('#selectedQrcode').val('');
+                }
+                updateSummaryAndHighlight();
+            });
+
+            // sub-option handlers
+            $('input[name="ewallet_option"]').on('change', function() {
+                const val = $(this).val();
+                $('#selectedEwallet').val(val);
+                $('#selectedMethod').val('ewallet');
+                $('#ewallet').prop('checked', true);
+                updateSummaryAndHighlight();
+            });
+
+            $('input[name="mbanking_option"]').on('change', function() {
+                const val = $(this).val();
+                $('#selectedBank').val(val);
+                $('#selectedMethod').val('mbanking');
+                $('#mbanking').prop('checked', true);
+                updateSummaryAndHighlight();
+            });
+
+            $('input[name="qris_option"]').on('change', function() {
+                $('#selectedMethod').val('qris');
+                $('#selectedQrcode').val('img/qris.png');
+                updateSummaryAndHighlight();
+            });
+
+            // when clicking header ensure main radio is selected
+            $('.card-header-payment').on('click', function() {
+                const $r = $(this).find('input.payment-radio');
+                if ($r.length) {
+                    $r.prop('checked', true).trigger('change');
+                }
+            });
+
+            // validate before submit and ensure hidden fields are set
+            $('#paymentForm').on('submit', function(e) {
+                const method = ($('#selectedMethod').val() || $('input.payment-radio:checked').val() || '').trim();
+                const bank = ($('#selectedBank').val() || $('input[name="mbanking_option"]:checked').val() || '').trim();
+                const ewallet = ($('#selectedEwallet').val() || $('input[name="ewallet_option"]:checked').val() || '').trim();
+
+                if (!method) {
+                    alert('Pilih metode pembayaran terlebih dahulu');
+                    e.preventDefault();
+                    return false;
+                }
+
+                if (method === 'mbanking' && !bank) {
+                    alert('Silakan pilih bank untuk transfer (BCA/Mandiri/BNI)');
+                    e.preventDefault();
+                    return false;
+                }
+
+                if (method === 'ewallet' && !ewallet) {
+                    alert('Silakan pilih e-wallet (GoPay/OVO/DANA/ShopeePay)');
+                    e.preventDefault();
+                    return false;
+                }
+
+                // set hidden inputs (redundant guard)
+                $('#selectedMethod').val(method);
+                $('#selectedBank').val(bank);
+                $('#selectedEwallet').val(ewallet);
+
+                // ensure amount is set (read again as fallback)
+                try {
+                    const totalText = $('.col-lg-8 .card-footer .font-weight-bold').last().text().trim();
+                    if (totalText && !$('#selectedAmount').val()) $('#selectedAmount').val(totalText);
+                } catch (err) {}
+
+                // allow submit to payment_instruction.php which can handle the params
+            });
+
+            // run initial summary update
+            updateSummaryAndHighlight();
         });
     </script>
 
