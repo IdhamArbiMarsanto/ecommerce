@@ -61,6 +61,22 @@ $db = get_db();
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function(){
+    $('.cart-btn').click(function(e){
+        e.preventDefault();
+        let btn = $(this);
+        let productId = btn.data('id');
+
+        $.post('<?= BACKEND_URL ?>/api/cart_add.php', { id: productId }, function(response){
+            if(response.status === 'added'){
+                alert('Product added to cart!');
+            } else if(response.status === 'updated'){
+                alert('Product quantity updated in cart!');
+            } else if(response.status === 'error'){
+                alert(response.message);
+            }
+        }, 'json');
+    });
+
     $('.like-btn').click(function(e){
         e.preventDefault();
         let btn = $(this);
