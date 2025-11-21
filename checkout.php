@@ -124,15 +124,16 @@
             border: 2px solid #4facfe;
         }
         .payment-summary {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border: 1px solid #90caf9;
+            background: #6c757d;
+            border: none;
             padding: 20px;
             border-radius: 12px;
             margin: 20px 0;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: white;
         }
-        .payment-summary .small { font-size: 0.9rem; color: #424242; }
+        .payment-summary .small { font-size: 0.9rem; color: #f8f9fa; }
         .btn-order-now {
             background: #bbd197;
             border: none;

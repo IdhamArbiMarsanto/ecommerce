@@ -58,16 +58,21 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
     <link href="css/style.css" rel="stylesheet">
 
     <style>
+        body {
+            background: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
         .payment-card {
             background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 6px 26px rgba(0,0,0,0.08);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         .payment-header {
-            background: linear-gradient(180deg,#f5f7fb,#eef4fa);
-            padding: 20px;
-            border-bottom: 1px solid #e6eef4;
+            background: linear-gradient(135deg, #bbd197 0%, #a8c085 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px 15px 0 0;
         }
         .payment-header h4 {
             margin: 0;
@@ -118,6 +123,66 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
             padding: 15px;
             margin-bottom: 20px;
         }
+
+        .btn-primary {
+            background: #bbd197;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(187,209,151,0.3);
+        }
+        .btn-primary:hover {
+            background: #a8c085;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168,192,133,0.4);
+        }
+
+        .btn-outline-primary {
+            border-color: #bbd197;
+            color: #bbd197;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-primary:hover {
+            background: #bbd197;
+            border-color: #bbd197;
+            color: white;
+        }
+
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-secondary:hover {
+            background: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: none;
+            border-radius: 10px;
+            color: #721c24;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: none;
+            border-radius: 10px;
+            color: #155724;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            border: none;
+            border-radius: 10px;
+            color: #0c5460;
+        }
     </style>
 </head>
 
@@ -127,11 +192,11 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
 
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Instruksi Pembayaran</h1>
+            <h1 class="font-weight-semi-bold text-uppercase mb-3" style="color: #bbd197;">Instruksi Pembayaran</h1>
             <div class="d-inline-flex">
-                <p class="m-0"><a href="index.php">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Pembayaran</p>
+                <p class="m-0"><a href="index.php" style="color: #bbd197;">Home</a></p>
+                <p class="m-0 px-2" style="color: #bbd197;">-</p>
+                <p class="m-0" style="color: #bbd197;">Pembayaran</p>
             </div>
         </div>
     </div>
