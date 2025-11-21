@@ -37,21 +37,15 @@ $db = get_db();
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.php" class="nav-item nav-link active">Home</a>
                             <a href="shop.php" class="nav-item nav-link">Shop</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.php" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
+                            <a href="about.php" class="nav-item nav-link">About Us</a>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                             <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Bantuan</a>
-                                <div class="dropdown-menu rounded-0 m-0">
+                        <a href="faq.php" class="nav-item nav-link <?php if ($current_page == 'faq.php') echo 'active'; ?>" >Bantuan</a>
+                                <!-- <div class="dropdown-menu rounded-0 m-0">
                                     <a href="faq.php" class="dropdown-item">FAQs</a>
                                     <a href="checkout.php" class="dropdown-item">Help</a>
                                     <a href="checkout.php" class="dropdown-item">Support</a>
-                                </div>
+                                </div> -->
                         </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
@@ -176,10 +170,8 @@ $db = get_db();
     </div>
     <!-- Offer End -->
 
+    <?php include 'testimonials.php'; ?>
 
-
-
-   
 <?php include 'newproducts.php'; ?>
 <?php include 'partials/footer.php'; ?>
 
@@ -222,4 +214,28 @@ function escapeHtml(s) {
 }
 
 loadBannerPublic();
+
+$('.testimonial-carousel').owlCarousel({
+    loop: true,
+    margin: 30,
+    nav: true,
+    navText: [
+        '<i class="fa fa-angle-left" aria-hidden="true"></i>',
+        '<i class="fa fa-angle-right" aria-hidden="true"></i>'
+    ],
+    autoplay: true,
+    autoplayTimeout: 5000,
+    autoplayHoverPause: true,
+    responsive: {
+        0: {
+            items: 1
+        },
+        768: {
+            items: 2
+        },
+        992: {
+            items: 3
+        }
+    }
+});
 </script>

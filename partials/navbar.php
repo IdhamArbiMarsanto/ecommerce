@@ -29,13 +29,7 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.php" class="nav-item nav-link <?php if ($current_page == 'index.php') echo 'active'; ?>">Home</a>
                             <a href="shop.php" class="nav-item nav-link <?php if ($current_page == 'shop.php') echo 'active'; ?>">Shop</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle <?php if (in_array($current_page, ['cart.php', 'checkout.php'])) echo 'active'; ?>" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.php" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
+                            <a href="about.php" class="nav-item nav-link <?php if ($current_page == 'about.php') echo 'active'; ?>">About Us</a>
                             <a href="contact.php" class="nav-item nav-link <?php if ($current_page == 'contact.php') echo 'active'; ?>">Contact</a>
                             <div class="nav-item dropdown">
                         <a href="faq.php" class="nav-item nav-link <?php if ($current_page == 'faq.php') echo 'active'; ?>" >Bantuan</a>
