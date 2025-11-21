@@ -3,84 +3,176 @@
 
 <head>
     <meta charset="utf-8">
-    <title>EShopper - Checkout</title>
+    <title>Effort Outdoor - Checkout</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
+    <meta content="Effort Outdoor Ecommerce" name="keywords">
+    <meta content="Modern checkout for Effort Outdoor" name="description">
 
-    <link href="img/favicon.ico" rel="icon">
+    <!-- Favicon -->
+    <link href="img/logo.jpg" rel="icon">
 
+    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
+    <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
+    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-
     <style>
-            /* (QR preview moved to payment_instruction.php) */
-        .custom-control.payment-option {
-            margin-bottom: 0.45rem !important;
+        body {
+            background: #fff;
+            font-family: 'Poppins', sans-serif;
         }
-
-        .card-body .form-group {
-            margin-bottom: 0.4rem !important;
+        .checkout-container {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 30px 0;
         }
-
-        .custom-control-label {
-            font-size: 1.1rem;
-            color: #555;
+        .order-total-card {
+            background: linear-gradient(135deg, #bbd197 0%, #a8c085 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-
-        /* Styling tambahan untuk header payment agar terlihat seperti tombol */
+        .order-total-card .card-header {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 15px 15px 0 0;
+        }
+        .order-total-card .card-body {
+            background: rgba(255,255,255,0.05);
+        }
+        .order-total-card .card-footer {
+            background: rgba(255,255,255,0.1);
+            border-radius: 0 0 15px 15px;
+            border: none;
+        }
+        .billing-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .billing-card .card-header {
+            background: linear-gradient(135deg, #bbd197 0%, #a8c085 100%);
+            color: white;
+            border: none;
+            border-radius: 15px 15px 0 0;
+        }
+        .shipping-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .shipping-card .card-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 15px 15px 0 0;
+        }
+        .payment-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .payment-card .card-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 15px 15px 0 0;
+        }
         .card-header-payment {
             cursor: pointer;
             border-bottom: 1px solid #dee2e6;
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
             background: #fff;
-            transition: box-shadow .15s ease, transform .08s ease;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
         }
-
         .card-header-payment:hover {
             background-color: #f8f9fa;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
-
         .card-header-payment .method-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 8px;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin-right: 12px;
+            margin-right: 15px;
             color: #fff;
-            font-size: 18px;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-
-        .card-category-payment + .card-category-payment { margin-top: 8px; }
-
-        .payment-method-card { padding: 0.5rem; }
-        .payment-method-card.selected { box-shadow: 0 6px 18px rgba(47,122,62,0.08); border-radius: 10px; }
-
+        .card-category-payment + .card-category-payment { margin-top: 10px; }
+        .payment-method-card.selected {
+            box-shadow: 0 8px 25px rgba(79,172,254,0.15);
+            border-radius: 12px;
+            border: 2px solid #4facfe;
+        }
         .payment-summary {
-            background: #f7f9fb;
-            border: 1px solid #e6eef4;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin: 12px 0;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 1px solid #90caf9;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        .payment-summary .small { font-size: .9rem; color: #666; }
-
-        .card-category-payment:last-child .card-header-payment {
-            border-bottom: none;
+        .payment-summary .small { font-size: 0.9rem; color: #424242; }
+        .btn-order-now {
+            background: #bbd197;
+            border: none;
+            border-radius: 25px;
+            padding: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(187,209,151,0.3);
+        }
+        .btn-order-now:hover {
+            background: #a8c085;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168,192,133,0.4);
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            transition: border-color 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 0.2rem rgba(79,172,254,0.25);
+        }
+        .custom-select {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 7px 15px;
+        }
+        .custom-control-label {
+            font-size: 1rem;
+            color: #555;
+            cursor: pointer;
+        }
+        .collapse-icon {
+            transition: transform 0.3s ease;
+        }
+        .card-category-payment .collapse.show ~ .card-header-payment .collapse-icon {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -93,46 +185,49 @@
 
             <div class="col-lg-8">
 
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                <div class="card border-0 mb-5" style="background: linear-gradient(135deg, #bbd197 0%, #a8c085 100%); color: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(187,209,151,0.3);">
+                    <div class="card-header border-0" style="background: rgba(255,255,255,0.1); border-radius: 20px 20px 0 0;">
+                        <h4 class="font-weight-semi-bold m-0"><i class="fas fa-receipt mr-2"></i>Order Total</h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="background: rgba(255,255,255,0.05);">
                         <h5 class="font-weight-medium mb-3">Products</h5>
                         <div class="d-flex justify-content-between">
                             <p>Colorful Stylish Shirt 1</p>
-                            <p>$150</p>
+                            <p>Rp 150.000</p>
                         </div>
                         <div class="d-flex justify-content-between">
                             <p>Colorful Stylish Shirt 2</p>
-                            <p>$150</p>
+                            <p>Rp 150.000</p>
                         </div>
                         <div class="d-flex justify-content-between">
                             <p>Colorful Stylish Shirt 3</p>
-                            <p>$150</p>
+                            <p>Rp 150.000</p>
                         </div>
-                        <hr class="mt-0">
+                        <hr class="mt-0" style="border-color: rgba(255,255,255,0.3);">
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$150</h6>
+                            <h6 class="font-weight-medium">Rp 450.000</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">Rp 20.000</h6>
                         </div>
                     </div>
-                    <div class="card-footer border-secondary bg-transparent">
+                    <div class="card-footer border-0" style="background: rgba(255,255,255,0.1); border-radius: 0 0 20px 20px;">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$160</h5>
+                            <h5 class="font-weight-bold">Rp 490.000</h5>
                         </div>
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label>Pilih Alamat</label>
+                <div class="card border-0 mb-4" style="background: #fff; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <div class="card-header bg-secondary border-0" style="border-radius: 15px 15px 0 0;">
+                        <h4 class="font-weight-semi-bold m-0"><i class="fas fa-map-marker-alt mr-2"></i>Billing Address</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="font-weight-medium">Pilih Alamat</label>
                             <select class="custom-select" id="billingAddressDropdown">
                                 <option value="default" selected>Alamat Default (John Doe, 123 Street, New York, US)</option>
                                 <option value="address1">Alamat 1 (Jane Smith, 456 Avenue, Los Angeles, US)</option>
@@ -141,91 +236,103 @@
                             </select>
                         </div>
 
-                        <div class="row w-100 mx-0 mt-3" id="newAddressForm" style="display: none;">
-                            <div class="col-md-6 form-group">
-                                <label>First Name</label>
-                                <input class="form-control" type="text" placeholder="John">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>Last Name</label>
-                                <input class="form-control" type="text" placeholder="Doe">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>E-mail</label>
-                                <input class="form-control" type="text" placeholder="example@email.com">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>Mobile No</label>
-                                <input class="form-control" type="text" placeholder="+123 456 789">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>Address Line 1</label>
-                                <input class="form-control" type="text" placeholder="123 Street">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>Address Line 2</label>
-                                <input class="form-control" type="text" placeholder="Apartment, Studio, or Floor">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>Country</label>
-                                <select class="custom-select">
-                                    <option selected>United States</option>
-                                    <option>Indonesia</option>
-                                    <option>Malaysia</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>City</label>
-                                <input class="form-control" type="text" placeholder="New York">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>State</label>
-                                <input class="form-control" type="text" placeholder="NY">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>ZIP Code</label>
-                                <input class="form-control" type="text" placeholder="10001">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="saveAddress">
-                                    <label class="custom-control-label" for="saveAddress">Simpan alamat ini</label>
+                        <div id="newAddressForm" style="display: none;">
+                            <hr style="border-color: rgba(0,0,0,0.1);">
+                            <h6 class="font-weight-medium mb-3">Tambahkan Alamat Baru</h6>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label>First Name</label>
+                                    <input class="form-control" type="text" placeholder="John">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Last Name</label>
+                                    <input class="form-control" type="text" placeholder="Doe">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>E-mail</label>
+                                    <input class="form-control" type="text" placeholder="example@email.com">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Mobile No</label>
+                                    <input class="form-control" type="text" placeholder="+123 456 789">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Address Line 1</label>
+                                    <input class="form-control" type="text" placeholder="123 Street">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Address Line 2</label>
+                                    <input class="form-control" type="text" placeholder="Apartment, Studio, or Floor">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Country</label>
+                                    <select class="custom-select">
+                                        <option selected>United States</option>
+                                        <option>Indonesia</option>
+                                        <option>Malaysia</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>City</label>
+                                    <input class="form-control" type="text" placeholder="New York">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>State</label>
+                                    <input class="form-control" type="text" placeholder="NY">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>ZIP Code</label>
+                                    <input class="form-control" type="text" placeholder="10001">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="saveAddress">
+                                        <label class="custom-control-label" for="saveAddress">Simpan alamat ini</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12 form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="newaccount">
-                                <label class="custom-control-label" for="newaccount">Create an account</label>
+                        <hr style="border-color: rgba(0,0,0,0.1);">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="newaccount">
+                                    <label class="custom-control-label" for="newaccount">Create an account</label>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="shipto">
-                                <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping-address">Ship to different address</label>
+                            <div class="col-md-6 form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="shipto">
+                                    <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping-address">Ship to different address</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="collapse mb-4" id="shipping-address">
-                    <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
-                    <div class="row">
-                        <div class="col-md-6 form-group"><label>First Name</label><input class="form-control" type="text" placeholder="John"></div>
-                        <div class="col-md-6 form-group"><label>Last Name</label><input class="form-control" type="text" placeholder="Doe"></div>
-                        <div class="col-md-6 form-group"><label>E-mail</label><input class="form-control" type="text" placeholder="example@email.com"></div>
-                        <div class="col-md-6 form-group"><label>Mobile No</label><input class="form-control" type="text" placeholder="+123 456 789"></div>
-                        <div class="col-md-6 form-group"><label>Address Line 1</label><input class="form-control" type="text" placeholder="456 Avenue"></div>
-                        <div class="col-md-6 form-group"><label>Address Line 2</label><input class="form-control" type="text" placeholder="Apartment, Studio, or Floor"></div>
-                        <div class="col-md-6 form-group">
-                            <label>Country</label>
-                            <select class="custom-select"><option selected>United States</option></select>
+                    <div class="card border-0" style="background: #fff; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                        <div class="card-header bg-secondary border-0" style="border-radius: 15px 15px 0 0;">
+                            <h4 class="font-weight-semi-bold m-0"><i class="fas fa-truck mr-2"></i>Shipping Address</h4>
                         </div>
-                        <div class="col-md-6 form-group"><label>City</label><input class="form-control" type="text" placeholder="Los Angeles"></div>
-                        <div class="col-md-6 form-group"><label>State</label><input class="form-control" type="text" placeholder="CA"></div>
-                        <div class="col-md-6 form-group"><label>ZIP Code</label><input class="form-control" type="text" placeholder="90001"></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 form-group"><label>First Name</label><input class="form-control" type="text" placeholder="John"></div>
+                                <div class="col-md-6 form-group"><label>Last Name</label><input class="form-control" type="text" placeholder="Doe"></div>
+                                <div class="col-md-6 form-group"><label>E-mail</label><input class="form-control" type="text" placeholder="example@email.com"></div>
+                                <div class="col-md-6 form-group"><label>Mobile No</label><input class="form-control" type="text" placeholder="+123 456 789"></div>
+                                <div class="col-md-6 form-group"><label>Address Line 1</label><input class="form-control" type="text" placeholder="456 Avenue"></div>
+                                <div class="col-md-6 form-group"><label>Address Line 2</label><input class="form-control" type="text" placeholder="Apartment, Studio, or Floor"></div>
+                                <div class="col-md-6 form-group">
+                                    <label>Country</label>
+                                    <select class="custom-select"><option selected>United States</option></select>
+                                </div>
+                                <div class="col-md-6 form-group"><label>City</label><input class="form-control" type="text" placeholder="Los Angeles"></div>
+                                <div class="col-md-6 form-group"><label>State</label><input class="form-control" type="text" placeholder="CA"></div>
+                                <div class="col-md-6 form-group"><label>ZIP Code</label><input class="form-control" type="text" placeholder="90001"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -240,6 +347,9 @@
 
                             <div class="card-category-payment border-bottom-0">
                                 <div class="card-header-payment p-3" id="headingEwallet" data-toggle="collapse" data-target="#collapseEwallet" aria-expanded="true" aria-controls="collapseEwallet" role="button">
+                                    <div class="method-icon" style="background: linear-gradient(135deg, #00d2d3 0%, #54a0ff 100%);">
+                                        <i class="fas fa-wallet"></i>
+                                    </div>
                                     <div class="custom-control custom-radio d-inline-block w-100">
                                         <input type="radio" class="custom-control-input payment-radio" name="payment" id="ewallet" value="ewallet">
                                         <label class="custom-control-label font-weight-semi-bold" for="ewallet">E-Wallet (Dompet Digital)</label>
@@ -271,6 +381,9 @@
 
                             <div class="card-category-payment border-bottom-0 border-top">
                                 <div class="card-header-payment p-3" id="headingMbanking" data-toggle="collapse" data-target="#collapseMbanking" aria-expanded="false" aria-controls="collapseMbanking" role="button">
+                                    <div class="method-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                        <i class="fas fa-university"></i>
+                                    </div>
                                     <div class="custom-control custom-radio d-inline-block w-100">
                                         <input type="radio" class="custom-control-input payment-radio" name="payment" id="mbanking" value="mbanking">
                                         <label class="custom-control-label font-weight-semi-bold" for="mbanking">M-Banking (Transfer Bank)</label>
@@ -298,6 +411,9 @@
 
                             <div class="card-category-payment border-bottom-0 border-top">
                                 <div class="card-header-payment p-3" id="headingQris" data-toggle="collapse" data-target="#collapseQris" aria-expanded="false" aria-controls="collapseQris" role="button">
+                                    <div class="method-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                        <i class="fas fa-qrcode"></i>
+                                    </div>
                                     <div class="custom-control custom-radio d-inline-block w-100">
                                         <input type="radio" class="custom-control-input payment-radio" name="payment" id="qris" value="qris">
                                         <label class="custom-control-label font-weight-semi-bold" for="qris">QRIS (Semua Pembayaran QR)</label>
@@ -317,6 +433,9 @@
 
                             <div class="card-category-payment border-top">
                                 <div class="card-header-payment p-3" id="headingCod" data-toggle="collapse" data-target="#collapseCod" aria-expanded="false" aria-controls="collapseCod" role="button">
+                                    <div class="method-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                        <i class="fas fa-hand-holding-usd"></i>
+                                    </div>
                                     <div class="custom-control custom-radio d-inline-block w-100">
                                         <input type="radio" class="custom-control-input payment-radio" name="payment" id="cod" value="cod">
                                         <label class="custom-control-label font-weight-semi-bold" for="cod">COD (Cash On Delivery)</label>
@@ -344,8 +463,8 @@
                         <input type="hidden" name="qrcode" id="selectedQrcode">
                         <input type="hidden" name="amount" id="selectedAmount">
                     <div class="card-footer border-secondary bg-transparent">
-                        <button type="submit" id="orderNowBtn" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
-                            Order Now
+                        <button type="submit" id="orderNowBtn" class="btn-order-now btn btn-lg btn-block font-weight-bold my-3 py-3">
+                            <i class="fas fa-shopping-cart mr-2"></i>Order Now
                         </button>
                     </div>
                 </form>

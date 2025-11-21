@@ -44,7 +44,7 @@ $db = get_db();
                         <i class="fas fa-eye text-primary mr-1"></i>View Detail
                     </a>
                     <div class="d-flex">
-                        <a href="#" class="btn btn-sm btn-outline-secondary position-relative mr-2 cart-btn" title="Add to cart">
+                        <a href="#" class="btn btn-sm btn-outline-secondary position-relative mr-2 cart-btn" data-id="<?= $produk['id'] ?>" title="Add to cart">
                             <i class="fas fa-shopping-cart text-primary"></i>
                         </a>
                         <a href="#" class="btn border like-btn" data-id="<?= $produk['id'] ?>" title="Add to Wishlist">
