@@ -47,8 +47,8 @@ $db = get_db();
                         <a href="#" class="btn btn-sm btn-outline-secondary position-relative mr-2 cart-btn" data-id="<?= $produk['id'] ?>" title="Add to cart">
                             <i class="fas fa-shopping-cart text-primary"></i>
                         </a>
-                        <a href="#" class="btn border like-btn" data-id="<?= $produk['id'] ?>" title="Add to Wishlist">
-                            <i class="far fa-heart"></i>
+                        <a href="#" class="btn border like-btn" data-id="<?= $produk['id'] ?>" title="Add to Wishlist" aria-pressed="false">
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -84,9 +84,11 @@ $(document).ready(function(){
 
         $.post('<?= BACKEND_URL ?>/api/wishlist.php', { id: productId }, function(response){
             if(response.status === 'added'){
-                btn.find('i').removeClass('far').addClass('fas'); // full heart
+                btn.addClass('liked');
+                btn.attr('aria-pressed','true');
             } else if(response.status === 'removed'){
-                btn.find('i').removeClass('fas').addClass('far'); // empty heart
+                btn.removeClass('liked');
+                btn.attr('aria-pressed','false');
             } else if(response.status === 'error'){
                 alert(response.message);
             }

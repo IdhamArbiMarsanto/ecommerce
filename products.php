@@ -39,15 +39,14 @@
                 margin-right: 8px;
                 font-size: 16px;
             }
-            /* Heart styles: outline by default, filled when .liked is present */
-            .product-item .card-footer .like-btn i.far.fa-heart {
+            /* Heart styles: use solid icon only; render as outline when NOT liked */
+            .product-item .card-footer .like-btn i.fas.fa-heart {
                 color: transparent;
-                -webkit-text-stroke: 1px #ed0905ff; /* outline in theme color */
-                text-stroke: 1px #007bff;
+                -webkit-text-stroke: 1px #e60101; /* outline in theme color */
+                text-stroke: 1px #e60101;
             }
-            .product-item .card-footer .like-btn.liked i.far.fa-heart,
             .product-item .card-footer .like-btn.liked i.fas.fa-heart {
-                color: #e60101ff; /* filled color when liked */
+                color: #e60101; /* filled color when liked */
                 -webkit-text-stroke: 0;
                 text-stroke: 0;
             }
@@ -105,7 +104,7 @@
                                 wishLink.href = 'wishlist.php';
                                 wishLink.className = 'btn border like-btn';
                                 wishLink.setAttribute('title','Add to Wishlist');
-                                wishLink.innerHTML = '<i class="far fa-heart" aria-hidden="true"></i>';
+                                wishLink.innerHTML = '<i class="fas fa-heart" aria-hidden="true"></i>';
                             }
 
                             // append group after detail link
@@ -126,33 +125,29 @@
                             footer.appendChild(group);
                         });
                     });
+                    // Ensure any leftover 'far' hearts use 'fas' (avoid depending on FontAwesome Regular)
+                    document.addEventListener('DOMContentLoaded', function () {
+                        document.querySelectorAll('.like-btn i.far').forEach(function(icon){
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                        });
+                    });
                     </script>
                     <script>
                     // Toggle heart outline -> filled
                     document.addEventListener('DOMContentLoaded', function () {
                         document.querySelectorAll('.like-btn').forEach(function(btn) {
                             btn.addEventListener('click', function (e) {
-                                e.preventDefault();
-                                const icon = btn.querySelector('i');
-                                const pressed = btn.getAttribute('aria-pressed') === 'true';
-                                if (!pressed) {
-                                    // set liked
-                                    btn.classList.add('liked');
-                                    btn.setAttribute('aria-pressed', 'true');
-                                    if (icon.classList.contains('far')) {
-                                        icon.classList.remove('far');
-                                        icon.classList.add('fas');
-                                    }
-                                } else {
-                                    // unset liked
-                                    btn.classList.remove('liked');
-                                    btn.setAttribute('aria-pressed', 'false');
-                                    if (icon.classList.contains('fas')) {
-                                        icon.classList.remove('fas');
-                                        icon.classList.add('far');
-                                    }
-                                }
-                            });
+                                        e.preventDefault();
+                                        const pressed = btn.getAttribute('aria-pressed') === 'true';
+                                        if (!pressed) {
+                                            btn.classList.add('liked');
+                                            btn.setAttribute('aria-pressed', 'true');
+                                        } else {
+                                            btn.classList.remove('liked');
+                                            btn.setAttribute('aria-pressed', 'false');
+                                        }
+                                    });
                         });
                     });
                     </script>
@@ -160,7 +155,7 @@
                         <a href="detail.php" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
 
                         <a href="wishlist.php" class="btn border like-btn position-relative mx-2" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" aria-pressed="false">
-                            <i class="far fa-heart" aria-hidden="true"></i>
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
                         <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
@@ -182,7 +177,7 @@
                         <a href="detail.php" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
 
                         <a href="wishlist.php" class="btn border like-btn position-relative mx-2" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" aria-pressed="false">
-                            <i class="far fa-heart" aria-hidden="true"></i>
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
                         <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
@@ -248,7 +243,7 @@
                         <a href="detail.php" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
 
                         <a href="wishlist.php" class="btn border like-btn position-relative mx-2" title="Add to Wishlist" aria-label="Add to Wishlist">
-                            <i class="far fa-heart" aria-hidden="true"></i>
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
                         <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
@@ -270,7 +265,7 @@
                         <a href="detail.php" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
 
                         <a href="wishlist.php" class="btn border like-btn position-relative mx-2" title="Add to Wishlist" aria-label="Add to Wishlist">
-                            <i class="far fa-heart" aria-hidden="true"></i>
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
                         <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
@@ -292,7 +287,7 @@
                         <a href="detail.php" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
 
                         <a href="wishlist.php" class="btn border like-btn position-relative mx-2" title="Add to Wishlist" aria-label="Add to Wishlist">
-                            <i class="far fa-heart" aria-hidden="true"></i>
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
                         <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
@@ -314,7 +309,7 @@
                         <a href="detail.php" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
 
                         <a href="wishlist.php" class="btn border like-btn position-relative mx-2" title="Add to Wishlist" aria-label="Add to Wishlist">
-                            <i class="far fa-heart" aria-hidden="true"></i>
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                             <span class="badge badge-pill badge-danger position-absolute" style="top:-8px; right:-8px; font-size:0.7rem;">0</span>
                         </a> 
                         <a href="" class="btn btn-sm text-dark p-2"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>

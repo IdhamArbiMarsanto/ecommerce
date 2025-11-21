@@ -20,7 +20,7 @@
     
     <div class="col-lg-3 col-6 text-right position-relative d-flex justify-content-end align-items-center">
         
-        <a href="wishlist.php" class="btn border mr-2">
+        <a href="wishlist.php" class="btn border mr-2" aria-label="Wishlist">
             <i class="fas fa-heart text-primary"></i>
             <span class="badge">0</span>
         </a>

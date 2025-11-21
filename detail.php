@@ -83,6 +83,12 @@ $photos = $data['photos'] ?? [];
             <!-- Stok -->
             <p class="text-dark font-weight-medium mb-3">Stok: <?= htmlspecialchars($produk['stok']) ?> pcs</p>
 
+            <style>
+                .like-btn { width:36px; height:36px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:6px; border:1px solid #ddd; background:#fff; margin-left:8px; }
+                .like-btn .heart-icon { width:18px; height:18px; display:block; fill:none; stroke:#e60101; stroke-width:1.5px; }
+                .like-btn.liked .heart-icon { fill:#e60101; stroke:none; }
+            </style>
+
             <div class="d-flex align-items-center mb-4 pt-2">
             <!-- Input jumlah -->
             <div class="input-group quantity mr-3" style="width: 130px;">
@@ -98,6 +104,11 @@ $photos = $data['photos'] ?? [];
 
             <!-- Tombol beli sekarang -->
             <button class="btn btn-primary px-3">Beli Sekarang</button>
+
+            <!-- Wishlist heart button (Font Awesome icon) -->
+            <button class="like-btn" aria-pressed="false" title="Tambah ke Wishlist" type="button">
+                <i class="fas fa-heart" aria-hidden="true"></i>
+            </button>
             </div>
 
 
@@ -160,4 +171,16 @@ $photos = $data['photos'] ?? [];
 <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 <!-- JS -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.like-btn').forEach(function(btn){
+        btn.addEventListener('click', function(e){
+            e.preventDefault();
+            const pressed = btn.getAttribute('aria-pressed') === 'true';
+            btn.classList.toggle('liked', !pressed);
+            btn.setAttribute('aria-pressed', (!pressed).toString());
+        });
+    });
+});
+</script>
 

@@ -172,7 +172,7 @@ $allCategories = $catStmt->fetchAll(PDO::FETCH_ASSOC);
                             <i class="fas fa-shopping-cart text-primary"></i>
                         </a>
                         <a href="#" class="btn border like-btn" data-id="<?= $produk['id'] ?>" title="Add to Wishlist">
-                            <i class="far fa-heart"></i>
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
