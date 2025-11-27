@@ -93,13 +93,62 @@
             $(this).find('.dropdown-menu').addClass('show');
         });
 
-        // Sembunyikan saat mouse keluar
+        // Sembunyikan saat mouse keluar (tapi jangan tutup jika dibuka manual via click)
         dropdown.addEventListener('mouseleave', function() {
-            $(this).find('.dropdown-menu').removeClass('show');
+            if (dropdown.dataset.manualOpen !== 'true') {
+                $(this).find('.dropdown-menu').removeClass('show');
+            }
         });
     }
 
     // Panggil fungsi untuk Cart dan User
     activateHoverDropdown('cartDropdown');
     activateHoverDropdown('userDropdown');
+
+    // Toggle by click: clicking the toggle keeps the popup open until clicked again.
+    function activateClickToggle(toggleId, containerId) {
+        const btn = document.getElementById(toggleId);
+        const container = document.getElementById(containerId);
+        if (!btn || !container) return;
+
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const menu = container.querySelector('.dropdown-menu');
+            if (!menu) return;
+
+            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+            if (!isExpanded) {
+                // Open and mark as manually opened
+                menu.classList.add('show');
+                container.dataset.manualOpen = 'true';
+                btn.setAttribute('aria-expanded', 'true');
+            } else {
+                // Close and clear manual-open marker
+                menu.classList.remove('show');
+                container.dataset.manualOpen = 'false';
+                btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    // Clicking outside a manually-opened popup should close it
+    document.addEventListener('click', function(e){
+        ['cartDropdown','userDropdown'].forEach(function(id){
+            const container = document.getElementById(id);
+            if (!container) return;
+            if (container.dataset.manualOpen === 'true') {
+                // If click is outside the container, close
+                if (!container.contains(e.target)) {
+                    const menu = container.querySelector('.dropdown-menu');
+                    const toggle = container.querySelector('[id$="Toggle"]');
+                    if (menu) menu.classList.remove('show');
+                    container.dataset.manualOpen = 'false';
+                    if (toggle) toggle.setAttribute('aria-expanded','false');
+                }
+            }
+        });
+    });
+
+    activateClickToggle('cartToggle','cartDropdown');
+    activateClickToggle('userToggle','userDropdown');
 </script>
