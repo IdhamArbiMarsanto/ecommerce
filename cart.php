@@ -148,191 +148,7 @@
                 
                 <!-- Cart Items -->
                 <div class="cart-container">
-                    <div class="cart-item p-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-2 col-4">
-                                <input type="checkbox" class="item-checkbox" checked style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-                                <img src="img/product-1.jpg" alt="Product" class="cart-img">
-                            </div>
-                            <div class="col-md-3 col-8">
-                                <h6 class="mb-1">Colorful Stylish Shirt</h6>
-                                <small class="text-muted">Size: M | Color: Red</small>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="font-weight-bold text-primary">Rp 150.000</span>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="quantity-controls">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" value="1" min="1" readonly class="quantity-input">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="font-weight-bold subtotal">Rp 150.000</span>
-                            </div>
-                            <div class="col-md-1 text-center">
-                                <button class="btn-remove">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cart-item p-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-2 col-4">
-                                <input type="checkbox" class="item-checkbox" checked style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-                                <img src="img/product-2.jpg" alt="Product" class="cart-img">
-                            </div>
-                            <div class="col-md-3 col-8">
-                                <h6 class="mb-1">Comfortable Sneakers</h6>
-                                <small class="text-muted">Size: 42 | Color: Black</small>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="font-weight-bold text-primary">Rp 250.000</span>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="quantity-controls">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" value="2" min="1" readonly class="quantity-input">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="font-weight-bold subtotal">Rp 500.000</span>
-                            </div>
-                            <div class="col-md-1 text-center">
-                                <button class="btn-remove">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cart-item p-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-2 col-4">
-                                <input type="checkbox" class="item-checkbox" checked style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-                                <img src="img/product-3.jpg" alt="Product" class="cart-img">
-                            </div>
-                            <div class="col-md-3 col-8">
-                                <h6 class="mb-1">Outdoor Hiking Boots</h6>
-                                <small class="text-muted">Size: 43 | Color: Brown</small>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="font-weight-bold text-primary">Rp 350.000</span>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="quantity-controls">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" value="1" min="1" readonly class="quantity-input">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="font-weight-bold subtotal">Rp 350.000</span>
-                            </div>
-                            <div class="col-md-1 text-center">
-                                <button class="btn-remove">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cart-item p-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-2 col-4">
-                                <input type="checkbox" class="item-checkbox" checked style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-                                <img src="img/product-4.jpg" alt="Product" class="cart-img">
-                            </div>
-                            <div class="col-md-3 col-8">
-                                <h6 class="mb-1">Waterproof Jacket</h6>
-                                <small class="text-muted">Size: L | Color: Blue</small>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="font-weight-bold text-primary">Rp 400.000</span>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="quantity-controls">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" value="1" min="1" readonly class="quantity-input">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="font-weight-bold subtotal">Rp 400.000</span>
-                            </div>
-                            <div class="col-md-1 text-center">
-                                <button class="btn-remove">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cart-item p-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-2 col-4">
-                                <input type="checkbox" class="item-checkbox" checked style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-                                <img src="img/product-5.jpg" alt="Product" class="cart-img">
-                            </div>
-                            <div class="col-md-3 col-8">
-                                <h6 class="mb-1">Camping Tent</h6>
-                                <small class="text-muted">Size: 2-Person | Color: Green</small>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="font-weight-bold text-primary">Rp 500.000</span>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="quantity-controls">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" value="1" min="1" readonly class="quantity-input">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="font-weight-bold subtotal">Rp 500.000</span>
-                            </div>
-                            <div class="col-md-1 text-center">
-                                <button class="btn-remove">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cart-item p-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-2 col-4">
-                                <input type="checkbox" class="item-checkbox" checked style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-                                <img src="img/product-6.jpg" alt="Product" class="cart-img">
-                            </div>
-                            <div class="col-md-3 col-8">
-                                <h6 class="mb-1">Backpack 50L</h6>
-                                <small class="text-muted">Size: One Size | Color: Black</small>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="font-weight-bold text-primary">Rp 200.000</span>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="quantity-controls">
-                                    <button class="btn-minus">-</button>
-                                    <input type="number" value="1" min="1" readonly class="quantity-input">
-                                    <button class="btn-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="font-weight-bold subtotal">Rp 200.000</span>
-                            </div>
-                            <div class="col-md-1 text-center">
-                                <button class="btn-remove">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Items loaded dynamically -->
                 </div>
 
                 <!-- Empty Cart (hidden by default) -->
@@ -348,8 +164,8 @@
                 <!-- Coupon Section -->
                 <div class="coupon-section">
                     <h5 class="mb-3"><i class="fas fa-ticket-alt text-primary mr-2"></i>Have a Coupon?</h5>
-                    <form class="d-flex">
-                        <input type="text" class="form-control mr-2" placeholder="Enter coupon code" style="border-radius: 25px;">
+                    <form class="d-flex" id="couponForm">
+                        <input type="text" id="couponCode" class="form-control mr-2" placeholder="Enter coupon code" style="border-radius: 25px;">
                         <button class="btn btn-outline-primary" style="border-radius: 25px; padding: 0 20px;">Apply</button>
                     </form>
                 </div>
@@ -401,96 +217,222 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function(){
-        // Initial update summary
-        updateSummary();
+    let appliedVoucher = sessionStorage.getItem('voucher') || '';
+    const BACKEND_API = '/backend/api'; // Adjust if different
 
-        // Quantity controls
-        $(document).on('click', '.btn-plus', function(){
-            let input = $(this).siblings('.quantity-input');
-            let value = parseInt(input.val());
-            input.val(value + 1);
-            updateItemSubtotal($(this).closest('.cart-item'));
-            updateSummary();
-        });
+    async function api(path, opts) {
+        const res = await fetch(BACKEND_API + '/' + path, opts);
+        return res.json();
+    }
 
-        $(document).on('click', '.btn-minus', function(){
-            let input = $(this).siblings('.quantity-input');
-            let value = parseInt(input.val());
-            if(value > 1){
-                input.val(value - 1);
-                updateItemSubtotal($(this).closest('.cart-item'));
-                updateSummary();
-            }
-        });
-
-        // Checkbox change
-        $(document).on('change', '.item-checkbox', function(){
-            updateSummary();
-        });
-
-        // Remove item
-        $(document).on('click', '.btn-remove', function(){
-            $(this).closest('.cart-item').remove();
-            updateSummary();
-            checkEmptyCart();
-        });
-
-        function updateItemSubtotal(cartItem){
-            let priceText = cartItem.find('.text-primary').text();
-            let price = parseInt(priceText.replace(/[^\d]/g, ''));
-            let quantity = parseInt(cartItem.find('.quantity-input').val());
-            let subtotal = price * quantity;
-            cartItem.find('.subtotal').text('Rp ' + subtotal.toLocaleString());
+    async function loadCart() {
+        const j = await api('cart.php?action=list');
+        const container = document.querySelector('.cart-container');
+        const empty = document.getElementById('empty-cart');
+        container.innerHTML = '';
+        if (!j.success || !j.data || j.data.length === 0) {
+            container.classList.add('d-none');
+            empty.classList.remove('d-none');
+            renderSummary(0, 0, 0, 0);
+            return;
         }
+        empty.classList.add('d-none');
+        container.classList.remove('d-none');
+        j.data.forEach(it => {
+            const price = Number(it.harga || 0);
+            const qty = Number(it.quantity || 1);
+            // try common stock property names; fallback to large number if missing
+            const stock = Number(it.stok ?? it.stock ?? it.jumlah ?? it.qty ?? 9999);
+            const line = price * qty;
+            const btnPlusDisabled = qty >= stock ? 'disabled' : '';
+            const html = `
+                <div class="cart-item p-4" data-cart-id="${it.id}" data-stock="${stock}">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 col-4">
+                            <img src="${it.foto || 'img/product-placeholder.jpg'}" alt="${it.nama || ''}" class="cart-img">
+                        </div>
+                        <div class="col-md-3 col-8">
+                            <h6 class="mb-1">${it.nama || 'Product'}</h6>
+                            <small class="text-muted">Size: ${it.size || ''} | Panjang: ${it.panjang || ''} | Lebar: ${it.lebar || ''}</small>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="font-weight-bold text-primary">Rp ${formatRp(price)}</span>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="quantity-controls">
+                                <button class="btn-minus">-</button>
+                                <input type="number" value="${qty}" min="1" max="${stock}" class="quantity-input">
+                                <button class="btn-plus" ${btnPlusDisabled}>+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="font-weight-bold subtotal">Rp ${formatRp(line)}</span>
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <button class="btn-remove"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>`;
+             container.insertAdjacentHTML('beforeend', html);
+         });
+        attachHandlers();
+        // Load summary from cart_summary.php
+await loadSummary('', appliedVoucher);
+    }
 
-        function updateSummary(){
-            let totalItems = $('.item-checkbox:checked').length;
-            let subtotal = 0;
-            $('.cart-item').each(function(){
-                if ($(this).find('.item-checkbox').is(':checked')) {
-                    let itemSubtotalText = $(this).find('.subtotal').text();
-                    let itemSubtotal = parseInt(itemSubtotalText.replace(/[^\d]/g, ''));
-                    subtotal += itemSubtotal;
+    function formatRp(v) { return Number(v || 0).toLocaleString('id-ID'); }
+
+    function attachHandlers() {
+        document.querySelectorAll('.btn-plus').forEach(btn => {
+            btn.onclick = async function() {
+                const item = this.closest('.cart-item');
+                const cartId = item.dataset.cartId;
+                const input = item.querySelector('.quantity-input');
+                const stock = Number(item.dataset.stock || 9999);
+                let qty = parseInt(input.value || '0') || 0;
+                if (qty >= stock) {
+                    // already at max
+                    this.disabled = true;
+                    return;
                 }
+                qty = qty + 1; // increment
+                if (qty > stock) qty = stock;
+                input.value = qty;
+                // disable button immediately if reached stock
+                if (qty >= stock) this.disabled = true;
+                // ensure minus is enabled
+                const minus = item.querySelector('.btn-minus');
+                if (minus) minus.disabled = false;
+                await api('cart.php?action=update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cart_id: cartId, quantity: qty })
+                });
+                await refreshLine(item, cartId, qty);
+            };
+        });
+        document.querySelectorAll('.btn-minus').forEach(btn => {
+            btn.onclick = async function() {
+                const item = this.closest('.cart-item');
+                const cartId = item.dataset.cartId;
+                const input = item.querySelector('.quantity-input');
+                const stock = Number(item.dataset.stock || 9999);
+                let qty = Math.max(1, parseInt(input.value) - 1);
+                input.value = qty;
+                // re-enable plus if quantity below stock
+                const plus = item.querySelector('.btn-plus');
+                if (plus && qty < stock) plus.disabled = false;
+                await api('cart.php?action=update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cart_id: cartId, quantity: qty })
+                });
+                await refreshLine(item, cartId, qty);
+            };
+        });
+        // handle manual quantity edits
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('change', async function() {
+                const item = this.closest('.cart-item');
+                const stock = Number(item.dataset.stock || 9999);
+                let v = Math.max(1, parseInt(this.value || '1'));
+                if (v > stock) {
+                    v = stock;
+                    this.value = v;
+                    alert('Jumlah melebihi stok tersedia (' + stock + '). Jumlah disesuaikan.');
+                }
+                // disable/enable plus accordingly
+                const plus = item.querySelector('.btn-plus');
+                if (plus) plus.disabled = (v >= stock);
+                const cartId = item.dataset.cartId;
+                await api('cart.php?action=update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cart_id: cartId, quantity: v })
+                });
+                await refreshLine(item, cartId, v);
             });
-            let shipping = 20000; // Fixed shipping
-            let tax = Math.round(subtotal * 0.1); // Tax as 10% of subtotal
-            let total = subtotal + shipping + tax;
+        });
+        document.querySelectorAll('.btn-remove').forEach(btn => {
+             btn.onclick = async function() {
+                 const item = this.closest('.cart-item');
+                 const cartId = item.dataset.cartId;
+                 await api('cart.php?action=remove', {
+                     method: 'POST',
+                     headers: { 'Content-Type': 'application/json' },
+                     body: JSON.stringify({ cart_id: cartId })
+                 });
+                 item.remove();
+                 await loadCart();
+             };
+         });
+     }
 
-            $('.cart-summary .card-body').html(`
-                <div class="d-flex justify-content-between mb-3">
-                    <span>Subtotal (${totalItems} items)</span>
-                    <span>Rp ${subtotal.toLocaleString()}</span>
-                </div>
-                <div class="d-flex justify-content-between mb-3">
-                    <span>Shipping</span>
-                    <span>Rp ${shipping.toLocaleString()}</span>
-                </div>
-                <div class="d-flex justify-content-between mb-3">
-                    <span>Tax</span>
-                    <span>Rp ${tax.toLocaleString()}</span>
-                </div>
-                <hr style="border-color: rgba(255,255,255,0.3);">
-                <div class="d-flex justify-content-between">
-                    <strong>Total</strong>
-                    <strong>Rp ${total.toLocaleString()}</strong>
-                </div>
-            `);
+    async function refreshLine(itemElem, cartId, qty) {
+        const j = await api('cart.php?action=list');
+        const it = j.data.find(x => x.id == cartId);
+        if (!it) {
+            itemElem.remove();
+        } else {
+            const line = Number(it.harga || 0) * it.quantity;
+            itemElem.querySelector('.subtotal').textContent = 'Rp ' + formatRp(line);
         }
+        const v = sessionStorage.getItem('voucher') || '';
+    await loadSummary('', v);
+    }
 
-        function checkEmptyCart(){
-            if($('.cart-item').length === 0){
-                $('.cart-container').addClass('d-none');
-                $('#empty-cart').removeClass('d-none');
-            } else {
-                $('.cart-container').removeClass('d-none');
-                $('#empty-cart').addClass('d-none');
-            }
-        }
+    async function loadSummary(kota = '', voucher = '') {
+    // pakai voucher tersimpan jika kosong
+    if (!voucher) voucher = sessionStorage.getItem('voucher') || '';
+
+    const j = await api('cart_summary.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kota, voucher })
     });
+    if (j.success) {
+        renderSummary(j.subtotal, j.shipping, j.discount, j.total, j.items ? j.items.length : 0);
+    }
+}
+
+
+    function renderSummary(subtotal, shipping, discount, total, itemsCount) {
+        const body = document.querySelector('.cart-summary .card-body');
+        body.innerHTML = `
+            <div class="d-flex justify-content-between mb-3">
+                <span>Subtotal (${itemsCount} items)</span>
+                <span>Rp ${formatRp(subtotal)}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+                <span>Shipping</span>
+                <span>Rp ${formatRp(shipping)}</span>
+            </div>
+            ${discount > 0 ? `<div class="d-flex justify-content-between mb-3">
+                <span>Discount</span>
+                <span>-Rp ${formatRp(discount)}</span>
+            </div>` : ''}
+            <hr style="border-color: rgba(255,255,255,0.3);">
+            <div class="d-flex justify-content-between">
+                <strong>Total</strong>
+                <strong>Rp ${formatRp(total)}</strong>
+            </div>
+        `;
+    }
+
+    // Coupon apply
+    document.querySelector('.coupon-section form')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const voucher = this.querySelector('input').value.trim();
+
+    sessionStorage.setItem('voucher', voucher); // SIMPAN VOUCHER
+    appliedVoucher = voucher;
+
+await loadSummary('', appliedVoucher);
+});
+
+
+    document.addEventListener('DOMContentLoaded', loadCart);
     </script>
 </body>
 

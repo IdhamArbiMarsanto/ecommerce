@@ -93,22 +93,17 @@ $photos = $data['photos'] ?? [];
             <!-- Input jumlah -->
             <div class="input-group quantity mr-3" style="width: 130px;">
                 <button class="btn btn-primary btn-minus"><i class="fa fa-minus"></i></button>
-                <input type="text" class="form-control bg-secondary text-center" value="1">
+                <input type="text" id="detailQty" class="form-control bg-secondary text-center" value="1">
                 <button class="btn btn-primary btn-plus"><i class="fa fa-plus"></i></button>
             </div>
 
             <!-- Tombol keranjang -->
-            <button class="btn btn-primary px-3 mr-3">
+            <button id="detailAddCart" class="btn btn-primary px-3 mr-3">
                 <i class="fa fa-shopping-cart mr-1"></i>
             </button>
 
             <!-- Tombol beli sekarang -->
-            <button class="btn btn-primary px-3">Beli Sekarang</button>
-
-            <!-- Wishlist heart button (Font Awesome icon) -->
-            <button class="like-btn" aria-pressed="false" title="Tambah ke Wishlist" type="button">
-                <i class="fas fa-heart" aria-hidden="true"></i>
-            </button>
+            <button id="detailBuyNow" class="btn btn-primary px-3">Beli Sekarang</button>
             </div>
 
 
@@ -167,9 +162,100 @@ $photos = $data['photos'] ?? [];
 
 <?php include 'partials/footer.php'; ?>
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+<?php $BACKEND_BASE = defined('BACKEND_URL') ? rtrim(BACKEND_URL, '/') : 'http://localhost/backend'; ?>
+<script>
+(function(){
+  const BACKEND_BASE = '<?= $BACKEND_BASE ?>';
+  const CART_API_ADD = BACKEND_BASE + '/api/cart.php?action=add';
+  const productId = <?= intval($produk['id']) ?>;
+  const stok = <?= intval($produk['stok']) ?>;
 
+  function getQty(){
+    const el = document.getElementById('detailQty');
+    let v = parseInt(el.value) || 1;
+    if (v < 1) v = 1;
+    el.value = v;
+    return v;
+  }
+
+  function disableBtn(btn, flag){
+    if (!btn) return;
+    btn.disabled = !!flag;
+    if(flag) btn.classList.add('opacity-50');
+    else btn.classList.remove('opacity-50');
+  }
+
+  async function addToCart(btn, qty, buyNow=false){
+    try {
+      disableBtn(btn, true);
+      const res = await fetch(CART_API_ADD, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ product_id: productId, quantity: qty, buy_now: buyNow ? 1 : 0 })
+      });
+      const j = await res.json().catch(()=>({ success:false, message:'Invalid response' }));
+      if (!res.ok || !j.success) throw new Error(j.message || 'Gagal menambahkan ke keranjang');
+
+      // If buyNow => go to cart page to checkout selected item
+      if (buyNow) {
+        window.location.href = 'cart.php';
+        return;
+      }
+
+      // Visual feedback for normal add-to-cart (no redirect)
+      if (btn) {
+        const icon = btn.querySelector('i');
+        if (icon) {
+          // toggle to check
+          const prev = icon.className;
+          icon.className = 'fas fa-check text-success';
+          setTimeout(()=>{ icon.className = prev; }, 1400);
+        }
+      }
+    } catch (err) {
+      alert('Gagal menambahkan ke keranjang: ' + (err.message||''));
+      console.error(err);
+    } finally {
+      disableBtn(btn, false);
+    }
+  }
+
+  // Wire buttons
+  const addCartBtn = document.getElementById('detailAddCart');
+  if (addCartBtn) {
+    addCartBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      const qty = getQty();
+      addToCart(addCartBtn, qty, false);
+    });
+  }
+
+  const buyNowBtn = document.getElementById('detailBuyNow');
+  if (buyNowBtn) {
+    buyNowBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      const qty = getQty();
+      addToCart(buyNowBtn, qty, true);
+    });
+  }
+
+  // plus/minus handlers
+  document.querySelectorAll('.btn-minus, .btn-plus').forEach(btn=>{
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      const el = document.getElementById('detailQty');
+      let v = parseInt(el.value) || 1;
+      if(this.classList.contains('btn-minus')){
+        v = Math.max(1, v-1);
+      } else {
+        v = Math.min(stok, v+1); // batasi sesuai stok
+      }
+      el.value = v;
+    });
+  });
+})();
+</script>
 <!-- JS -->
 <script>
 document.addEventListener('DOMContentLoaded', function(){

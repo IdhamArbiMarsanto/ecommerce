@@ -244,7 +244,7 @@
     <div class="login-box">
       <h2>I have an account?</h2>
 
-      <form action="#" method="POST">
+      <form id="loginForm" action="#" method="POST">
         <div class="input-group">
           <input type="text" id="username" name="username" placeholder="Username" required>
         </div>
@@ -256,6 +256,8 @@
 
         <button type="submit" class="btn sign-in-btn">SIGN IN</button>
       </form>
+
+      <div id="loginMsg" style="margin-top:10px;color:#ffd8d2;"></div>
 
       <div class="options">
         <label class="remember-me">
@@ -406,6 +408,62 @@ function sendReset() {
       canvas.height = window.innerHeight;
     });
 
+    // --- LOGIN: submit to backend API and redirect admin to backend panel ---
+    (function(){
+      const form = document.getElementById('loginForm');
+      const msg = document.getElementById('loginMsg');
+      const API_LOGIN = 'http://localhost/backend/api/login.php'; // sesuaikan jika perlu
+
+      form.addEventListener('submit', async function(e){
+        e.preventDefault();
+        msg.style.color = '#ffd8d2';
+        msg.textContent = 'Memproses...';
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+
+        try {
+          const res = await fetch(API_LOGIN, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+
+          // Try parse JSON safely
+          let json = null;
+          try { json = await res.json(); } catch(e){ json = null; }
+
+          if (res.ok && json && json.success) {
+            // determine role (support several response shapes)
+            const role = (json.role || (json.data && json.data.role) || (json.user && json.user.role) || '').toString().toLowerCase();
+
+            // Redirect admin to backend panel, others to frontend homepage
+            if (role && role.indexOf('admin') !== -1) {
+              window.location.href = 'http://localhost/backend/pages/produk.php';
+            } else {
+              window.location.href = 'index.php';
+            }
+            return;
+          }
+
+          // handle common errors
+          if (res.status === 401 || (json && json.message && /invalid|credential|auth/i.test(json.message))) {
+            msg.style.color = '#ffb3b3';
+            msg.textContent = json && json.message ? json.message : 'Username atau password salah.';
+            return;
+          }
+
+          // fallback message
+          msg.style.color = '#ffb3b3';
+          msg.textContent = (json && json.message) ? json.message : ('Login gagal. HTTP ' + res.status);
+        } catch (err) {
+          console.error(err);
+          msg.style.color = '#ffb3b3';
+          msg.textContent = 'Gagal terhubung ke server.';
+        }
+      });
+    })();
   </script>
 </body>
 </html>

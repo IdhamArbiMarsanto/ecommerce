@@ -187,14 +187,14 @@
   </script>
 
   <!-- Form register -->
-  <form class="register-container" action="register_process.php" method="POST">
+  <form class="register-container" id="registerForm" action="register_process.php" method="POST">
     <h2>Create Account</h2>
 
     <input type="text" name="username" placeholder="Username" required>
     <input type="email" name="email" placeholder="Email" required>
     <input type="password" name="password" placeholder="Password" required>
     <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-    <input type="telepon" name="no_telepon" placeholder="no telepon" required>
+    <input type="telepon" name="no_telepon" id="no_telepon" placeholder="no telepon" required>
     <input type="date" id="birthdate" name="birthdate" placeholder="Tanggal Lahir" required>
 
     <!-- Gender -->
@@ -205,20 +205,86 @@
     <input type="hidden" name="gender" id="genderInput" required>
 
     <button type="submit">Register</button>
+    <div id="msg" style="margin-top:8px;color:#fff;"></div>
+
     <p>Already have an account? <a href="login.php">Login</a></p>
     <p><a href="index.php">← Kembali ke Beranda</a></p>
   </form>
 
   <script>
-    // Handle gender toggle
+    // Keep CSS unchanged. JS: map gender and submit JSON to backend API.
     const options = document.querySelectorAll('.gender-option');
     const genderInput = document.getElementById('genderInput');
+    const phoneInput = document.getElementById('no_telepon');
+    const msgEl = document.getElementById('msg');
+
     options.forEach(option => {
       option.addEventListener('click', () => {
         options.forEach(o => o.classList.remove('active'));
         option.classList.add('active');
-        genderInput.value = option.dataset.value;
+        // backend expects 'L' or 'P'
+        genderInput.value = option.dataset.value === 'Laki-laki' ? 'L' : 'P';
       });
+    });
+
+    // Intercept form submit and send JSON to backend API
+    const form = document.getElementById('registerForm');
+    const API_REGISTER = 'http://localhost/backend/api/register.php'; // sesuaikan jika perlu
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msgEl.style.color = '#fff';
+      msgEl.textContent = '';
+
+      const fd = new FormData(form);
+      const payload = {
+        username: (fd.get('username') || '').trim(),
+        email: (fd.get('email') || '').trim(),
+        password: fd.get('password') || '',
+        confirm_password: fd.get('confirm_password') || '',
+        phone: (fd.get('no_telepon') || '').trim(),
+        birthdate: fd.get('birthdate') || null,
+        gender: fd.get('gender') || null
+      };
+
+      // basic client validation
+      if (!payload.username || !payload.email || !payload.password) {
+        msgEl.style.color = '#ffdddd';
+        msgEl.textContent = 'Lengkapi username, email, dan password.';
+        return;
+      }
+      if (payload.password !== payload.confirm_password) {
+        msgEl.style.color = '#ffdddd';
+        msgEl.textContent = 'Password dan konfirmasi tidak sama.';
+        return;
+      }
+      if (!payload.gender) {
+        msgEl.style.color = '#ffdddd';
+        msgEl.textContent = 'Pilih jenis kelamin.';
+        return;
+      }
+
+      try {
+        const res = await fetch(API_REGISTER, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          credentials: 'include'
+        });
+        const j = await res.json();
+        if (res.ok && j.success) {
+          msgEl.style.color = '#b3ffb3';
+          msgEl.textContent = j.message || 'Registrasi berhasil. Mengalihkan ke login...';
+          setTimeout(() => { window.location.href = 'login.php'; }, 1200);
+        } else {
+          msgEl.style.color = '#ffdddd';
+          msgEl.textContent = j.message || ('Error: ' + res.status);
+        }
+      } catch (err) {
+        console.error(err);
+        msgEl.style.color = '#ffdddd';
+        msgEl.textContent = 'Gagal terhubung ke server.';
+      }
     });
   </script>
 </body>

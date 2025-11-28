@@ -1,10 +1,11 @@
 <?php
 include __DIR__ . '/../backend/config/config.php';
+if (session_status() !== PHP_SESSION_ACTIVE) session_start(); // ensure session available
 $db = get_db();
 
 // Determine which tab/page to show
 $page = isset($_GET['page']) ? $_GET['page'] : 'profil';
-$user_id = $_SESSION['user_id'] ?? null;
+$user_id = $_SESSION['user']['id'] ?? $_SESSION['user_id'] ?? null;
 ?>
 
 <?php include 'partials/head.php'; ?>
@@ -440,34 +441,35 @@ $user_id = $_SESSION['user_id'] ?? null;
                     <div class="profile-section">
                         <div class="row">
                             <div class="col-md-8">
-                                <form class="profile-form">
+                                <form class="profile-form" id="profileForm">
                                     <div class="form-group">
                                         <label>Nama Lengkap</label>
-                                        <input type="text" class="form-control" value="Agus Solar" placeholder="Masukkan nama lengkap">
+                                        <input type="text" id="fullName" name="username" class="form-control" value="" placeholder="Masukkan nama lengkap" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="email" class="form-control" value="example@gmail.com" placeholder="Masukkan email">
+                                        <input type="email" id="email" name="email" class="form-control" value="" placeholder="Masukkan email" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Nomor Telepon</label>
-                                        <input type="tel" class="form-control" value="081234567890" placeholder="Masukkan nomor telepon">
+                                        <input type="tel" id="phone" name="phone" class="form-control" value="" placeholder="Masukkan nomor telepon">
                                     </div>
                                     <div class="form-group">
                                         <label>Tanggal Lahir</label>
-                                        <input type="date" class="form-control" value="1990-01-01" placeholder="Masukkan tanggal lahir">
+                                        <input type="date" id="birthdate" name="birthdate" class="form-control" value="" placeholder="Masukkan tanggal lahir">
                                     </div>
                                     <div class="form-group">
                                         <label>Gender</label>
-                                        <select class="form-control">
+                                        <select class="form-control" id="gender" name="gender">
                                             <option value="">Pilih Gender</option>
-                                            <option value="Laki-laki">Laki-laki</option>
-                                            <option value="Perempuan">Perempuan</option>
+                                            <option value="L">Laki-laki</option>
+                                            <option value="P">Perempuan</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-primary-modern">
+                                    <button type="button" id="saveProfileBtn" class="btn btn-primary-modern">
                                         <i class="fas fa-save mr-2"></i>Simpan Perubahan
                                     </button>
+                                    <div id="profileMsg" style="margin-top:10px;"></div>
                                 </form>
                             </div>
                             <div class="col-md-4 text-center">
@@ -487,56 +489,26 @@ $user_id = $_SESSION['user_id'] ?? null;
                     </div>
 
                 <?php elseif ($page === 'alamat'): ?>
-                    <!-- Address Section -->
+                    <!-- Address Section (dynamic via API) -->
                     <div class="content-header">
                         <h2><i class="fas fa-map-marker-alt mr-2"></i>Alamat Saya</h2>
                     </div>
 
                     <div class="profile-section">
-                        <div class="address-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6>Alamat Utama</h6>
-                                    <p class="mb-1 font-weight-bold">Idham Arbi</p>
-                                    <p class="mb-1">Jl. Kenangan No. 123</p>
-                                    <p class="mb-1">Kecamatan Bandung Wetan, Kota Bandung</p>
-                                    <p class="mb-0">08123456789</p>
-                                </div>
-                                <div class="btn-group">
-                                    <button class="btn btn-sm btn-outline-secondary" onclick="editAddress()">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAddress()">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </div>
+                        <div id="addressesList">
+                            <div class="empty-state">
+                                <i class="fas fa-spinner fa-pulse"></i>
+                                <h4>Memuat alamat...</h4>
                             </div>
                         </div>
 
-                        <div class="address-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <p class="mb-1 font-weight-bold">Agus Solar</p>
-                                    <p class="mb-1">Jl. Sudirman No. 456</p>
-                                    <p class="mb-1">Kecamatan Bandung Utara, Kota Bandung</p>
-                                    <p class="mb-0">08129876543</p>
-                                </div>
-                                <div class="btn-group">
-                                    <button class="btn btn-sm btn-outline-secondary" onclick="editAddress()">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAddress()">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary-modern" data-toggle="modal" data-target="#addAddressModal">
+                        <button id="btnAddAddress" class="btn btn-primary-modern" data-toggle="modal" data-target="#addAddressModal">
                             <i class="fas fa-plus mr-2"></i>Tambah Alamat Baru
                         </button>
                     </div>
 
+                    <!-- reuse existing modal #addAddressModal and form #addAddressForm -->
+                    <!-- Address scripts moved to footer consolidated script to avoid duplicate bindings -->
                 <?php elseif ($page === 'pesanan'): ?>
                     <!-- Orders Section -->
                     <div class="content-header">
@@ -660,7 +632,10 @@ $user_id = $_SESSION['user_id'] ?? null;
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Kota/Kabupaten</label>
-                                <input type="text" class="form-control" name="kota_kabupaten" required>
+                                <!-- kota input (autocomplete) + hidden kota_id -->
+                                <input type="text" id="kotaInput" class="form-control" name="kota_kabupaten" autocomplete="off" required>
+                                <input type="hidden" id="kota_id_hidden" name="kota_id">
+                                <div id="kotaAutocomplete" class="autocomplete-list" style="position:relative;"></div>
                             </div>
                         </div>
                     </div>
@@ -686,26 +661,286 @@ $user_id = $_SESSION['user_id'] ?? null;
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary-modern" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary-modern">Simpan Alamat</button>
-            </div>
+                <button type="button" id="saveAddressBtn" class="btn btn-primary-modern">Simpan Alamat</button>
+             </div>
         </div>
     </div>
 </div>
 
 <?php include 'partials/footer.php'; ?>
 
+<!-- Consolidated scripts: profile + addresses (cleaned) -->
 <script>
-function editAddress() {
-    alert('Fitur edit alamat akan segera hadir!');
-}
+document.addEventListener('DOMContentLoaded', function () {
+  const API_PROFILE = 'http://localhost/backend/api/user_profile.php';
+  const API_ADDR = 'http://localhost/backend/api/addresses.php';
 
-function deleteAddress() {
-    if (confirm('Apakah Anda yakin ingin menghapus alamat ini?')) {
-        alert('Fitur hapus alamat akan segera hadir!');
+  /* ---------- Helpers ---------- */
+  const escapeHtml = s => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
+  async function fetchJson(url, opts = {}) {
+    const res = await fetch(url, Object.assign({ credentials: 'include' }, opts));
+    let j = null;
+    try { j = await res.json(); } catch(e){ throw new Error('Invalid JSON response'); }
+    return { ok: res.ok, status: res.status, json: j };
+  }
+
+  /* ---------- Profile ---------- */
+  const profileMsg = document.getElementById('profileMsg');
+  const saveProfileBtn = document.getElementById('saveProfileBtn');
+
+  async function loadProfile() {
+    if (!profileMsg) return;
+    profileMsg.textContent = '';
+    try {
+      const { ok, status, json } = await fetchJson(API_PROFILE);
+      if (!ok || !json.success) throw new Error(json && json.message ? json.message : 'Gagal memuat profil (HTTP '+status+')');
+      const u = json.data || {};
+      document.getElementById('fullName').value = u.username || '';
+      document.getElementById('email').value = u.email || '';
+      document.getElementById('phone').value = u.phone || '';
+      document.getElementById('birthdate').value = u.birthdate ? (u.birthdate.split(' ')[0]) : '';
+      const g = (u.gender || '').toString();
+      document.getElementById('gender').value = (g === 'L' || g.toLowerCase().startsWith('l')) ? 'L' : (g === 'P' || g.toLowerCase().startsWith('p') ? 'P' : '');
+      if (u.avatar) document.getElementById('profilePreview').src = u.avatar;
+    } catch (err) {
+      console.error(err);
+      if (profileMsg) { profileMsg.style.color = '#d9534f'; profileMsg.textContent = 'Gagal memuat profil: ' + err.message; }
     }
-}
-</script>
+  }
 
+  if (saveProfileBtn) {
+    saveProfileBtn.addEventListener('click', async function () {
+      if (!profileMsg) return;
+      profileMsg.style.color = ''; profileMsg.textContent = 'Menyimpan...';
+      const payload = {
+        username: document.getElementById('fullName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        birthdate: document.getElementById('birthdate').value || null,
+        gender: document.getElementById('gender').value || null
+      };
+      try {
+        const { ok, status, json } = await fetchJson(API_PROFILE, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!ok || !json.success) throw new Error(json && json.message ? json.message : 'Gagal menyimpan (HTTP '+status+')');
+        profileMsg.style.color = '#28a745'; profileMsg.textContent = json.message || 'Profil tersimpan';
+        setTimeout(loadProfile, 300);
+      } catch (err) {
+        console.error(err);
+        profileMsg.style.color = '#d9534f'; profileMsg.textContent = 'Gagal menyimpan: ' + err.message;
+      }
+    });
+  }
+
+  // load profile only when on profil page
+  if (window.location.search.indexOf('page=profil') !== -1 || '<?php echo $page; ?>' === 'profil') {
+    loadProfile();
+  }
+
+  /* ---------- Addresses ---------- */
+  const listEl = document.getElementById('addressesList');
+  const form = document.getElementById('addAddressForm');
+  const btnAdd = document.getElementById('btnAddAddress');
+  const saveAddrBtn = document.getElementById('saveAddressBtn');
+  let editingId = null;
+
+  function getFormEl(name) { return form ? (form.elements[name] || form.querySelector('[name="'+name+'"]')) : null; }
+
+  async function loadAddresses() {
+    if (!listEl) return;
+    listEl.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-pulse"></i><h4>Memuat alamat...</h4></div>';
+    try {
+      const { ok, status, json } = await fetchJson(API_ADDR);
+      if (!ok || !json.success) throw new Error(json && json.message ? json.message : 'Gagal memuat (HTTP '+status+')');
+      renderAddresses(json.data || []);
+    } catch (err) {
+      console.error(err);
+      listEl.innerHTML = '<div class="empty-state"><h4>Gagal memuat alamat</h4><p>'+escapeHtml(err.message)+'</p></div>';
+    }
+  }
+
+  function buildCard(a) {
+    const isDef = Number(a.is_default) === 1;
+    const div = document.createElement('div');
+    div.className = 'address-card';
+    div.innerHTML = `
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <h6>${escapeHtml(a.nama_penerima)} ${isDef ? '<span class="badge badge-success">Utama</span>' : ''}</h6>
+          <p class="mb-1">${escapeHtml(a.jalan || '')} ${escapeHtml(a.rt_rw || '')}</p>
+          <p class="mb-1">Kelurahan ${escapeHtml(a.kelurahan || '')}, Kecamatan ${escapeHtml(a.kecamatan || '')} </p>
+          <p class="mb-1">Kota ${escapeHtml(a.nama_kota || a.kota_kabupaten || '')}, ${escapeHtml(a.provinsi || '')}${a.kode_pos ? ' - ' + escapeHtml(a.kode_pos) : ''}</p>
+          <p class="mb-0">${escapeHtml(a.phone || a.nomor_telepon || '')}</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-sm btn-outline-secondary" data-action="edit" data-id="${a.id}"><i class="fas fa-edit"></i> Edit</button>
+          <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${a.id}"><i class="fas fa-trash"></i> Hapus</button>
+        </div>
+      </div>`;
+    return div;
+  }
+
+  function renderAddresses(rows) {
+    if (!listEl) return;
+    listEl.innerHTML = '';
+    if (!rows.length) {
+      listEl.innerHTML = '<div class="empty-state"><i class="fas fa-map-marker-alt"></i><h4>Belum ada alamat.</h4><p>Tambahkan alamat pengiriman Anda.</p></div>';
+      return;
+    }
+    rows.forEach(r => listEl.appendChild(buildCard(r)));
+
+    // delegate actions
+    listEl.querySelectorAll('button[data-action="edit"]').forEach(btn=>{
+      btn.addEventListener('click', async function () {
+        const id = this.dataset.id;
+        try {
+          const { ok, status, json } = await fetchJson(API_ADDR + '?id=' + encodeURIComponent(id));
+          if (!ok || !json.success) throw new Error(json && json.message ? json.message : 'Gagal ambil (HTTP '+status+')');
+          const a = json.data;
+          // populate form using names
+          getFormEl('nama_penerima').value = a.nama_penerima || '';
+          getFormEl('nomor_telepon').value = a.phone || '';
+          getFormEl('alamat_jalan').value = a.jalan || '';
+          getFormEl('rt_rw').value = a.rt_rw || '';
+          getFormEl('kelurahan').value = a.kelurahan || '';
+          getFormEl('kecamatan').value = a.kecamatan || '';
+          getFormEl('kota_kabupaten').value = a.nama_kota || '';
+          getFormEl('provinsi').value = a.provinsi || '';
+          getFormEl('kode_pos').value = a.kode_pos || '';
+          const cb = getFormEl('set_as_default'); if (cb) cb.checked = Number(a.is_default) === 1;
+          editingId = id;
+          $('#addAddressModal').modal('show');
+        } catch (err) {
+          alert('Gagal mengambil alamat: ' + err.message);
+        }
+      });
+    });
+
+    listEl.querySelectorAll('button[data-action="delete"]').forEach(btn=>{
+      btn.addEventListener('click', async function () {
+        const id = this.dataset.id;
+        if (!confirm('Hapus alamat ini?')) return;
+        try {
+          const { ok, status, json } = await fetchJson(API_ADDR + '?id=' + encodeURIComponent(id), { method: 'DELETE' });
+          if (!ok || !json.success) throw new Error(json && json.message ? json.message : 'Gagal hapus (HTTP '+status+')');
+          loadAddresses();
+        } catch (err) {
+          alert('Gagal menghapus: ' + err.message);
+        }
+      });
+    });
+  }
+
+  if (btnAdd && form) {
+    btnAdd.addEventListener('click', function () {
+      editingId = null;
+      form.reset();
+      const cb = getFormEl('set_as_default'); if (cb) cb.checked = false;
+    });
+  }
+
+  if (saveAddrBtn && form) {
+    saveAddrBtn.addEventListener('click', function () { form.dispatchEvent(new Event('submit', { cancelable: true })); });
+  }
+
+  if (form) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const payload = {
+        nama_penerima: (getFormEl('nama_penerima').value || '').trim(),
+        nomor_telepon: (getFormEl('nomor_telepon').value || '').trim(),
+        alamat_jalan: (getFormEl('alamat_jalan').value || '').trim(),
+        rt_rw: (getFormEl('rt_rw').value || '').trim(),
+        kelurahan: (getFormEl('kelurahan').value || '').trim(),
+        kecamatan: (getFormEl('kecamatan').value || '').trim(),
+        // send kota_id if chosen, fallback to typed name
+        kota_id: (getFormEl('kota_id') && getFormEl('kota_id').value) ? (getFormEl('kota_id').value) : (document.getElementById('kota_id_hidden') ? document.getElementById('kota_id_hidden').value : ''),
+        kota_kabupaten: (getFormEl('kota_kabupaten').value || '').trim(),
+        provinsi: (getFormEl('provinsi').value || '').trim(),
+        kode_pos: (getFormEl('kode_pos').value || '').trim(),
+        set_as_default: (getFormEl('set_as_default').checked ? 1 : 0)
+      };
+      try {
+        let resp;
+        if (editingId) {
+          resp = await fetchJson(API_ADDR + '?id=' + encodeURIComponent(editingId), {
+            method: 'PUT',
+            headers: { 'Content-Type':'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          resp = await fetchJson(API_ADDR, {
+            method: 'POST',
+            headers: { 'Content-Type':'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+        if (!resp.ok || !resp.json.success) throw new Error(resp.json && resp.json.message ? resp.json.message : 'Gagal menyimpan');
+        $('#addAddressModal').modal('hide');
+        loadAddresses();
+      } catch (err) {
+        alert('Gagal menyimpan alamat: ' + err.message);
+        console.error(err);
+      }
+    });
+  }
+
+  // --- kota autocomplete (uses backend city search API) ---
+  (function attachKotaAutocomplete() {
+    const kotaInput = document.getElementById('kotaInput');
+    const kotaIdInput = document.getElementById('kota_id_hidden');
+    const dropdown = document.getElementById('kotaAutocomplete');
+    if (!kotaInput || !kotaIdInput || !dropdown) return;
+
+    let timer = null;
+    kotaInput.addEventListener('input', () => {
+      clearTimeout(timer);
+      kotaIdInput.value = ''; // clear previously chosen id
+      timer = setTimeout(async () => {
+        const q = kotaInput.value.trim();
+        dropdown.innerHTML = '';
+        if (!q) return;
+        try {
+          // adjust path if your city search API is at a different URL
+          const res = await fetch('http://localhost/backend/api/cities_search.php?q=' + encodeURIComponent(q), { credentials: 'include' });
+          if (!res.ok) return;
+          const rows = await res.json();
+          if (!Array.isArray(rows)) return;
+          rows.forEach(r => {
+            const item = document.createElement('div');
+            item.textContent = r.name;
+            item.dataset.id = r.id;
+            item.style.cursor = 'pointer';
+            item.style.padding = '6px 8px';
+            item.addEventListener('click', () => {
+              kotaInput.value = r.name;
+              kotaIdInput.value = r.id;
+              dropdown.innerHTML = '';
+            });
+            dropdown.appendChild(item);
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }, 250);
+    });
+
+    document.addEventListener('click', e => {
+      if (!dropdown.contains(e.target) && e.target !== kotaInput) dropdown.innerHTML = '';
+    });
+  })();
+  // --- end kota autocomplete ---
+
+  // only load addresses when on alamat page
+  if (window.location.search.indexOf('page=alamat') !== -1 || '<?php echo $page; ?>' === 'alamat') {
+    loadAddresses();
+  }
+});
+</script>
 <?php
 // Helper function to render order cards
 function render_order_card($order_id, $date, $status, $item_count, $total, $action_text, $action_link) {

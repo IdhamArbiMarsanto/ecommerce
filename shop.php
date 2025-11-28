@@ -246,5 +246,45 @@ $(document).ready(function(){
             $('#semua-kategori').prop('checked', false);
         }
     });
+
+    // Cart API integration
+    const BACKEND_BASE = '<?= defined("BACKEND_URL") ? rtrim(BACKEND_URL, "/") : "http://localhost/backend" ?>';
+    const CART_API_ADD = BACKEND_BASE + '/api/cart.php?action=add';
+
+    function disableBtn($btn, flag){
+        $btn.prop('disabled', !!flag);
+        if (flag) $btn.addClass('opacity-50').css('pointer-events','none');
+        else $btn.removeClass('opacity-50').css('pointer-events','auto');
+    }
+
+    $(document).on('click', '.cart-btn', async function(e){
+        e.preventDefault();
+        const $btn = $(this);
+        if ($btn.data('processing')) return;
+        $btn.data('processing', true);
+        disableBtn($btn, true);
+        const productId = $btn.data('id');
+
+        try {
+            const res = await fetch(CART_API_ADD, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_id: productId, quantity: 1 })
+            });
+            const j = await res.json().catch(()=>({ success:false, message:'Invalid response' }));
+            if (!res.ok || !j.success) throw new Error(j.message || 'Gagal menambahkan ke keranjang');
+            $btn.find('i').removeClass('fas fa-shopping-cart').addClass('fas fa-check text-success');
+        setTimeout(()=>{
+            $btn.find('i').removeClass('fas fa-check text-success').addClass('fas fa-shopping-cart text-primary');
+        }, 1500);
+        } catch (err) {
+            alert('Gagal menambahkan ke keranjang: ' + err.message);
+            console.error(err);
+        } finally {
+            $btn.data('processing', false);
+            disableBtn($btn, false);
+        }
+    });
 });
 </script>
