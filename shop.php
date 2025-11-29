@@ -172,7 +172,7 @@ $allCategories = $catStmt->fetchAll(PDO::FETCH_ASSOC);
                             <i class="fas fa-shopping-cart text-primary"></i>
                         </a>
                         <a href="#" class="btn border like-btn" data-id="<?= $produk['id'] ?>" title="Add to Wishlist">
-                            <i class="fas fa-heart" aria-hidden="true"></i>
+                            <i class="far fa-heart" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -216,20 +216,33 @@ $allCategories = $catStmt->fetchAll(PDO::FETCH_ASSOC);
 <script>
 $(document).ready(function(){
     $('.like-btn').click(function(e){
-        e.preventDefault();
-        let btn = $(this);
-        let productId = btn.data('id');
+    e.preventDefault();
+    
+    let btn = $(this);
+    let productId = btn.data('id');
 
-        $.post('<?= BACKEND_URL ?>/api/wishlist.php', { id: productId }, function(response){
+    $.ajax({
+        url: '<?= BACKEND_URL ?>/api/wishlist.php',
+        method: 'POST',
+        xhrFields: {
+            withCredentials: true // ← WAJIB AGAR SESSION TERKIRIM
+        },
+        crossDomain: true,        // ← penting
+        data: { id: productId },
+        success: function(response){
             if(response.status === 'added'){
-                btn.find('i').removeClass('far').addClass('fas'); // full heart
+                btn.find('i').removeClass('far').addClass('fas');
             } else if(response.status === 'removed'){
-                btn.find('i').removeClass('fas').addClass('far'); // empty heart
-            } else if(response.status === 'error'){
+                btn.find('i').removeClass('fas').addClass('far');
+            } else {
                 alert(response.message);
             }
-        }, 'json');
+            loadWishlistCount();
+
+        }
     });
+});
+
 
     // Handle "Semua Kategori" checkbox
     $('#semua-kategori').change(function(){
@@ -274,6 +287,7 @@ $(document).ready(function(){
             });
             const j = await res.json().catch(()=>({ success:false, message:'Invalid response' }));
             if (!res.ok || !j.success) throw new Error(j.message || 'Gagal menambahkan ke keranjang');
+            loadCart();
             $btn.find('i').removeClass('fas fa-shopping-cart').addClass('fas fa-check text-success');
         setTimeout(()=>{
             $btn.find('i').removeClass('fas fa-check text-success').addClass('fas fa-shopping-cart text-primary');

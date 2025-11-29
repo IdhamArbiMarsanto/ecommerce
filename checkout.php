@@ -357,9 +357,22 @@
     <script>
     $(document).ready(function() {
         const API_BASE = '../backend/api';
-        const URL_INIT = API_BASE + '/checkout_init.php';
+
+        // detect buy now mode
+        const urlParams = new URLSearchParams(window.location.search);
+        const isBuyNow = urlParams.get('mode') === 'buynow';
+
+        // override API target
+        const URL_INIT = isBuyNow 
+            ? API_BASE + '/checkout_init.php?mode=buynow'
+            : API_BASE + '/checkout_init.php';
+
         const URL_CALC = API_BASE + '/checkout_calculate.php';
-        const URL_SUBMIT = API_BASE + '/checkout_submit.php';
+
+        const URL_SUBMIT = isBuyNow
+            ? API_BASE + '/checkout_submit.php?mode=buynow'
+            : API_BASE + '/checkout_submit.php';
+
 
         // --- Helpers ---
         function showAlert(msg) { alert(msg); }
@@ -516,9 +529,20 @@
                     }
                     // try multiple shapes
                     const data = res.data ?? res;
-                    const cartSummary = data.cartSummary ?? data.summary ?? data.cartSummary ?? res.cartSummary ?? res.summary;
+                    const summary = res.summary ?? data.summary ?? null;
+                    const cartSummary = data.cartSummary ?? res.cartSummary ?? null;
                     const addresses = data.addresses ?? res.addresses ?? [];
                     const paymentMethods = data.payment_methods ?? [];
+
+                    // --- BUYNOW MODE ---
+                    if (isBuyNow && summary) {
+                        renderOrderSummary(summary); // <-- selalu pakai buy_now data
+                    } 
+                    // --- NORMAL CART ---
+                    else if (cartSummary) {
+                        renderOrderSummary(cartSummary);
+                    }
+
 
                     if (cartSummary) renderOrderSummary(cartSummary);
                     if (Array.isArray(addresses) && addresses.length) populateAddresses(addresses);

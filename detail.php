@@ -167,6 +167,7 @@ $photos = $data['photos'] ?? [];
 (function(){
   const BACKEND_BASE = '<?= $BACKEND_BASE ?>';
   const CART_API_ADD = BACKEND_BASE + '/api/cart.php?action=add';
+  const BUY_NOW_API  = BACKEND_BASE + '/api/buynow.php';
   const productId = <?= intval($produk['id']) ?>;
   const stok = <?= intval($produk['stok']) ?>;
 
@@ -185,62 +186,84 @@ $photos = $data['photos'] ?? [];
     else btn.classList.remove('opacity-50');
   }
 
-  async function addToCart(btn, qty, buyNow=false){
+  // ============================
+  // ADD TO CART NORMAL
+  // ============================
+  async function addToCart(btn, qty){
     try {
       disableBtn(btn, true);
       const res = await fetch(CART_API_ADD, {
         method: 'POST',
         credentials: 'include',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ product_id: productId, quantity: qty, buy_now: buyNow ? 1 : 0 })
+        body: JSON.stringify({ product_id: productId, quantity: qty })
       });
+
       const j = await res.json().catch(()=>({ success:false, message:'Invalid response' }));
-      if (!res.ok || !j.success) throw new Error(j.message || 'Gagal menambahkan ke keranjang');
 
-      // If buyNow => go to cart page to checkout selected item
-      if (buyNow) {
-        window.location.href = 'cart.php';
-        return;
-      }
+      if (!res.ok || !j.success)
+        throw new Error(j.message || 'Gagal menambahkan ke keranjang');
 
-      // Visual feedback for normal add-to-cart (no redirect)
-      if (btn) {
-        const icon = btn.querySelector('i');
-        if (icon) {
-          // toggle to check
-          const prev = icon.className;
-          icon.className = 'fas fa-check text-success';
-          setTimeout(()=>{ icon.className = prev; }, 1400);
-        }
-      }
+      loadCart();
+
+      // efek centang
+      const icon = btn.querySelector('i');
+      const prev = icon.className;
+      icon.className = 'fas fa-check text-success';
+      setTimeout(()=>{ icon.className = prev; }, 1400);
+
     } catch (err) {
-      alert('Gagal menambahkan ke keranjang: ' + (err.message||''));
-      console.error(err);
+      alert('Gagal menambahkan ke keranjang: ' + (err.message||''));     
     } finally {
       disableBtn(btn, false);
     }
   }
 
-  // Wire buttons
+  // ============================
+  // BUY NOW — Langsung checkout
+  // ============================
+  async function startBuyNow(qty){
+    try{
+        const res = await fetch(BUY_NOW_API, {
+            method:'POST',
+            credentials:'include',
+            headers:{ 'Content-Type':'application/json' },
+            body: JSON.stringify({
+                product_id: productId,
+                qty: qty   // <-- SUDAH DIBENERIN
+            })
+        });
+
+        const j = await res.json().catch(()=>null);
+
+        if (!res.ok || !j || !j.success)
+            throw new Error(j?.message || "Gagal Buy Now");
+
+        window.location.href = "checkout.php?mode=buynow";
+
+    }catch(err){
+        alert("Gagal Buy Now: " + err.message);
+        console.error(err);
+    }
+}
+
+
+  // events
   const addCartBtn = document.getElementById('detailAddCart');
-  if (addCartBtn) {
-    addCartBtn.addEventListener('click', function(e){
-      e.preventDefault();
-      const qty = getQty();
-      addToCart(addCartBtn, qty, false);
-    });
-  }
+  addCartBtn?.addEventListener('click', function(e){
+    e.preventDefault();
+    const qty = getQty();
+    addToCart(addCartBtn, qty);
+  });
 
   const buyNowBtn = document.getElementById('detailBuyNow');
-  if (buyNowBtn) {
-    buyNowBtn.addEventListener('click', function(e){
-      e.preventDefault();
-      const qty = getQty();
-      addToCart(buyNowBtn, qty, true);
-    });
-  }
+  buyNowBtn?.addEventListener('click', function(e){
+    e.preventDefault();
+    const qty = getQty();
+    startBuyNow(qty);
+  });
 
-  // plus/minus handlers
+  // plus/minus
   document.querySelectorAll('.btn-minus, .btn-plus').forEach(btn=>{
     btn.addEventListener('click', function(e){
       e.preventDefault();
@@ -249,24 +272,11 @@ $photos = $data['photos'] ?? [];
       if(this.classList.contains('btn-minus')){
         v = Math.max(1, v-1);
       } else {
-        v = Math.min(stok, v+1); // batasi sesuai stok
+        v = Math.min(stok, v+1);
       }
       el.value = v;
     });
   });
+
 })();
 </script>
-<!-- JS -->
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-    document.querySelectorAll('.like-btn').forEach(function(btn){
-        btn.addEventListener('click', function(e){
-            e.preventDefault();
-            const pressed = btn.getAttribute('aria-pressed') === 'true';
-            btn.classList.toggle('liked', !pressed);
-            btn.setAttribute('aria-pressed', (!pressed).toString());
-        });
-    });
-});
-</script>
-

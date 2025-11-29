@@ -23,11 +23,17 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
     <style>
-        /* Make like buttons' heart icons consistent across pages (outline -> filled) */
-        .like-btn { width:36px; height:36px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:6px; }
-        .like-btn i.fa-heart { font-size:16px; color: transparent; -webkit-text-stroke: 1px #e60101; text-stroke: 1px #e60101; }
-        .like-btn.liked i.fa-heart { color: #e60101; -webkit-text-stroke: 0; text-stroke: 0; }
-    </style>
+.like-btn i.far.fa-heart {
+    color: #bbb; 
+    font-size: 18px;
+}
+
+.like-btn i.fas.fa-heart {
+    color: #e60101; 
+    font-size: 18px;
+}
+</style>
 </head>
 <body>
