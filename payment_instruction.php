@@ -39,33 +39,67 @@ if ($amtParam !== null && is_numeric($amtParam)) {
 // Fetch payment method details from database (if DB available)
 try {
     if (isset($db) && $db instanceof PDO) {
-        if ($paymentMethod === 'mbanking' || strtolower($paymentMethod) === 'bca' || strtolower($paymentMethod) === 'bank') {
-            // Normalize bank name (BCA, BNI, BRI, Mandiri, etc.)
-            $bankKey = strtoupper(trim($bankChosen));
-            $stmt = $db->prepare("SELECT tujuan, COALESCE(qr_image, '') AS qr_image FROM metode_pembayaran WHERE UPPER(nama_metode) = ? AND jenis = 'bank' AND status = 'aktif' LIMIT 1");
+
+        // Normalisasi nama metode
+        $bankKey = ucwords(strtolower(trim($bankChosen)));
+        $ewalletKey = ucwords(strtolower(trim($ewalletChosen)));
+
+        if ($paymentMethod === 'mbanking' || strtolower($paymentMethod) === 'bank') {
+
+            $stmt = $db->prepare("
+                SELECT tujuan, COALESCE(qr_image, '') AS qr_image
+                FROM metode_pembayaran
+                WHERE nama_metode = ?
+                AND LOWER(jenis) = 'transfer bank'
+                AND status = 'Aktif'
+                LIMIT 1
+            ");
             $stmt->execute([$bankKey]);
+
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $accountNumber = $row['tujuan'] ?: $accountNumber;
-                if (!empty($row['qr_image'])) { $qrcodeUrl = $row['qr_image']; }
+                if (!empty($row['qr_image'])) $qrcodeUrl = $row['qr_image'];
             }
-        } elseif (strtolower($paymentMethod) === 'qris') {
-            $stmt = $db->query("SELECT tujuan, COALESCE(qr_image, '') AS qr_image FROM metode_pembayaran WHERE jenis = 'qris' AND status = 'aktif' LIMIT 1");
+
+        } elseif ($paymentMethod === 'qris') {
+
+            $stmt = $db->prepare("
+                SELECT tujuan, COALESCE(qr_image, '') AS qr_image
+                FROM metode_pembayaran
+                WHERE LOWER(jenis) = 'qris'
+                AND status = 'Aktif'
+                LIMIT 1
+            ");
+            $stmt->execute();
+
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $accountNumber = $row['tujuan'] ?: $accountNumber;
-                if (!empty($row['qr_image'])) { $qrcodeUrl = $row['qr_image']; }
+                if (!empty($row['qr_image'])) $qrcodeUrl = $row['qr_image'];
             }
-        } elseif ($paymentMethod === 'ewallet' || in_array(strtolower($paymentMethod), ['gopay', 'ovo', 'dana', 'shopeepay'])) {
-            $ewalletKey = ucfirst(strtolower(trim($ewalletChosen)));
-            $stmt = $db->prepare("SELECT tujuan, COALESCE(qr_image, '') AS qr_image FROM metode_pembayaran WHERE nama_metode = ? AND jenis = 'ewallet' AND status = 'aktif' LIMIT 1");
+
+        } elseif ($paymentMethod === 'ewallet') {
+
+            $stmt = $db->prepare("
+                SELECT tujuan, COALESCE(qr_image, '') AS qr_image
+                FROM metode_pembayaran
+                WHERE nama_metode = ?
+                AND LOWER(jenis) = 'e-wallet'
+                AND status = 'Aktif'
+                LIMIT 1
+            ");
             $stmt->execute([$ewalletKey]);
+
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $accountNumber = $row['tujuan'] ?: $accountNumber;
-                if (!empty($row['qr_image'])) { $qrcodeUrl = $row['qr_image']; }
+                if (!empty($row['qr_image'])) $qrcodeUrl = $row['qr_image'];
+                }
             }
         }
-        // For COD, no account number needed
-    }
-} catch (Throwable $e) {
+    } catch (Throwable $e) {
+    error_log("Database error in payment_instruction.php: " . $e->getMessage());
+}
+
+ catch (Throwable $e) {
     // Fallback to defaults if database error
     error_log("Database error in payment_instruction.php: " . $e->getMessage());
 }
@@ -414,7 +448,7 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
                                     <div>
                                         <div class="small" style="font-size: 13px; color: #666;">No. Rekening</div>
                                         <div class="h5 mb-0"><strong id="piAccountNumber" class="acct-num"><?php echo $paymentDetail['account_number']; ?></strong></div>
-                                        <div class="small text-muted" style="font-size: 13px;">a.n PT EShopper Indonesia</div>
+                                        <div class="small text-muted" style="font-size: 13px;">a.n Effort Outdoor</div>
                                     </div>
                                     <div class="text-right">
                                         <button id="copyAccountBtn" class="btn btn-outline-secondary copy-btn pi-button">Salin No. Rekening</button>
