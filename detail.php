@@ -137,25 +137,29 @@ $photos = $data['photos'] ?? [];
                     </div>
                     <div class="col-md-6">
                         <h4 class="mb-4">Tulis ulasan</h4>
-                        <div class="d-flex my-3">
-                            <p class="mb-0 mr-2">Rating Anda:</p>
-                            <div class="text-primary">
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
+                        <button class="btn btn-primary mb-3" id="toggleReviewForm">Tulis Ulasan</button>
+                        
+                        <div id="reviewForm" style="display: none;">
+                            <div class="d-flex my-3">
+                                <p class="mb-0 mr-2">Rating Anda:</p>
+                                <div class="text-primary">
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
                             </div>
+                            <form>
+                                <div class="form-group">
+                                    <label for="message">Ulasan *</label>
+                                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="submit" value="Kirim Ulasan" class="btn btn-primary px-3">
+                                </div>
+                            </form>
                         </div>
-                        <form>
-                            <div class="form-group">
-                                <label for="message">Ulasan *</label>
-                                <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group mb-0">
-                                <input type="submit" value="Kirim Ulasan" class="btn btn-primary px-3">
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -173,6 +177,18 @@ $photos = $data['photos'] ?? [];
 <!-- JS -->
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+    // Review form toggle
+    const toggleBtn = document.getElementById('toggleReviewForm');
+    const reviewForm = document.getElementById('reviewForm');
+    if (toggleBtn && reviewForm) {
+        toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isHidden = reviewForm.style.display === 'none';
+            reviewForm.style.display = isHidden ? 'block' : 'none';
+            toggleBtn.textContent = isHidden ? 'Tutup Ulasan' : 'Tulis Ulasan';
+        });
+    }
+
     document.querySelectorAll('.like-btn').forEach(function(btn){
         btn.addEventListener('click', function(e){
             e.preventDefault();
