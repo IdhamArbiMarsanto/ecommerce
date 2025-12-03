@@ -1,10 +1,11 @@
 <?php
 include __DIR__ . '/../backend/config/config.php';
+if (session_status() !== PHP_SESSION_ACTIVE) session_start(); // ensure session available
 $db = get_db();
 
 // Determine which tab/page to show
 $page = isset($_GET['page']) ? $_GET['page'] : 'profil';
-$user_id = $_SESSION['user_id'] ?? null;
+$user_id = $_SESSION['user']['id'] ?? $_SESSION['user_id'] ?? null;
 ?>
 
 <?php include 'partials/head.php'; ?>
@@ -160,9 +161,9 @@ $user_id = $_SESSION['user_id'] ?? null;
 }
 
 .status-pending { background: #fff3cd; color: #856404; }
-.status-packed { background: #d1ecf1; color: #0c5460; }
-.status-shipping { background: #cce5ff; color: #004085; }
-.status-completed { background: #d4edda; color: #155724; }
+.status-dikemas { background: #d1ecf1; color: #0c5460; }
+.status-dikirim { background: #cce5ff; color: #004085; }
+.status-selesai { background: #d4edda; color: #155724; }
 .status-cancelled { background: #f8d7da; color: #721c24; }
 
 .order-body {
@@ -440,34 +441,35 @@ $user_id = $_SESSION['user_id'] ?? null;
                     <div class="profile-section">
                         <div class="row">
                             <div class="col-md-8">
-                                <form class="profile-form">
+                                <form class="profile-form" id="profileForm">
                                     <div class="form-group">
                                         <label>Nama Lengkap</label>
-                                        <input type="text" class="form-control" value="Agus Solar" placeholder="Masukkan nama lengkap">
+                                        <input type="text" id="fullName" name="username" class="form-control" value="" placeholder="Masukkan nama lengkap" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="email" class="form-control" value="example@gmail.com" placeholder="Masukkan email">
+                                        <input type="email" id="email" name="email" class="form-control" value="" placeholder="Masukkan email" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Nomor Telepon</label>
-                                        <input type="tel" class="form-control" value="081234567890" placeholder="Masukkan nomor telepon">
+                                        <input type="tel" id="phone" name="phone" class="form-control" value="" placeholder="Masukkan nomor telepon">
                                     </div>
                                     <div class="form-group">
                                         <label>Tanggal Lahir</label>
-                                        <input type="date" class="form-control" value="1990-01-01" placeholder="Masukkan tanggal lahir">
+                                        <input type="date" id="birthdate" name="birthdate" class="form-control" value="" placeholder="Masukkan tanggal lahir">
                                     </div>
                                     <div class="form-group">
                                         <label>Gender</label>
-                                        <select class="form-control">
+                                        <select class="form-control" id="gender" name="gender">
                                             <option value="">Pilih Gender</option>
-                                            <option value="Laki-laki">Laki-laki</option>
-                                            <option value="Perempuan">Perempuan</option>
+                                            <option value="L">Laki-laki</option>
+                                            <option value="P">Perempuan</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-primary-modern">
+                                    <button type="button" id="saveProfileBtn" class="btn btn-primary-modern">
                                         <i class="fas fa-save mr-2"></i>Simpan Perubahan
                                     </button>
+                                    <div id="profileMsg" style="margin-top:10px;"></div>
                                 </form>
                             </div>
                             <div class="col-md-4 text-center">
@@ -487,122 +489,49 @@ $user_id = $_SESSION['user_id'] ?? null;
                     </div>
 
                 <?php elseif ($page === 'alamat'): ?>
-                    <!-- Address Section -->
+                    <!-- Address Section (dynamic via API) -->
                     <div class="content-header">
                         <h2><i class="fas fa-map-marker-alt mr-2"></i>Alamat Saya</h2>
                     </div>
 
                     <div class="profile-section">
-                        <div class="address-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6>Alamat Utama</h6>
-                                    <p class="mb-1 font-weight-bold">Idham Arbi</p>
-                                    <p class="mb-1">Jl. Kenangan No. 123</p>
-                                    <p class="mb-1">Kecamatan Bandung Wetan, Kota Bandung</p>
-                                    <p class="mb-0">08123456789</p>
-                                </div>
-                                <div class="btn-group">
-                                    <button class="btn btn-sm btn-outline-secondary" onclick="editAddress()">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAddress()">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </div>
+                        <div id="addressesList">
+                            <div class="empty-state">
+                                <i class="fas fa-spinner fa-pulse"></i>
+                                <h4>Memuat alamat...</h4>
                             </div>
                         </div>
 
-                        <div class="address-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <p class="mb-1 font-weight-bold">Agus Solar</p>
-                                    <p class="mb-1">Jl. Sudirman No. 456</p>
-                                    <p class="mb-1">Kecamatan Bandung Utara, Kota Bandung</p>
-                                    <p class="mb-0">08129876543</p>
-                                </div>
-                                <div class="btn-group">
-                                    <button class="btn btn-sm btn-outline-secondary" onclick="editAddress()">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAddress()">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary-modern" data-toggle="modal" data-target="#addAddressModal">
+                        <button id="btnAddAddress" class="btn btn-primary-modern" data-toggle="modal" data-target="#addAddressModal">
                             <i class="fas fa-plus mr-2"></i>Tambah Alamat Baru
                         </button>
                     </div>
 
+                    <!-- reuse existing modal #addAddressModal and form #addAddressForm -->
+                    <!-- Address scripts moved to footer consolidated script to avoid duplicate bindings -->
                 <?php elseif ($page === 'pesanan'): ?>
-                    <!-- Orders Section -->
-                    <div class="content-header">
-                        <h2><i class="fas fa-shopping-bag mr-2"></i>Pesanan Saya</h2>
-                    </div>
+<!-- Orders Section -->
+<div class="content-header">
+    <h2><i class="fas fa-shopping-bag mr-2"></i>Pesanan Saya</h2>
+</div>
 
-                    <!-- Order Tabs -->
-                    <ul class="nav nav-tabs-modern" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#all-orders">Semua</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#pending-orders">Menunggu Pembayaran</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#packed-orders">Dikemas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#shipping-orders">Dikirim</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#completed-orders">Selesai</a>
-                        </li>
-                    </ul>
+<ul class="nav nav-tabs-modern" role="tablist">
+    <li class="nav-item"><a class="nav-link active"   data-status=""        data-toggle="tab">Semua</a></li>
+    <li class="nav-item"><a class="nav-link"          data-status="pending" data-toggle="tab">Menunggu Pembayaran</a></li>
+    <li class="nav-item"><a class="nav-link"          data-status="packed"  data-toggle="tab">Dikemas</a></li>
+    <li class="nav-item"><a class="nav-link"          data-status="shipping"data-toggle="tab">Dikirim</a></li>
+    <li class="nav-item"><a class="nav-link"          data-status="completed"data-toggle="tab">Selesai</a></li>
+</ul>
 
-                    <div class="tab-content p-4">
-                        <!-- All Orders -->
-                        <div class="tab-pane fade show active" id="all-orders">
-                            <?php render_order_card('ORD-2024-001', '2024-01-15', 'pending', 3, 260000, 'Bayar Sekarang', 'detail'); ?>
-                            <?php render_order_card('ORD-2024-002', '2024-01-14', 'packed', 1, 150000, 'Lihat Detail', 'detail'); ?>
-                            <?php render_order_card('ORD-2024-003', '2024-01-12', 'shipping', 2, 450000, 'Lacak Pengiriman', 'detail'); ?>
-                            <?php render_order_card('ORD-2024-004', '2024-01-10', 'completed', 1, 200000, 'Beri Ulasan', 'detail'); ?>
-                        </div>
+<div class="tab-content p-4" id="ordersWrapper">
+    <div class="empty-state">
+        <i class="fas fa-spinner fa-pulse"></i>
+        <h4>Memuat pesanan...</h4>
+    </div>
+</div>
 
-                        <!-- Pending Orders -->
-                        <div class="tab-pane fade" id="pending-orders">
-                            <?php render_order_card('ORD-2024-001', '2024-01-15', 'pending', 3, 260000, 'Bayar Sekarang', 'detail'); ?>
-                        </div>
+<?php endif; ?>
 
-                        <!-- Packed Orders -->
-                        <div class="tab-pane fade" id="packed-orders">
-                            <?php render_order_card('ORD-2024-002', '2024-01-14', 'packed', 1, 150000, 'Lihat Detail', 'detail'); ?>
-                        </div>
-
-                        <!-- Shipping Orders -->
-                        <div class="tab-pane fade" id="shipping-orders">
-                            <?php render_order_card('ORD-2024-003', '2024-01-12', 'shipping', 2, 450000, 'Lacak Pengiriman', 'detail'); ?>
-                        </div>
-
-                        <!-- Completed Orders -->
-                        <div class="tab-pane fade" id="completed-orders">
-                            <?php render_order_card('ORD-2024-004', '2024-01-10', 'completed', 1, 200000, 'Beri Ulasan', 'detail'); ?>
-                        </div>
-                    </div>
-
-                <?php else: ?>
-                    <!-- 404 Page -->
-                    <div class="empty-state">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h4>Halaman Tidak Ditemukan</h4>
-                        <p>Maaf, halaman yang Anda cari tidak tersedia.</p>
-                        <a href="orders.php?page=profil" class="btn btn-primary-modern">
-                            <i class="fas fa-home mr-2"></i>Kembali ke Profil
-                        </a>
-                    </div>
-                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -660,7 +589,10 @@ $user_id = $_SESSION['user_id'] ?? null;
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Kota/Kabupaten</label>
-                                <input type="text" class="form-control" name="kota_kabupaten" required>
+                                <!-- kota input (autocomplete) + hidden kota_id -->
+                                <input type="text" id="kotaInput" class="form-control" name="kota_kabupaten" autocomplete="off" required>
+                                <input type="hidden" id="kota_id_hidden" name="kota_id">
+                                <div id="kotaAutocomplete" class="autocomplete-list" style="position:relative;"></div>
                             </div>
                         </div>
                     </div>
@@ -686,54 +618,507 @@ $user_id = $_SESSION['user_id'] ?? null;
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary-modern" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary-modern">Simpan Alamat</button>
-            </div>
+                <button type="button" id="saveAddressBtn" class="btn btn-primary-modern">Simpan Alamat</button>
+             </div>
         </div>
     </div>
 </div>
 
 <?php include 'partials/footer.php'; ?>
 
+<!-- Consolidated scripts: profile + addresses (cleaned) -->
 <script>
-function editAddress() {
-    alert('Fitur edit alamat akan segera hadir!');
-}
+document.addEventListener('DOMContentLoaded', function () {
 
-function deleteAddress() {
-    if (confirm('Apakah Anda yakin ingin menghapus alamat ini?')) {
-        alert('Fitur hapus alamat akan segera hadir!');
+    /* ============================================
+     *  API ENDPOINTS
+     * ============================================ */
+    const API_PROFILE = 'http://localhost/backend/api/user_profile.php';
+    const API_ADDR    = 'http://localhost/backend/api/addresses.php';
+    const API_ORDERS  = 'http://localhost/backend/api/order_list.php';
+
+    const wrapper      = document.getElementById("ordersWrapper");
+    const profileMsg   = document.getElementById('profileMsg');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+    const listEl       = document.getElementById('addressesList');
+    const form         = document.getElementById('addAddressForm');
+    const btnAdd       = document.getElementById('btnAddAddress');
+    const saveAddrBtn  = document.getElementById('saveAddressBtn');
+
+    let editingId = null;
+
+
+    /* ============================================
+     *  HELPERS
+     * ============================================ */
+    const escapeHtml = s => String(s || '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+
+    async function fetchJson(url, opts = {}) {
+        const res = await fetch(url, Object.assign({ credentials: 'include' }, opts));
+        let json = null;
+        try { json = await res.json(); } 
+        catch(e) { throw new Error("Invalid JSON response"); }
+
+        return { ok: res.ok, status: res.status, json };
+    }
+
+
+    /* ============================================
+     *  LOAD ORDERS (Pesanan Saya)
+     * ============================================ */
+    async function loadOrders(status = "") {
+        if (!wrapper) return;
+
+        wrapper.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-spinner fa-pulse"></i>
+                <h4>Memuat pesanan...</h4>
+            </div>
+        `;
+
+        const url = status ? `${API_ORDERS}?status=${status}` : API_ORDERS;
+
+        try {
+            const res = await fetch(url, { credentials: "include" });
+            const data = await res.json();
+
+            if (!data.success) throw new Error(data.message);
+            renderOrders(data.data || []);
+
+        } catch (err) {
+            wrapper.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h4>Gagal memuat pesanan</h4>
+                    <p>${err.message}</p>
+                </div>
+            `;
+        }
+    }
+
+function generateOrderButton(o) {
+    switch (o.status) {
+        case "pending":
+            return `<a href="payment.php?order=${o.id}" class="btn btn-outline-warning">Bayar Sekarang</a>`;
+        
+        case "dikemas":
+            return `<a href="detail.php?order=${o.id}" class="btn btn-outline-secondary">Lihat Detail</a>`;
+        
+        case "dikirim":
+            return `<a href="tracking.php?order=${o.id}" class="btn btn-outline-primary">Lacak Pesanan</a>`;
+        
+        case "selesai":
+            return `<a href="review.php?order=${o.id}" class="btn btn-outline-success">Beri Ulasan</a>`;
+        
+        default:
+            return `<a href="detail.php?order=${o.id}" class="btn btn-outline-secondary">Detail</a>`;
     }
 }
+
+
+    function renderOrders(rows) {
+        if (!wrapper) return;
+
+        if (!rows.length) {
+            wrapper.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h4>Belum ada pesanan</h4>
+                    <p>Anda belum melakukan pembelian.</p>
+                </div>
+            `;
+            return;
+        }
+
+        wrapper.innerHTML = "";
+
+        rows.forEach(o => {
+            const statusClass = `status-${o.status}`;
+            const total = new Intl.NumberFormat("id-ID").format(o.total_harga);
+            let img = "img/product-1.jpg";
+
+            if (o.image) {
+                if (o.image.startsWith("http")) {
+                    // Sudah URL lengkap dari API
+                    img = o.image;
+                } else {
+                    // Hanya filename
+                    img = `/uploads/${o.image}`;
+                }
+            }
+
+            wrapper.innerHTML += `
+                <div class="order-card">
+                    <div class="order-header">
+                        <h6 class="order-id">${o.order_code}</h6>
+                        <span class="order-status ${statusClass}">${o.status.toUpperCase()}</span>
+                    </div>
+
+                    <div class="order-body">
+                        <div class="product-info">
+                            <img class="product-image" src="${img}" alt="Product Image">
+                            <div class="product-details">
+                                <h6>${o.product_name}</h6>
+                                <small>Jumlah: ${o.item_count} item</small>
+                            </div>
+                        </div>
+
+                        <div class="order-footer">
+                            <div class="order-total">Rp ${total}</div>
+                            <div class="order-actions">
+                                ${generateOrderButton(o)}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Event tab status klik
+    document.querySelectorAll(".nav-link[data-status]").forEach(tab => {
+        tab.addEventListener("click", function () {
+            document.querySelector(".nav-link.active").classList.remove("active");
+            this.classList.add("active");
+            loadOrders(this.dataset.status);
+        });
+    });
+
+    // Load awal (tab semua)
+    if (wrapper) loadOrders("");
+
+
+    /* ============================================
+     *  PROFILE
+     * ============================================ */
+    async function loadProfile() {
+        if (!profileMsg) return;
+
+        profileMsg.textContent = "";
+
+        try {
+            const { ok, json } = await fetchJson(API_PROFILE);
+            if (!ok || !json.success) throw new Error(json.message);
+
+            const u = json.data || {};
+            document.getElementById('fullName').value   = u.username || '';
+            document.getElementById('email').value      = u.email || '';
+            document.getElementById('phone').value      = u.phone || '';
+            document.getElementById('birthdate').value  = u.birthdate ? u.birthdate.split(' ')[0] : '';
+
+            const g = (u.gender || "").toLowerCase();
+            document.getElementById('gender').value = g.startsWith('l') ? 'L' : g.startsWith('p') ? 'P' : '';
+
+            if (u.avatar) {
+                document.getElementById('profilePreview').src = u.avatar;
+            }
+
+        } catch (err) {
+            profileMsg.style.color = "#d9534f";
+            profileMsg.textContent = "Gagal memuat profil: " + err.message;
+        }
+    }
+
+    if (saveProfileBtn) {
+        saveProfileBtn.addEventListener("click", async function () {
+            if (!profileMsg) return;
+
+            profileMsg.style.color = "";
+            profileMsg.textContent = "Menyimpan...";
+
+            const payload = {
+                username:  document.getElementById('fullName').value.trim(),
+                email:     document.getElementById('email').value.trim(),
+                phone:     document.getElementById('phone').value.trim(),
+                birthdate: document.getElementById('birthdate').value || null,
+                gender:    document.getElementById('gender').value || null
+            };
+
+            try {
+                const { ok, json } = await fetchJson(API_PROFILE, {
+                    method: 'POST',
+                    headers: { 'Content-Type':'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!ok || !json.success) throw new Error(json.message);
+
+                profileMsg.style.color = '#28a745';
+                profileMsg.textContent = json.message || "Profil tersimpan";
+                setTimeout(loadProfile, 300);
+
+            } catch (err) {
+                profileMsg.style.color = '#d9534f';
+                profileMsg.textContent = "Gagal menyimpan: " + err.message;
+            }
+        });
+    }
+
+    if (window.location.search.includes("page=profil")) {
+        loadProfile();
+    }
+
+
+    /* ============================================
+     *  ADDRESS
+     * ============================================ */
+
+    async function loadAddresses() {
+        if (!listEl) return;
+
+        listEl.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-spinner fa-pulse"></i>
+                <h4>Memuat alamat...</h4>
+            </div>
+        `;
+
+        try {
+            const { ok, json } = await fetchJson(API_ADDR);
+            if (!ok || !json.success) throw new Error(json.message);
+
+            renderAddresses(json.data || []);
+
+        } catch (err) {
+            listEl.innerHTML = `
+                <div class="empty-state">
+                    <h4>Gagal memuat alamat</h4>
+                    <p>${escapeHtml(err.message)}</p>
+                </div>
+            `;
+        }
+    }
+
+    function renderAddresses(rows) {
+        if (!listEl) return;
+
+        listEl.innerHTML = "";
+
+        if (!rows.length) {
+            listEl.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>Belum ada alamat.</h4>
+                    <p>Tambahkan alamat pengiriman Anda.</p>
+                </div>
+            `;
+            return;
+        }
+
+        rows.forEach(a => {
+            const isDef = Number(a.is_default) === 1;
+
+            const div = document.createElement("div");
+            div.className = "address-card";
+            div.innerHTML = `
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${escapeHtml(a.nama_penerima)} 
+                            ${isDef ? '<span class="badge badge-success">Utama</span>' : ''}
+                        </h6>
+                        <p class="mb-1">${escapeHtml(a.jalan || '')} ${escapeHtml(a.rt_rw || '')}</p>
+                        <p class="mb-1">Kelurahan ${escapeHtml(a.kelurahan || '')}, Kecamatan ${escapeHtml(a.kecamatan || '')}</p>
+                        <p class="mb-1">Kota ${escapeHtml(a.nama_kota || a.kota_kabupaten || '')}, ${escapeHtml(a.provinsi || '')}${a.kode_pos ? ' - ' + escapeHtml(a.kode_pos) : ''}</p>
+                        <p class="mb-0">${escapeHtml(a.phone || a.nomor_telepon || '')}</p>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-secondary" data-action="edit" data-id="${a.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${a.id}">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            listEl.appendChild(div);
+        });
+
+        bindAddressActions();
+    }
+
+    function bindAddressActions() {
+        // Edit
+        listEl.querySelectorAll('button[data-action="edit"]').forEach(btn => {
+            btn.addEventListener("click", async function () {
+                const id = this.dataset.id;
+
+                try {
+                    const { ok, json } = await fetchJson(API_ADDR + '?id=' + id);
+                    if (!ok || !json.success) throw new Error(json.message);
+
+                    fillAddressForm(json.data);
+                    editingId = id;
+                    $('#addAddressModal').modal('show');
+
+                } catch (err) {
+                    alert("Gagal mengambil alamat: " + err.message);
+                }
+            });
+        });
+
+        // Hapus
+        listEl.querySelectorAll('button[data-action="delete"]').forEach(btn => {
+            btn.addEventListener("click", async function () {
+                const id = this.dataset.id;
+                if (!confirm("Hapus alamat ini?")) return;
+
+                try {
+                    const { ok, json } = await fetchJson(API_ADDR + '?id=' + id, { method:'DELETE' });
+                    if (!ok || !json.success) throw new Error(json.message);
+
+                    loadAddresses();
+
+                } catch (err) {
+                    alert("Gagal menghapus: " + err.message);
+                }
+            });
+        });
+    }
+
+    function fillAddressForm(a) {
+        form.elements['nama_penerima'].value = a.nama_penerima || "";
+        form.elements['nomor_telepon'].value = a.phone || "";
+        form.elements['alamat_jalan'].value = a.jalan || "";
+        form.elements['rt_rw'].value = a.rt_rw || "";
+        form.elements['kelurahan'].value = a.kelurahan || "";
+        form.elements['kecamatan'].value = a.kecamatan || "";
+        form.elements['kota_kabupaten'].value = a.nama_kota || "";
+        form.elements['provinsi'].value = a.provinsi || "";
+        form.elements['kode_pos'].value = a.kode_pos || "";
+        form.elements['set_as_default'].checked = Number(a.is_default) === 1;
+    }
+
+    if (btnAdd && form) {
+        btnAdd.addEventListener("click", function () {
+            editingId = null;
+            form.reset();
+            form.elements['set_as_default'].checked = false;
+        });
+    }
+
+    if (saveAddrBtn && form) {
+        saveAddrBtn.addEventListener("click", () => {
+            form.dispatchEvent(new Event("submit", { cancelable: true }));
+        });
+    }
+
+    if (form) {
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const payload = {
+                nama_penerima:   form.elements['nama_penerima'].value.trim(),
+                nomor_telepon:   form.elements['nomor_telepon'].value.trim(),
+                alamat_jalan:    form.elements['alamat_jalan'].value.trim(),
+                rt_rw:           form.elements['rt_rw'].value.trim(),
+                kelurahan:       form.elements['kelurahan'].value.trim(),
+                kecamatan:       form.elements['kecamatan'].value.trim(),
+                kota_id:         document.getElementById('kota_id_hidden').value || '',
+                kota_kabupaten:  form.elements['kota_kabupaten'].value.trim(),
+                provinsi:        form.elements['provinsi'].value.trim(),
+                kode_pos:        form.elements['kode_pos'].value.trim(),
+                set_as_default:  form.elements['set_as_default'].checked ? 1 : 0
+            };
+
+            try {
+                let resp;
+                if (editingId) {
+                    resp = await fetchJson(API_ADDR + '?id=' + editingId, {
+                        method: 'PUT',
+                        headers: { 'Content-Type':'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } else {
+                    resp = await fetchJson(API_ADDR, {
+                        method: 'POST',
+                        headers: { 'Content-Type':'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                }
+
+                if (!resp.ok || !resp.json.success) throw new Error(resp.json.message);
+                $('#addAddressModal').modal('hide');
+                loadAddresses();
+
+            } catch (err) {
+                alert("Gagal menyimpan alamat: " + err.message);
+            }
+        });
+    }
+
+    // Autocomplete kota
+    (function attachKotaAutocomplete() {
+        const kotaInput    = document.getElementById('kotaInput');
+        const kotaIdInput  = document.getElementById('kota_id_hidden');
+        const dropdown     = document.getElementById('kotaAutocomplete');
+
+        if (!kotaInput || !kotaIdInput || !dropdown) return;
+
+        let timer = null;
+
+        kotaInput.addEventListener('input', () => {
+            clearTimeout(timer);
+            kotaIdInput.value = '';
+
+            timer = setTimeout(async () => {
+                const q = kotaInput.value.trim();
+                dropdown.innerHTML = '';
+                if (!q) return;
+
+                try {
+                    const res = await fetch(
+                        'http://localhost/backend/api/cities_search.php?q=' + encodeURIComponent(q),
+                        { credentials:'include' }
+                    );
+
+                    if (!res.ok) return;
+
+                    const rows = await res.json();
+                    if (!Array.isArray(rows)) return;
+
+                    rows.forEach(r => {
+                        const item = document.createElement('div');
+                        item.textContent = r.name;
+                        item.dataset.id  = r.id;
+                        item.style.cursor = 'pointer';
+                        item.style.padding = '6px 8px';
+
+                        item.addEventListener('click', () => {
+                            kotaInput.value = r.name;
+                            kotaIdInput.value = r.id;
+                            dropdown.innerHTML = '';
+                        });
+
+                        dropdown.appendChild(item);
+                    });
+
+                } catch (err) {
+                    console.error(err);
+                }
+
+            }, 250);
+        });
+
+        document.addEventListener('click', e => {
+            if (!dropdown.contains(e.target) && e.target !== kotaInput)
+                dropdown.innerHTML = '';
+        });
+
+    })();
+
+    // Load addresses when on alamat page
+    if (window.location.search.includes("page=alamat")) {
+        loadAddresses();
+    }
+
+});
 </script>
-
-<?php
-// Helper function to render order cards
-function render_order_card($order_id, $date, $status, $item_count, $total, $action_text, $action_link) {
-    $status_class = 'status-' . $status;
-    $formatted_total = 'Rp ' . number_format($total, 0, ',', '.');
-    $action_url = ($action_link === 'detail') ? 'detail.php?order=' . $order_id : '#';
-
-    echo '
-    <div class="order-card">
-        <div class="order-header">
-            <h6 class="order-id">' . htmlspecialchars($order_id) . '</h6>
-            <span class="order-status ' . $status_class . '">' . ucfirst($status) . '</span>
-        </div>
-        <div class="order-body">
-            <div class="product-info">
-                <img class="product-image" src="img/product-1.jpg" alt="Product Image">
-                <div class="product-details">
-                    <h6>Produk Sample</h6>
-                    <small>Jumlah: ' . $item_count . ' item</small>
-                </div>
-            </div>
-            <div class="order-footer">
-                <div class="order-total">' . $formatted_total . '</div>
-                <div class="order-actions">
-                    <a href="' . $action_url . '" class="btn btn-outline-secondary">' . htmlspecialchars($action_text) . '</a>
-                </div>
-            </div>
-        </div>
-    </div>';
-}
-

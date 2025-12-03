@@ -93,22 +93,17 @@ $photos = $data['photos'] ?? [];
             <!-- Input jumlah -->
             <div class="input-group quantity mr-3" style="width: 130px;">
                 <button class="btn btn-primary btn-minus"><i class="fa fa-minus"></i></button>
-                <input type="text" class="form-control bg-secondary text-center" value="1">
+                <input type="text" id="detailQty" class="form-control bg-secondary text-center" value="1">
                 <button class="btn btn-primary btn-plus"><i class="fa fa-plus"></i></button>
             </div>
 
             <!-- Tombol keranjang -->
-            <button class="btn btn-primary px-3 mr-3">
+            <button id="detailAddCart" class="btn btn-primary px-3 mr-3">
                 <i class="fa fa-shopping-cart mr-1"></i>
             </button>
 
             <!-- Tombol beli sekarang -->
-            <button class="btn btn-primary px-3">Beli Sekarang</button>
-
-            <!-- Wishlist heart button (Font Awesome icon) -->
-            <button class="like-btn" aria-pressed="false" title="Tambah ke Wishlist" type="button">
-                <i class="fas fa-heart" aria-hidden="true"></i>
-            </button>
+            <button id="detailBuyNow" class="btn btn-primary px-3">Beli Sekarang</button>
             </div>
 
 
@@ -171,10 +166,7 @@ $photos = $data['photos'] ?? [];
 
 <?php include 'partials/footer.php'; ?>
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-<!-- JS -->
+<?php $BACKEND_BASE = defined('BACKEND_URL') ? rtrim(BACKEND_URL, '/') : 'http://localhost/backend'; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
     // Review form toggle
@@ -200,3 +192,120 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 
+<script>
+(function(){
+  const BACKEND_BASE = '<?= $BACKEND_BASE ?>';
+  const CART_API_ADD = BACKEND_BASE + '/api/cart.php?action=add';
+  const BUY_NOW_API  = BACKEND_BASE + '/api/buynow.php';
+  const productId = <?= intval($produk['id']) ?>;
+  const stok = <?= intval($produk['stok']) ?>;
+
+  function getQty(){
+    const el = document.getElementById('detailQty');
+    let v = parseInt(el.value) || 1;
+    if (v < 1) v = 1;
+    el.value = v;
+    return v;
+  }
+
+  function disableBtn(btn, flag){
+    if (!btn) return;
+    btn.disabled = !!flag;
+    if(flag) btn.classList.add('opacity-50');
+    else btn.classList.remove('opacity-50');
+  }
+
+  // ============================
+  // ADD TO CART NORMAL
+  // ============================
+  async function addToCart(btn, qty){
+    try {
+      disableBtn(btn, true);
+      const res = await fetch(CART_API_ADD, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ product_id: productId, quantity: qty })
+      });
+
+      const j = await res.json().catch(()=>({ success:false, message:'Invalid response' }));
+
+      if (!res.ok || !j.success)
+        throw new Error(j.message || 'Gagal menambahkan ke keranjang');
+
+      loadCart();
+
+      // efek centang
+      const icon = btn.querySelector('i');
+      const prev = icon.className;
+      icon.className = 'fas fa-check text-success';
+      setTimeout(()=>{ icon.className = prev; }, 1400);
+
+    } catch (err) {
+      alert('Gagal menambahkan ke keranjang: ' + (err.message||''));     
+    } finally {
+      disableBtn(btn, false);
+    }
+  }
+
+  // ============================
+  // BUY NOW — Langsung checkout
+  // ============================
+  async function startBuyNow(qty){
+    try{
+        const res = await fetch(BUY_NOW_API, {
+            method:'POST',
+            credentials:'include',
+            headers:{ 'Content-Type':'application/json' },
+            body: JSON.stringify({
+                product_id: productId,
+                qty: qty   // <-- SUDAH DIBENERIN
+            })
+        });
+
+        const j = await res.json().catch(()=>null);
+
+        if (!res.ok || !j || !j.success)
+            throw new Error(j?.message || "Gagal Buy Now");
+
+        window.location.href = "checkout.php?mode=buynow";
+
+    }catch(err){
+        alert("Gagal Buy Now: " + err.message);
+        console.error(err);
+    }
+}
+
+
+  // events
+  const addCartBtn = document.getElementById('detailAddCart');
+  addCartBtn?.addEventListener('click', function(e){
+    e.preventDefault();
+    const qty = getQty();
+    addToCart(addCartBtn, qty);
+  });
+
+  const buyNowBtn = document.getElementById('detailBuyNow');
+  buyNowBtn?.addEventListener('click', function(e){
+    e.preventDefault();
+    const qty = getQty();
+    startBuyNow(qty);
+  });
+
+  // plus/minus
+  document.querySelectorAll('.btn-minus, .btn-plus').forEach(btn=>{
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      const el = document.getElementById('detailQty');
+      let v = parseInt(el.value) || 1;
+      if(this.classList.contains('btn-minus')){
+        v = Math.max(1, v-1);
+      } else {
+        v = Math.min(stok, v+1);
+      }
+      el.value = v;
+    });
+  });
+
+})();
+</script>

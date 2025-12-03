@@ -1,18 +1,114 @@
 <?php
+
 // ===============================================================
 // ASUMSI: Data backend sudah terisi, bagian bawah hanya layout
 // ===============================================================
 
-$paymentMethod = $_GET['method'] ?? 'mbanking'; 
-$bankChosen = $_GET['bank'] ?? 'BCA'; 
-$ewalletChosen = $_GET['ewallet'] ?? 'GoPay'; 
+// Load DB config if available; gracefully handle absence
+$accountNumber = '8097000123456'; // default fallback if DB/config not available
+$qrcodeUrl = $_GET['qrcode'] ?? 'img/qris.png'; // default fallback QR
+
+try {
+    if (file_exists(__DIR__ . '/backend/config/config.php')) {
+        require_once __DIR__ . '/backend/config/config.php';
+    } elseif (file_exists(__DIR__ . '/../backend/config/config.php')) {
+        require_once __DIR__ . '/../backend/config/config.php';
+    }
+    if (function_exists('get_db')) {
+        $db = get_db();
+    }
+} catch (Throwable $e) {
+    error_log('Failed loading DB config: ' . $e->getMessage());
+}
+
+$paymentMethod = $_GET['method'] ?? 'mbanking';
+$bankChosen = $_GET['bank'] ?? ($_GET['provider'] ?? 'BCA');
+$ewalletChosen = $_GET['ewallet'] ?? ($_GET['provider'] ?? 'GoPay');
 
 // use qrcode passed from checkout if available
+// format amount to Rupiah if numeric
+$amtParam = $_GET['amount'] ?? null;
+if ($amtParam !== null && is_numeric($amtParam)) {
+    $amtDisplay = 'Rp ' . number_format((float)$amtParam, 0, ',', '.');
+} else if ($amtParam) {
+    $amtDisplay = $amtParam; // already formatted
+} else {
+    $amtDisplay = 'Rp 160.000';
+}
+
+// Fetch payment method details from database (if DB available)
+try {
+    if (isset($db) && $db instanceof PDO) {
+
+        // Normalisasi nama metode
+        $bankKey = ucwords(strtolower(trim($bankChosen)));
+        $ewalletKey = ucwords(strtolower(trim($ewalletChosen)));
+
+        if ($paymentMethod === 'mbanking' || strtolower($paymentMethod) === 'bank') {
+
+            $stmt = $db->prepare("
+                SELECT tujuan, COALESCE(qr_image, '') AS qr_image
+                FROM metode_pembayaran
+                WHERE nama_metode = ?
+                AND LOWER(jenis) = 'transfer bank'
+                AND status = 'Aktif'
+                LIMIT 1
+            ");
+            $stmt->execute([$bankKey]);
+
+            if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $accountNumber = $row['tujuan'] ?: $accountNumber;
+                if (!empty($row['qr_image'])) $qrcodeUrl = $row['qr_image'];
+            }
+
+        } elseif ($paymentMethod === 'qris') {
+
+            $stmt = $db->prepare("
+                SELECT tujuan, COALESCE(qr_image, '') AS qr_image
+                FROM metode_pembayaran
+                WHERE LOWER(jenis) = 'qris'
+                AND status = 'Aktif'
+                LIMIT 1
+            ");
+            $stmt->execute();
+
+            if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $accountNumber = $row['tujuan'] ?: $accountNumber;
+                if (!empty($row['qr_image'])) $qrcodeUrl = $row['qr_image'];
+            }
+
+        } elseif ($paymentMethod === 'ewallet') {
+
+            $stmt = $db->prepare("
+                SELECT tujuan, COALESCE(qr_image, '') AS qr_image
+                FROM metode_pembayaran
+                WHERE nama_metode = ?
+                AND LOWER(jenis) = 'e-wallet'
+                AND status = 'Aktif'
+                LIMIT 1
+            ");
+            $stmt->execute([$ewalletKey]);
+
+            if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $accountNumber = $row['tujuan'] ?: $accountNumber;
+                if (!empty($row['qr_image'])) $qrcodeUrl = $row['qr_image'];
+                }
+            }
+        }
+    } catch (Throwable $e) {
+    error_log("Database error in payment_instruction.php: " . $e->getMessage());
+}
+
+ catch (Throwable $e) {
+    // Fallback to defaults if database error
+    error_log("Database error in payment_instruction.php: " . $e->getMessage());
+}
+
 $paymentDetail = [
-    'amount' => $_GET['amount'] ?? 'Rp 160.000',
+    'amount' => $amtDisplay,
     'due_time' => date('d-m-Y', strtotime('+1 day')) . ' Pukul 23:59 WIB',
-    'account_number' => '8097000123456',
-    'qrcode_url' => $_GET['qrcode'] ?? 'img/qris.png',
+    'account_number' => $accountNumber,
+    'qrcode_url' => $qrcodeUrl,
 ];
 
 // small unique transaction id for user reference (not a payment gateway id)
@@ -58,16 +154,22 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
     <link href="css/style.css" rel="stylesheet">
 
     <style>
+        /* General Styles */
         body {
             background: #fff;
             font-family: 'Poppins', sans-serif;
         }
+
+        /* Payment Card */
         .payment-card {
             background: #fff;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             overflow: hidden;
+            margin-bottom: 20px;
         }
+
+        /* Payment Header */
         .payment-header {
             background: linear-gradient(135deg, #bbd197 0%, #a8c085 100%);
             color: white;
@@ -79,19 +181,54 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
             font-weight: 600;
         }
 
-        .pi-topline { display:flex; align-items:center; justify-content:space-between; gap:12px; }
-        .pi-amount { font-size: 28px; color:#dc3545; font-weight:700; }
-        .pi-meta { color:#6c757d; }
-        /* keep headings/steps consistent with site defaults */
-        .pi-heading { font-size: 18px; font-weight: 700; }
-        .pi-steps { font-size: 14px; line-height: 1.5; }
-        .pi-step-list { font-size: 14px; line-height: 1.6; }
-        .pi-step-list li { margin-bottom: 8px; }
-        .pi-alert { font-size: 13px; line-height: 1.4; }
-        .pi-button { font-size: 13px; padding: 6px 12px; }
-        .bank-detail { font-size: 14px; }
-        .bank-detail .acct-num { font-size: 18px; }
+        /* Top Line */
+        .pi-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .pi-amount {
+            font-size: 28px;
+            color: #dc3545;
+            font-weight: 700;
+        }
+        .pi-meta {
+            color: #6c757d;
+            font-size: 14px;
+        }
 
+        /* Headings and Steps */
+        .pi-heading {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .pi-steps {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .pi-step-list {
+            font-size: 14px;
+            line-height: 1.6;
+            padding-left: 20px;
+        }
+        .pi-step-list li {
+            margin-bottom: 8px;
+        }
+        .pi-alert {
+            font-size: 13px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        .pi-button {
+            font-size: 13px;
+            padding: 6px 12px;
+        }
+
+        /* QRIS Box */
         .qris-box img {
             max-width: 420px;
             width: 100%;
@@ -102,21 +239,37 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
             background: #fff;
             box-shadow: 0 6px 18px rgba(0,0,0,0.06);
         }
-
         .qris-actions {
             display: flex;
             gap: 8px;
             justify-content: center;
             margin-top: 10px;
+            flex-wrap: wrap;
         }
-        .qris-actions .btn { min-width: 140px; }
+        .qris-actions .btn {
+            min-width: 140px;
+        }
 
+        /* Bank Detail */
         .bank-detail {
-            display:flex; align-items:center; justify-content:space-between; gap:10px; background:#f8fbff; padding:12px; border-radius:8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: #f8fbff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .bank-detail .acct-num {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .copy-btn {
+            min-width: 120px;
         }
 
-        .copy-btn { min-width:120px; }
-
+        /* Alerts */
         .alert-custom {
             background: #fff3cd;
             border-left: 5px solid #ffc107;
@@ -124,6 +277,7 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
             margin-bottom: 20px;
         }
 
+        /* Buttons */
         .btn-primary {
             background: #bbd197;
             border: none;
@@ -138,7 +292,6 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(168,192,133,0.4);
         }
-
         .btn-outline-primary {
             border-color: #bbd197;
             color: #bbd197;
@@ -150,7 +303,6 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
             border-color: #bbd197;
             color: white;
         }
-
         .btn-outline-secondary {
             border-color: #6c757d;
             color: #6c757d;
@@ -163,25 +315,54 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
             color: white;
         }
 
+        /* Alert Styles */
         .alert-danger {
             background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
             border: none;
             border-radius: 10px;
             color: #721c24;
         }
-
         .alert-success {
             background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
             border: none;
             border-radius: 10px;
             color: #155724;
         }
-
         .alert-info {
             background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
             border: none;
             border-radius: 10px;
             color: #0c5460;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .pi-topline {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .pi-amount {
+                font-size: 24px;
+            }
+            .qris-box img {
+                max-width: 300px;
+            }
+            .qris-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            .qris-actions .btn {
+                min-width: 120px;
+            }
+            .bank-detail {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .bank-detail .text-right {
+                text-align: left;
+            }
         }
     </style>
 </head>
@@ -211,7 +392,7 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
                     </div>
 
                     <div class="p-4">
-
+                        <!-- Payment Alert Section -->
                         <?php if ($displayMethod !== 'cod'): ?>
                         <div class="alert alert-danger text-center">
                             <strong>Segera Lakukan Pembayaran!</strong>
@@ -220,7 +401,9 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
                         </div>
                         <?php endif; ?>
 
+                        <!-- QRIS Payment Instructions -->
                         <?php if ($displayMethod === 'qris'): ?>
+                        <section class="payment-method-qris">
                             <div class="text-center">
                                 <div class="pi-topline mb-2">
                                     <div>
@@ -245,8 +428,11 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
                                 </div>
                                 <p class="font-weight-bold">Nominal: <span id="piAmountText"><?php echo $paymentDetail['amount']; ?></span></p>
                             </div>
-
+                        </section>
                         <?php elseif ($displayMethod === 'mbanking'): ?>
+
+                        <!-- M-Banking Payment Instructions -->
+                        <section class="payment-method-mbanking">
                             <div>
                                 <div class="pi-topline mb-2">
                                     <div>
@@ -262,24 +448,27 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
                                     <div>
                                         <div class="small" style="font-size: 13px; color: #666;">No. Rekening</div>
                                         <div class="h5 mb-0"><strong id="piAccountNumber" class="acct-num"><?php echo $paymentDetail['account_number']; ?></strong></div>
-                                        <div class="small text-muted" style="font-size: 13px;">a.n PT EShopper Indonesia</div>
+                                        <div class="small text-muted" style="font-size: 13px;">a.n Effort Outdoor</div>
                                     </div>
                                     <div class="text-right">
                                         <button id="copyAccountBtn" class="btn btn-outline-secondary copy-btn pi-button">Salin No. Rekening</button>
                                     </div>
                                 </div>
 
-                                <h6 style="font-size: 18px; font-weight: 700; margin-top: 16px;">Langkah Transfer:</h6>
+                                <h6 class="pi-heading">Langkah Transfer:</h6>
                                 <ol class="pi-step-list">
                                     <li>Masukkan nomor rekening di atas pada menu transfer bank Anda.</li>
-                                    <li>Transfer sesuai nominal <b><?php echo $paymentDetail['amount']; ?></b>. 
+                                    <li>Transfer sesuai nominal <b><?php echo $paymentDetail['amount']; ?></b>.
                                         <div class="small text-muted">Gunakan kode unik/nominal persis agar konfirmasi otomatis lebih cepat.</div>
                                     </li>
                                     <li>Setelah transfer, Anda dapat <a href="orders.php?page=pesanan">cek status pesanan</a> atau hubungi customer service jika perlu.</li>
                                 </ol>
                             </div>
-
+                        </section>
                         <?php elseif ($displayMethod === 'ewallet'): ?>
+
+                        <!-- E-Wallet Payment Instructions -->
+                        <section class="payment-method-ewallet">
                             <div>
                                 <div class="pi-topline mb-2">
                                     <div>
@@ -303,16 +492,21 @@ if ($paymentMethod === 'mbanking' || $paymentMethod === 'bca') {
                                     <a href="#" class="btn btn-success pi-button">Buka <?php echo $ewalletChosen; ?></a>
                                 </div>
                             </div>
-
+                        </section>
                         <?php elseif ($displayMethod === 'cod'): ?>
+
+                        <!-- COD Payment Instructions -->
+                        <section class="payment-method-cod">
                             <div class="alert alert-success text-center">
                                 <h4>✅ Pesanan COD Diterima!</h4>
                                 <p>Bayar <b><?php echo $paymentDetail['amount']; ?></b> langsung ke kurir saat pesanan tiba.</p>
                                 <hr>
                                 <p>Pesanan sedang kami proses dan akan segera dikirim.</p>
                             </div>
+                        </section>
                         <?php endif; ?>
 
+                        <!-- Order Status Check Button -->
                         <div class="text-center mt-4">
                             <a href="orders.php?page=pesanan" class="btn btn-primary btn-lg px-4">
                                 <i class="fas fa-check-circle mr-2"></i> Cek Status Pesanan
