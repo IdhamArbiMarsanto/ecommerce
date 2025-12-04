@@ -55,17 +55,22 @@ $photos = $data['photos'] ?? [];
         </div>
 
         <!-- Detail Produk -->
-        <div class="col-lg-7 pb-5">
+        <div class="col-lg-7 pb-5" id="productDetail">
             <h3 class="font-weight-semi-bold"><?= htmlspecialchars($produk['nama']) ?></h3>
             <div class="d-flex mb-3">
-                <div class="text-primary mr-2">
+                <div class="text-primary mr-2" id="productRating">
+                    <!-- Rating bintang akan di-update via JavaScript -->
                     <small class="fas fa-star"></small>
                     <small class="fas fa-star"></small>
                     <small class="fas fa-star"></small>
                     <small class="fas fa-star-half-alt"></small>
                     <small class="far fa-star"></small>
                 </div>
-                <small class="pt-1">(50 Reviews)</small>
+                <small class="pt-1">
+                    <a href="#" id="toggleReviews" style="color: #bbd197; text-decoration: none; font-weight: 600;">
+                        Lihat Ulasan (<span id="reviewCount">0</span>)
+                    </a>
+                </small>
             </div>
             <h3 class="font-weight-semi-bold mb-4">Rp <?= number_format($produk['harga'], 0, ',', '.') ?></h3>
             <p class="mb-4"><?= nl2br(htmlspecialchars($produk['deskripsi'])) ?></p>
@@ -116,51 +121,73 @@ $photos = $data['photos'] ?? [];
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Review Section -->
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="nav nav-tabs justify-content-center border-secondary mb-4">
-                <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+        <!-- Reviews Section -->
+        <div class="col-lg-7 pb-5" id="reviewsSection" style="display: none;">
+            <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #e9ecef;">
+                <button id="backToDetail" class="btn btn-primary" style="background: linear-gradient(135deg, #bbd197 0%, #9bb372 100%); border: none; padding: 10px 20px; font-weight: 600; border-radius: 6px;">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Detail Produk
+                </button>
             </div>
 
-            <div class="tab-pane fade show active" id="tab-pane-3">
+            <h4 class="mb-4" style="font-weight: 700; font-size: 1.4rem;"><i class="fas fa-star mr-2" style="color: #ffc107;"></i>Ulasan Produk</h4>
+
+            <!-- Reviews Stats -->
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
                 <div class="row">
-                    <div class="col-md-6">
-                        <h4 class="mb-4">Belum ada ulasan untuk produk ini</h4>
+                    <div class="col-md-4 text-center">
+                        <div style="font-size: 2rem; font-weight: 700; color: #bbd197;">4.2</div>
+                        <div style="color: #ffc107; margin-bottom: 10px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <small style="color: #6c757d;">Rating Rata-rata</small>
                     </div>
-                    <div class="col-md-6">
-                        <h4 class="mb-4">Tulis ulasan</h4>
-                        <button class="btn btn-primary mb-3" id="toggleReviewForm">Tulis Ulasan</button>
-                        
-                        <div id="reviewForm" style="display: none;">
-                            <div class="d-flex my-3">
-                                <p class="mb-0 mr-2">Rating Anda:</p>
-                                <div class="text-primary">
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
+                    <div class="col-md-4 text-center">
+                        <div style="font-size: 2rem; font-weight: 700; color: #bbd197;">50</div>
+                        <small style="color: #6c757d;">Total Ulasan</small>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                            <small>5⭐</small>
+                            <div style="flex: 1; height: 6px; background: #e9ecef; margin: 0 10px; border-radius: 3px;">
+                                <div style="height: 100%; background: #bbd197; width: 60%; border-radius: 3px;"></div>
                             </div>
-                            <form>
-                                <div class="form-group">
-                                    <label for="message">Ulasan *</label>
-                                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <input type="submit" value="Kirim Ulasan" class="btn btn-primary px-3">
-                                </div>
-                            </form>
+                            <small style="min-width: 30px; text-align: right;">30</small>
+                        </div>
+                        <div style="margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                            <small>4⭐</small>
+                            <div style="flex: 1; height: 6px; background: #e9ecef; margin: 0 10px; border-radius: 3px;">
+                                <div style="height: 100%; background: #bbd197; width: 20%; border-radius: 3px;"></div>
+                            </div>
+                            <small style="min-width: 30px; text-align: right;">10</small>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <small>3⭐</small>
+                            <div style="flex: 1; height: 6px; background: #e9ecef; margin: 0 10px; border-radius: 3px;">
+                                <div style="height: 100%; background: #bbd197; width: 10%; border-radius: 3px;"></div>
+                            </div>
+                            <small style="min-width: 30px; text-align: right;">5</small>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Reviews List -->
+            <div id="reviewsList">
+                <!-- Reviews akan dimuat via AJAX -->
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-spinner fa-pulse" style="font-size: 2rem; color: #bbd197;"></i>
+                    <p style="color: #6c757d; margin-top: 10px;">Memuat ulasan...</p>
+                </div>
+            </div>
         </div>
     </div>
+
+
 </div>
 <!-- Shop Detail End -->
 
@@ -169,16 +196,167 @@ $photos = $data['photos'] ?? [];
 <?php $BACKEND_BASE = defined('BACKEND_URL') ? rtrim(BACKEND_URL, '/') : 'http://localhost/backend'; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    // Review form toggle
-    const toggleBtn = document.getElementById('toggleReviewForm');
-    const reviewForm = document.getElementById('reviewForm');
-    if (toggleBtn && reviewForm) {
-        toggleBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const isHidden = reviewForm.style.display === 'none';
-            reviewForm.style.display = isHidden ? 'block' : 'none';
-            toggleBtn.textContent = isHidden ? 'Tutup Ulasan' : 'Tulis Ulasan';
+    const productDetail = document.getElementById('productDetail');
+    const reviewsSection = document.getElementById('reviewsSection');
+    const toggleReviewsBtn = document.getElementById('toggleReviews');
+    const backToDetailBtn = document.getElementById('backToDetail');
+    const reviewsList = document.getElementById('reviewsList');
+    const productId = <?= intval($id) ?>;
+
+    // Toggle reviews
+    toggleReviewsBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        productDetail.style.display = 'none';
+        reviewsSection.style.display = 'block';
+        loadReviews();
+    });
+
+    // Back to detail
+    backToDetailBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        productDetail.style.display = 'block';
+        reviewsSection.style.display = 'none';
+    });
+
+    // Load reviews via AJAX
+    async function loadReviews() {
+        const apiUrl = 'http://localhost/backend/api/reviews_list.php?product_id=' + productId;
+        
+        try {
+            const response = await fetch(apiUrl, { credentials: 'include' });
+            const data = await response.json();
+
+            if (data.success && data.data.length > 0) {
+                renderReviews(data.data);
+                // Update review count
+                document.getElementById('reviewCount').textContent = data.data.length;
+                // Update rating stars
+                updateRatingStars(data.data);
+            } else {
+                reviewsList.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <i class="fas fa-comments" style="font-size: 3rem; color: #bbd197; opacity: 0.5;"></i>
+                        <p style="color: #6c757d; margin-top: 10px;">Belum ada ulasan untuk produk ini</p>
+                    </div>
+                `;
+                document.getElementById('reviewCount').textContent = '0';
+            }
+        } catch (err) {
+            console.error(err);
+            // Jika API error, tampilkan dummy data
+            reviewsList.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #6c757d;">
+                    <p>Gagal memuat ulasan. Menampilkan contoh data...</p>
+                </div>
+            `;
+            loadDummyReviews();
+            updateRatingStars(dummyReviews);
+        }
+    }
+
+    // Update rating stars berdasarkan review data
+    function updateRatingStars(reviews) {
+        if (!reviews || reviews.length === 0) return;
+
+        const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+        const ratingDiv = document.getElementById('productRating');
+        let starsHtml = '';
+
+        for (let i = 1; i <= 5; i++) {
+            if (i <= Math.floor(avgRating)) {
+                starsHtml += '<small class="fas fa-star"></small>';
+            } else if (i === Math.ceil(avgRating) && avgRating % 1 !== 0) {
+                starsHtml += '<small class="fas fa-star-half-alt"></small>';
+            } else {
+                starsHtml += '<small class="far fa-star"></small>';
+            }
+        }
+
+        ratingDiv.innerHTML = starsHtml;
+    }
+
+    let dummyReviews = [];
+
+    function renderReviews(reviews) {
+        reviewsList.innerHTML = '';
+        reviews.forEach(review => {
+            const stars = '⭐'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+            const date = new Date(review.created_at).toLocaleDateString('id-ID', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric' 
+            });
+
+            const reviewHtml = `
+                <div style="border-left: 4px solid #bbd197; padding: 20px; margin-bottom: 20px; background: white; border-radius: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div>
+                            <strong style="font-size: 1.05rem;">${escapeHtml(review.user_name)}</strong>
+                            ${review.is_anonymous ? '<span style="background: #e9ecef; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-left: 8px; color: #6c757d;"><i class="fas fa-user-secret mr-1"></i>Anonim</span>' : ''}
+                        </div>
+                    </div>
+                    <div style="color: #ffc107; margin-bottom: 8px; font-size: 0.9rem;">
+                        ${stars} <small style="color: #6c757d; margin-left: 8px;">${date}</small>
+                    </div>
+                    <p style="margin-bottom: 15px; color: #495057; line-height: 1.6;">${escapeHtml(review.review_text)}</p>
+                    
+                    ${review.photo ? `
+                        <div style="margin-bottom: 15px;">
+                            <img src="${review.photo}" alt="Review photo" style="max-width: 100%; max-height: 300px; border-radius: 8px; object-fit: cover; border: 1px solid #e9ecef;">
+                        </div>
+                    ` : `
+                        <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%); border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;">
+                            <div style="text-align: center;">
+                                <i class="fas fa-image" style="font-size: 2rem; color: #ccc; margin-bottom: 10px; display: block;"></i>
+                                <small style="color: #999;">Tidak ada foto</small>
+                            </div>
+                        </div>
+                    `}
+                </div>
+            `;
+            reviewsList.innerHTML += reviewHtml;
         });
+    }
+
+    function loadDummyReviews() {
+        dummyReviews = [
+            {
+                user_name: 'Budi Santoso',
+                rating: 5,
+                review_text: 'Produk sangat bagus dan sesuai dengan deskripsi. Kualitas bahan premium, jahitan rapi. Pengiriman juga cepat!',
+                created_at: '2025-12-02',
+                photo: null,
+                is_anonymous: false
+            },
+            {
+                user_name: 'Siti Nurhaliza',
+                rating: 5,
+                review_text: 'Terbaik! Warna lebih bagus dari foto, kualitas bahan lebih premium dari harga. Seller responsif dan helpful.',
+                created_at: '2025-12-01',
+                photo: 'img/product-1.jpg',
+                is_anonymous: false
+            },
+            {
+                user_name: 'Pengguna Anonim',
+                rating: 4,
+                review_text: 'Bagus sih, cuma ukurannya agak membesar. Tapi overall puas dengan pembelian ini.',
+                created_at: '2025-11-30',
+                photo: null,
+                is_anonymous: true
+            }
+        ];
+        renderReviews(dummyReviews);
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
     }
 
     document.querySelectorAll('.like-btn').forEach(function(btn){

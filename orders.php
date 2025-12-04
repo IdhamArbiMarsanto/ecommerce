@@ -624,6 +624,83 @@ $user_id = $_SESSION['user']['id'] ?? $_SESSION['user_id'] ?? null;
     </div>
 </div>
 
+<!-- Review Modal (Beri Ulasan) -->
+<div class="modal fade" id="reviewModal" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.08);">
+            <div class="modal-header" style="background: linear-gradient(135deg, #bbd197 0%, #bbd197 100%); color: white; border: none;">
+                <h5 class="modal-title"><i class="fas fa-star mr-2"></i>Beri Ulasan</h5>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="max-height: 70vh; overflow-y: auto; padding: 2rem;">
+                <!-- Products Display (dynamic) -->
+                <div id="reviewProductsList" class="mb-4">
+                    <!-- items akan ditambahkan via JS -->
+                </div>
+
+                <hr>
+
+                <!-- Star Rating -->
+                <div class="mb-4">
+                    <label class="font-weight-600" style="color: #495057;">Rating Anda</label>
+                    <div class="d-flex gap-2 mt-2">
+                        <div id="starRating" class="d-flex" style="font-size: 2rem; gap: 0.5rem;">
+                            <i class="far fa-star" data-rating="1" style="cursor: pointer; color: #ffc107; transition: all 0.2s;"></i>
+                            <i class="far fa-star" data-rating="2" style="cursor: pointer; color: #ffc107; transition: all 0.2s;"></i>
+                            <i class="far fa-star" data-rating="3" style="cursor: pointer; color: #ffc107; transition: all 0.2s;"></i>
+                            <i class="far fa-star" data-rating="4" style="cursor: pointer; color: #ffc107; transition: all 0.2s;"></i>
+                            <i class="far fa-star" data-rating="5" style="cursor: pointer; color: #ffc107; transition: all 0.2s;"></i>
+                        </div>
+                        <span id="ratingValue" class="ml-3" style="font-size: 1rem; color: #6c757d;">Pilih rating</span>
+                    </div>
+                    <input type="hidden" id="reviewRating" value="0">
+                </div>
+
+                <!-- Review Text -->
+                <div class="form-group">
+                    <label class="font-weight-600" style="color: #495057;">Ulasan Anda</label>
+                    <textarea id="reviewText" class="form-control" rows="5" placeholder="Bagikan pengalaman Anda dengan produk ini..." style="border: 2px solid #e9ecef; border-radius: 8px; padding: 0.75rem 1rem;"></textarea>
+                </div>
+
+                <!-- Anonymous Option -->
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="reviewAnonymous">
+                    <label class="form-check-label" for="reviewAnonymous">
+                        <i class="fas fa-user-secret mr-2"></i>Sembunyikan nama saya
+                    </label>
+                </div>
+
+                <hr>
+
+                <!-- Photo Upload -->
+                <div class="form-group">
+                    <label class="font-weight-600" style="color: #495057;">Upload Foto (Opsional)</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="reviewPhotoInput" accept="image/*">
+                        <label class="custom-file-label" for="reviewPhotoInput">Pilih foto...</label>
+                    </div>
+                    <small class="form-text text-muted">Maks. 2MB • Format: JPEG, PNG, WebP</small>
+                </div>
+
+                <!-- Photo Preview -->
+                <div id="reviewPhotoPreview" class="mb-3" style="display: none;">
+                    <label class="font-weight-600" style="color: #495057;">Preview Foto</label>
+                    <div style="position: relative; display: inline-block; width: 100%; max-width: 300px;">
+                        <img id="reviewPhotoImg" src="" alt="Preview" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <button type="button" id="reviewPhotoRemove" class="btn btn-sm btn-danger" style="position: absolute; top: 5px; right: 5px; border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid #e9ecef; padding: 1rem 2rem;">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Batal</button>
+                <button type="button" id="submitReviewBtn" class="btn btn-primary-modern">Kirim Ulasan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php include 'partials/footer.php'; ?>
 
 <!-- Consolidated scripts: profile + addresses (cleaned) -->
@@ -713,7 +790,7 @@ function generateOrderButton(o) {
             return `<a href="tracking.php?order=${o.id}" class="btn btn-outline-primary">Lacak Pesanan</a>`;
         
         case "selesai":
-            return `<a href="review.php?order=${o.id}" class="btn btn-outline-success">Beri Ulasan</a>`;
+            return `<button class="btn btn-outline-success" data-toggle="modal" data-target="#reviewModal" onclick="window.openReviewModal(${o.id}, '${escapeHtml(o.order_code)}', ${JSON.stringify(o.items || [])})">Beri Ulasan</button>`;
         
         default:
             return `<a href="detail.php?order=${o.id}" class="btn btn-outline-secondary">Detail</a>`;
@@ -1119,6 +1196,212 @@ function generateOrderButton(o) {
     if (window.location.search.includes("page=alamat")) {
         loadAddresses();
     }
+
+    /* ============================================
+     *  REVIEW MODAL
+     * ============================================ */
+    let currentOrderId = null;
+    let currentRating = 0;
+    let reviewPhotoFile = null;
+
+    // Global function to open review modal
+    window.openReviewModal = function(orderId, orderCode, items) {
+        currentOrderId = orderId;
+        currentRating = 0;
+        reviewPhotoFile = null;
+
+        // Reset form
+        document.getElementById('reviewText').value = '';
+        document.getElementById('reviewAnonymous').checked = false;
+        document.getElementById('reviewRating').value = '0';
+        document.getElementById('reviewPhotoInput').value = '';
+        document.getElementById('reviewPhotoPreview').style.display = 'none';
+
+        // Reset star rating display
+        document.querySelectorAll('#starRating i').forEach(star => {
+            star.classList.remove('fas');
+            star.classList.add('far');
+        });
+        document.getElementById('ratingValue').textContent = 'Pilih rating';
+
+        // Display products
+        const productList = document.getElementById('reviewProductsList');
+        productList.innerHTML = `<h6 class="mb-3" style="color: #495057; font-weight: 600;">Produk dari Pesanan ${orderCode}</h6>`;
+
+        if (Array.isArray(items) && items.length > 0) {
+            items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'mb-2 p-2';
+                itemDiv.style.background = '#f8f9fa';
+                itemDiv.style.borderRadius = '8px';
+                itemDiv.innerHTML = `
+                    <small class="text-muted">${item.product_name || 'Produk'}</small>
+                    <br>
+                    <small class="text-muted">Qty: ${item.quantity || 1}</small>
+                `;
+                productList.appendChild(itemDiv);
+            });
+        } else {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'mb-2 p-2';
+            itemDiv.style.background = '#f8f9fa';
+            itemDiv.style.borderRadius = '8px';
+            itemDiv.innerHTML = `<small class="text-muted">Produk pesanan</small>`;
+            productList.appendChild(itemDiv);
+        }
+
+        // Show modal
+        $('#reviewModal').modal('show');
+    };
+
+    // Photo upload handler
+    document.getElementById('reviewPhotoInput').addEventListener('change', function(e) {
+        const file = this.files[0];
+        if (!file) return;
+
+        // Validate file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Ukuran foto tidak boleh lebih dari 2MB');
+            this.value = '';
+            reviewPhotoFile = null;
+            document.getElementById('reviewPhotoPreview').style.display = 'none';
+            return;
+        }
+
+        // Validate file type
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+            alert('Format foto harus JPEG, PNG, atau WebP');
+            this.value = '';
+            reviewPhotoFile = null;
+            document.getElementById('reviewPhotoPreview').style.display = 'none';
+            return;
+        }
+
+        // Store file and create preview
+        reviewPhotoFile = file;
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            document.getElementById('reviewPhotoImg').src = event.target.result;
+            document.getElementById('reviewPhotoPreview').style.display = 'block';
+            
+            // Update label
+            document.querySelector('.custom-file-label').textContent = file.name;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Remove photo handler
+    document.getElementById('reviewPhotoRemove').addEventListener('click', function(e) {
+        e.preventDefault();
+        reviewPhotoFile = null;
+        document.getElementById('reviewPhotoInput').value = '';
+        document.getElementById('reviewPhotoPreview').style.display = 'none';
+        document.querySelector('.custom-file-label').textContent = 'Pilih foto...';
+    });
+
+    // Star rating interaction
+    document.querySelectorAll('#starRating i').forEach(star => {
+        star.addEventListener('click', function() {
+            currentRating = parseInt(this.dataset.rating) || 0;
+            document.getElementById('reviewRating').value = currentRating;
+
+            // Update star display
+            document.querySelectorAll('#starRating i').forEach((s, idx) => {
+                if (idx < currentRating) {
+                    s.classList.remove('far');
+                    s.classList.add('fas');
+                } else {
+                    s.classList.remove('fas');
+                    s.classList.add('far');
+                }
+            });
+
+            document.getElementById('ratingValue').textContent = currentRating + ' dari 5';
+        });
+
+        // Hover effect
+        star.addEventListener('mouseenter', function() {
+            const hoverRating = parseInt(this.dataset.rating) || 0;
+            document.querySelectorAll('#starRating i').forEach((s, idx) => {
+                if (idx < hoverRating) {
+                    s.style.opacity = '1';
+                } else {
+                    s.style.opacity = '0.4';
+                }
+            });
+        });
+    });
+
+    document.getElementById('starRating').addEventListener('mouseleave', function() {
+        document.querySelectorAll('#starRating i').forEach(s => {
+            s.style.opacity = '1';
+        });
+    });
+
+    // Submit review
+    document.getElementById('submitReviewBtn').addEventListener('click', async function() {
+        const rating = parseInt(document.getElementById('reviewRating').value) || 0;
+        const reviewText = document.getElementById('reviewText').value.trim();
+        const isAnonymous = document.getElementById('reviewAnonymous').checked ? 1 : 0;
+
+        if (rating === 0) {
+            alert('Pilih rating terlebih dahulu');
+            return;
+        }
+
+        if (!reviewText) {
+            alert('Tulis ulasan Anda terlebih dahulu');
+            return;
+        }
+
+        if (!currentOrderId) {
+            alert('Order ID tidak ditemukan');
+            return;
+        }
+
+        try {
+            // If photo exists, use FormData; otherwise use JSON
+            let payload;
+            let fetchOptions = {
+                method: 'POST',
+                credentials: 'include'
+            };
+
+            if (reviewPhotoFile) {
+                const formData = new FormData();
+                formData.append('order_id', currentOrderId);
+                formData.append('rating', rating);
+                formData.append('review_text', reviewText);
+                formData.append('is_anonymous', isAnonymous);
+                formData.append('photo', reviewPhotoFile);
+
+                fetchOptions.body = formData;
+                // Do NOT set Content-Type header for FormData (browser handles it)
+            } else {
+                fetchOptions.headers = { 'Content-Type': 'application/json' };
+                fetchOptions.body = JSON.stringify({
+                    order_id: currentOrderId,
+                    rating: rating,
+                    review_text: reviewText,
+                    is_anonymous: isAnonymous
+                });
+            }
+
+            const response = await fetch('http://localhost/backend/api/review_submit.php', fetchOptions);
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || 'Gagal mengirim ulasan');
+            }
+
+            alert('Ulasan Anda berhasil dikirim');
+            $('#reviewModal').modal('hide');
+            loadOrders(''); // Reload orders
+
+        } catch (err) {
+            alert('Gagal mengirim ulasan: ' + err.message);
+        }
+    });
 
 });
 </script>
