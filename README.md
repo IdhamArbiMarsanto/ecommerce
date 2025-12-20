@@ -67,6 +67,20 @@ frontend dan backend untuk memudahkan pengembangan dan pengelolaan sistem.
 
 ---
 
+## Template Acknowledgement
+Proyek frontend ini menggunakan template UI berbasis Bootstrap dengan detail sebagai berikut:
+
+- Template Name    : EShopper – Bootstrap Shop Template
+- Template Author  : HTML Codex
+- Template Website : https://htmlcodex.com
+- Template Link    : https://htmlcodex.com/bootstrap-shop-template
+- License          : https://htmlcodex.com/license
+
+Template digunakan dan dimodifikasi sesuai kebutuhan proyek e-commerce.
+
+---
+
+
 ## Catatan
 Proyek ini berfokus pada **pengembangan frontend**.
 Pengolahan data dan logika bisnis sepenuhnya ditangani oleh backend.
